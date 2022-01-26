@@ -16,7 +16,6 @@
 <p>ようこそ！ここはHatosableによるKeep Talking and Nobody Explodes関連のツールを用意しております。</p>
 <a href="./Expert" class="btn btn--yellow">Experting Sheet(処理担当者ツール)</a>
 <a href="./ConvertMenu" class="btn btn--blue">JA Manual Converter(準備中)</a>
-<a href="./Test" class="btn btn--blue">jsボタン</a>
 </body>
 </html>
 
