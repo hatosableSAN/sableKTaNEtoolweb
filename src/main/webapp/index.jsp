@@ -15,7 +15,7 @@
                 <h1>Hatosable's KTaNE Page</h1>
 <p>ようこそ！ここはHatosableによるKeep Talking and Nobody Explodes関連のツールを用意しております。</p>
 <a href="./Expert" class="btn btn--yellow">Experting Sheet(処理担当者ツール)</a>
-<a href="./ConvertMenu" class="btn btn--blue">JA Manual Converter(準備中)</a>
+<a href="./ConvertMenu" class="btn btn--blue">JA Manual Converter(ベータ版)</a>
 </body>
 </html>
 
