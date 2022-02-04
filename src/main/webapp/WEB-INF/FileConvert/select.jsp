@@ -9,9 +9,8 @@
     <title>日本語マニュアル変換ツール</title>
     </head>
     <body>
-      
+      <br/><a href="/index"><button type="button" class="reset" style="border-radius: 10px;padding:10px;font-size:100%;font:#fff;">BACK</button></a><br>
       <h1>日本語マニュアル変換ツール(ベータ版)</h1>
-      <br/><a href="/index"><button type="button" class="reset" style="color: #0478a5;">BACK</button></a><br/>
       <form action="./Converter" method="post"enctype="multipart/form-data">
         <input type="file" name="select" class="btn btn--red btn--radius btn--cubic" required accept=".html"/><a style="color: red;">*</a>
         <% if(nothtml!=null){%>
@@ -20,7 +19,7 @@
         %>
         <p>モジュール和名：<input type="text" name="name" required/><a style="color: red;"> *</a></p>
         <p>翻訳者：<input type="text" name="creator" required/><a style="color: red;"> *</a></p>
-        <input type="submit" class="btn btn--orange btn--cubic btn--shadow" value="送信">
+        <input type="submit" class="btn btn--orange btn--cubic btn--shadow" value="変換！">
           </form>
       <h2>使い方</h2>
       <p>1.変換元のマニュアルを選択</p>

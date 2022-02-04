@@ -12,13 +12,12 @@
 
 </head>
 <body>
-  
+  <br/><a href="/index"><button type="button" class="reset" style="border-radius: 10px;padding:10px;font-size:100%;font:#fff;">BACK</button></a><br>
                 <h1>KTaNE Experting Sheet</h1>
-                <br/><button type="button" class="">RESET</button><br/>
 <form name="sheet">
 <p>
-SERIAL：<input type="text" name="name" pattern="^[A-Z0-9]{5}[0-9]">
-<a href="/index"><button type="button" class="reset" style="color: #0478a5;">BACK</button></a>
+SERIAL：<input type="text" name="name" pattern="^[A-Z0-9]{5}[0-9]">   <button type="button" class="reset">RESET</button><br/><br/>
+
 </p>
 
     <h2>INDICATORS</h2>
@@ -75,8 +74,12 @@ Stereo RCA:<input type="text" name="name" size="3"> -->
       <input type="checkbox" name="port">Serial
       <input type="checkbox"name="port">Parallel
        <input type="checkbox" name="port">NO Ports
-        <input type="button" value="＋" class="add pluralBtn">
-        <input type="button" value="－" class="del pluralBtn">
+        <input type="button" value="＋" class="add pluralBtn" style="color: #000;
+        background-color: #ffae00;
+       border:none; border-bottom: 5px solid #cc7a00;">
+        <input type="button" value="－" class="del pluralBtn" style="color: #000;
+        background-color: #ffae00;border:none;
+        border-bottom: 5px solid #cc7a00;">
         
 </div>
 </div>
