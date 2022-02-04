@@ -6,6 +6,7 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
+    <link rel="shortcut icon" href="./favicon.ico" >
     <title>日本語マニュアル変換ツール</title>
     </head>
     <body>
