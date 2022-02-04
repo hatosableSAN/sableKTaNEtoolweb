@@ -14,7 +14,7 @@
 <body>
   
                 <h1>KTaNE Experting Sheet</h1>
-   <button type="button" class="">RESET</button>
+                <br/><button type="button" class="">RESET</button><br/>
 <form name="sheet">
 <p>
 SERIAL：<input type="text" name="name" pattern="^[A-Z0-9]{5}[0-9]">
