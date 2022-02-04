@@ -12,12 +12,13 @@
 
 </head>
 <body>
-  <button type="button" class="">RESET</button>
+  
                 <h1>KTaNE Experting Sheet</h1>
+   <button type="button" class="">RESET</button>
 <form name="sheet">
 <p>
-  <a href="/index"><button type="button" class="reset" style="color: #0478a5;">BACK</button></a>
 SERIAL：<input type="text" name="name" pattern="^[A-Z0-9]{5}[0-9]">
+<a href="/index"><button type="button" class="reset" style="color: #0478a5;">BACK</button></a>
 </p>
 
     <h2>INDICATORS</h2>

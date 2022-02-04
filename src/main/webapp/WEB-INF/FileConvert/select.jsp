@@ -9,8 +9,9 @@
     <title>日本語マニュアル変換ツール</title>
     </head>
     <body>
-      <a href="/index"><button type="button" class="reset" style="color: #0478a5;">BACK</button></a>
+      
       <h1>日本語マニュアル変換ツール(ベータ版)</h1>
+      <a href="/index"><button type="button" class="reset" style="color: #0478a5;">BACK</button></a>
       <form action="./Converter" method="post"enctype="multipart/form-data">
         <input type="file" name="select" class="btn btn--red btn--radius btn--cubic" required accept=".html"/><a style="color: red;">*</a>
         <% if(nothtml!=null){%>
