@@ -69,12 +69,13 @@ async def roll(ctx,ndm):
     if n!=1:
      embed.add_field(name="合計",value=sum)
      
-    await ctx.send(embed=embed)
+    
    
     embed.set_author(name=ctx.author.name, # Botのユーザー名
      url="https://repo.exapmle.com/bot", # titleのurlのようにnameをリンクにできる。botのWebサイトとかGithubとか
      icon_url=ctx.author.avatar_url # Botのアイコンを設定してみる
      )
+    await ctx.send(embed=embed)
 
 token = getenv('DISCORD_BOT_TOKEN')
 bot.run(token)
