@@ -46,7 +46,6 @@ async def error(ctx,error):
 
 @bot.command()
 async def roll(ctx,ndm):
-    client = discord.Client()
     index= ndm.find("d")
     n=int(ndm[:index])#1d
     m=int(ndm[index+1:])#100
@@ -56,7 +55,10 @@ async def roll(ctx,ndm):
     for num in range(n):
      result=random.randint(1,m)
      print(str(num)+"回目ロール:"+str(result))
-     resultstr=resultstr+","+str(result)
+     if resultstr!="":
+       resultstr=resultstr+","+str(result)
+     else:
+       resultstr=str(result)
      sum=sum+result
 
 
@@ -69,9 +71,9 @@ async def roll(ctx,ndm):
      
     await ctx.send(embed=embed)
    
-    embed.set_author(name=client.user, # Botのユーザー名
+    embed.set_author(name=ctx.author.name, # Botのユーザー名
      url="https://repo.exapmle.com/bot", # titleのurlのようにnameをリンクにできる。botのWebサイトとかGithubとか
-     icon_url=client.user.avatar_url # Botのアイコンを設定してみる
+     icon_url=ctx.author.avatar_url # Botのアイコンを設定してみる
      )
 
 token = getenv('DISCORD_BOT_TOKEN')
