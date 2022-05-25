@@ -40,8 +40,12 @@ async def makefield(ctx,day,name):
 #   await ctx.send("チャンネル名が空ですよ！")
 
 @makefield.error
-async def error(self,ctx):
-      await ctx.send("チャンネル名が空ですよ！")
+async def error(ctx,error):
+ error = getattr(error, "original", error)
+
+ if isinstance(error, commands.MissingRequiredArgument):
+   await ctx.send("チャンネル名が空ですよ！")
+   return
 
 @bot.command()
 async def roll(ctx):
