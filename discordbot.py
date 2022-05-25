@@ -40,11 +40,11 @@ async def makefield(ctx,day,name):
 #   await ctx.send("チャンネル名が空ですよ！")
 
 @makefield.error
-async def error(ctx):
+async def error(self,ctx):
       await ctx.send("チャンネル名が空ですよ！")
 
 @bot.command()
-async def roll(self,ctx):
+async def roll(ctx):
     await ctx.send("女神さんロールよろしく！")
 
 token = getenv('DISCORD_BOT_TOKEN')
