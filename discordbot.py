@@ -3,7 +3,8 @@ from os import getenv
 import traceback
 
 bot = commands.Bot(command_prefix='!')
-
+day=""
+name=""
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -18,7 +19,7 @@ async def ping(ctx):
 
 @bot.command()
 async def makefield(ctx,day,name):
-     if not day or not name:
+     if day=="" or name=="":
       await ctx.send("チャンネル名が空ですよ！")
      else:
 
@@ -33,9 +34,9 @@ async def makefield(ctx,day,name):
        await Category.create_text_channel("メニュー宣言ゾーン")
        await ctx.send("カテゴリーを作成しました！")
 
-@bot.command()
-async def makefield(ctx):
-  await ctx.send("チャンネル名が空ですよ！")
+# @bot.command()
+# async def makefield(ctx):
+#   await ctx.send("チャンネル名が空ですよ！")
 
 
 token = getenv('DISCORD_BOT_TOKEN')
