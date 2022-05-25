@@ -19,7 +19,7 @@ async def ping(ctx):
 
 @bot.command()
 async def makefield(ctx,day,name):
-     if day=="" or name=="":
+     if not day or not name:
       await ctx.send("チャンネル名が空ですよ！")
      else:
 
@@ -37,6 +37,11 @@ async def makefield(ctx,day,name):
 # @bot.command()
 # async def makefield(ctx):
 #   await ctx.send("チャンネル名が空ですよ！")
+
+@makefield.error
+async def error(error, ctx):
+      await ctx.send("チャンネル名が空ですよ！")
+
 
 
 token = getenv('DISCORD_BOT_TOKEN')
