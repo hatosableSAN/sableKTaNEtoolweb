@@ -33,7 +33,9 @@ async def makefield(ctx,day,name):
        await Category.create_text_channel("メニュー宣言ゾーン")
        await ctx.send("カテゴリーを作成しました！")
 
-
+@bot.command()
+async def makefield(ctx):
+  await ctx.send("チャンネル名が空ですよ！")
 
 
 token = getenv('DISCORD_BOT_TOKEN')
