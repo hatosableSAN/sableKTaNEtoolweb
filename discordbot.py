@@ -44,7 +44,7 @@ async def error(ctx):
       await ctx.send("チャンネル名が空ですよ！")
 
 @bot.command()
-async def roll(ctx):
+async def roll(error,ctx):
     await ctx.send("女神さんロールよろしく！")
 
 token = getenv('DISCORD_BOT_TOKEN')
