@@ -13,13 +13,10 @@ async def on_command_error(ctx, error):
     await ctx.send(error_msg)
 
 
-@bot.command()
-async def ping(ctx):
-    await ctx.send('pong')
 
 @bot.command()
 async def makefield(ctx,day,name):
-     if not day or not name:
+     if isinstance(error, commands.errors.MissingRequiredArgument):
       await ctx.send("チャンネル名が空ですよ！")
      else:
 
@@ -45,7 +42,6 @@ async def error(ctx,error):
 
  if isinstance(error, commands.MissingRequiredArgument):
    await ctx.send("チャンネル名が空ですよ！")
-   return
 
 @bot.command()
 async def roll(ctx):
