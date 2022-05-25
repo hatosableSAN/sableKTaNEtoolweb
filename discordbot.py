@@ -2,7 +2,7 @@ from discord.ext import commands
 from os import getenv
 import traceback
 
-bot = commands.Bot(command_prefix='/')
+bot = commands.Bot(command_prefix='!')
 
 
 @bot.event
@@ -15,6 +15,21 @@ async def on_command_error(ctx, error):
 @bot.command()
 async def ping(ctx):
     await ctx.send('pong')
+
+@bot.command()
+async def start(ctx,arg):
+     LobbyName = arg
+     Guild = ctx.guild
+
+     # カテゴリを作成する
+     Category = await Guild.create_category(LobbyName)
+
+     # チャンネルの作成時にカテゴリを設定する
+     await Category.create_text_channel("女神降臨場")
+     await Category.create_text_channel("メニュー宣言ゾーン")
+     await ctx.send("カテゴリーを作成しました！")
+
+
 
 
 token = getenv('DISCORD_BOT_TOKEN')
