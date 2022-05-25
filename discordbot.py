@@ -1,24 +1,25 @@
+from ssl import RAND_add
+import discord
 from discord.ext import commands
 from os import getenv
 import traceback
+import random
 
 bot = commands.Bot(command_prefix='!')
 day=""
 name=""
+ndm=""
 
-@bot.event
-async def on_command_error(ctx, error):
-    orig_error = getattr(error, "original", error)
-    error_msg = ''.join(traceback.TracebackException.from_exception(orig_error).format())
-    await ctx.send(error_msg)
+# @bot.event
+# async def on_command_error(ctx, error):
+#     orig_error = getattr(error, "original", error)
+#     error_msg = ''.join(traceback.TracebackException.from_exception(orig_error).format())
+#     await ctx.send(error_msg)
 
 
 
 @bot.command()
 async def makefield(ctx,day,name):
-     if isinstance(error, commands.errors.MissingRequiredArgument):
-      await ctx.send("チャンネル名が空ですよ！")
-     else:
 
        LobbyName = day+" "+name
        Guild = ctx.guild
@@ -44,8 +45,34 @@ async def error(ctx,error):
    await ctx.send("チャンネル名が空ですよ！")
 
 @bot.command()
-async def roll(ctx):
-    await ctx.send("女神さんロールよろしく！")
+async def roll(ctx,ndm):
+    client = discord.Client()
+    index= ndm.find("d")
+    n=int(ndm[:index])#1d
+    m=int(ndm[index+1:])#100
+
+    resultstr=""
+    sum=0
+    for num in range(n):
+     result=random.randint(1,m)
+     print(str(num)+"回目ロール:"+str(result))
+     resultstr=resultstr+","+str(result)
+     sum=sum+result
+
+
+    embed = discord.Embed(
+    description="ロール結果"
+    )
+    embed.add_field(name="値",value=resultstr)
+    if n!=1:
+     embed.add_field(name="合計",value=sum)
+     
+    await ctx.send(embed=embed)
+   
+    embed.set_author(name=client.user, # Botのユーザー名
+     url="https://repo.exapmle.com/bot", # titleのurlのようにnameをリンクにできる。botのWebサイトとかGithubとか
+     icon_url=client.user.avatar_url # Botのアイコンを設定してみる
+     )
 
 token = getenv('DISCORD_BOT_TOKEN')
 bot.run(token)
