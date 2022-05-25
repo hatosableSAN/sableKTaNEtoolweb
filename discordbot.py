@@ -32,6 +32,7 @@ async def makefield(ctx,day,name):
        # チャンネルの作成時にカテゴリを設定する
        await Category.create_text_channel("女神降臨場")
        await Category.create_text_channel("メニュー宣言ゾーン")
+       await Category.create_text_channel("フリートーク")
        await ctx.send("カテゴリーを作成しました！")
 
 # @bot.command()
@@ -39,10 +40,12 @@ async def makefield(ctx,day,name):
 #   await ctx.send("チャンネル名が空ですよ！")
 
 @makefield.error
-async def error(error, ctx):
+async def error(ctx):
       await ctx.send("チャンネル名が空ですよ！")
 
-
+@bot.command()
+async def roll(ctx):
+    await ctx.send("女神さんロールよろしく！")
 
 token = getenv('DISCORD_BOT_TOKEN')
 bot.run(token)
