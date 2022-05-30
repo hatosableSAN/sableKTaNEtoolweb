@@ -125,11 +125,8 @@ async def draw3(ctx):
        def check(m):
                # メッセージが `おはよう` かつ メッセージを送信したチャンネルが
                # 欲しいもの「/」[]
-               print(resultstr.contain(m.content[0]))
-               print(m.content[1]=="/")
-               print(conn.get(ctx.author.name).contain(m.content[2]))
-               print(conn.get(m))
-               return resultstr.contain(m.content[0]) and m.content[1]=="/" and conn.get(ctx.author.name).contain(m.content[2])
+  
+               return m.content[0] in resultstr and m.content[1]=="/" and m.content[2] in conn.get(ctx.author.name)
        
        roundnum=conn.get(ctx.author.name+"ラウンド")
        if int(roundnum)<3:
