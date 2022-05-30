@@ -85,9 +85,13 @@ async def kungfu(ctx):
         )
        await ctx.send(embed=embed)
 
+@bot.command()
+async def mykungfu(ctx):
 
+       conn = db.connect() # このconnを通じて操作する
+       dbstr=conn.get(ctx.author.name)
 
-
+       await ctx.send("お主の今の漢字は「"+dbstr+"」だ！")  
 
 # @bot.command()
 # async def makefield(ctx):
