@@ -112,7 +112,7 @@ async def draw2(ctx):
           dbstr=conn.get(ctx.author.name)
           dbstr=dbstr+resultkanji
           conn.set(ctx.author.name, dbstr)
-          conn.set(ctx.author.name+"ラウンド", roundnum+1)
+          conn.set(ctx.author.name+"ラウンド", int(roundnum)+1)
 
 
           await ctx.send(resultstr+"が新たな漢字だ。"+"お主の今の漢字は「"+dbstr+"」だ！") 
@@ -160,7 +160,7 @@ async def draw3(ctx):
              dbstr=conn.get(ctx.author.name)
              dbstr.replace(msg[2],"")
              conn.set(ctx.author.name, dbstr+msg[0])
-             conn.set(ctx.author.name+"ラウンド", roundnum+1)
+             conn.set(ctx.author.name+"ラウンド", int(roundnum)+1)
              await ctx.send("交換が終了したぞ"+"お主の今の漢字は「"+dbstr+"」だ！") 
        else:
           await ctx.send("お主、3ラウンドを経過しているな！最初からやり直せっ！")
