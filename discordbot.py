@@ -1,3 +1,4 @@
+import asyncio
 from ssl import RAND_add
 import discord
 from discord.ext import commands
@@ -68,6 +69,7 @@ async def kungfu(ctx):
           conn.set(ctx.author.name, dbstr)
         else:#初回
           conn.set(ctx.author.name,"")#リセット
+          conn.set(ctx.author.name+"ラウンド",0)#リセット
           resultstr=resultkanji
           conn.set(ctx.author.name, resultstr)
 
@@ -92,6 +94,78 @@ async def mykungfu(ctx):
        dbstr=conn.get(ctx.author.name)
 
        await ctx.send("お主の今の漢字は「"+dbstr+"」だ！")  
+@bot.command()
+async def draw2(ctx):
+       conn = db.connect() # このconnを通じて操作する
+       roundnum=conn.get(ctx.author.name+"ラウンド")
+       if roundnum<=3:
+         kungfuchr="剣破皇脚翼旋斬弾槍滅追絶覇閃砲極空襲陣舞滅砲衝刃射蹴砕封蒼烈殺襲真絶散斬弓魔旋撃神空陣暴封砕射攻殺牙衝槍羅乱刃連破翼覇銃"#http://tookcg.elgraiv.com/tools/chu2v2.html
+         listlen=len(kungfuchr)
+         resultstr=""
+       
+         for num in range(2):
+          result=random.randint(1,listlen)
+          resultkanji=kungfuchr[result-1]
+          print(str(num)+"回目ロール:"+resultkanji)
+          resultstr=resultstr+resultkanji
+          
+          dbstr=conn.get(ctx.author.name)
+          dbstr=dbstr+resultkanji
+          conn.set(ctx.author.name, dbstr)
+          conn.set(ctx.author.name+"ラウンド", roundnum+1)
+
+
+          await ctx.send(resultstr+"が新たな漢字だ。"+"お主の今の漢字は「"+dbstr+"」だ！") 
+       else:
+          await ctx.send("お主、3ラウンドを経過しているな！最初からやり直せっ！")   
+
+@bot.command()
+async def draw3(ctx):
+       def check(m):
+               # メッセージが `おはよう` かつ メッセージを送信したチャンネルが
+               # コマンドを打ったチャンネルという条件
+               return resultstr[0].contain(m.content[0]) and resultstr[1]=="/" and resultstr[2].contain(m.content[0])
+       conn = db.connect() # このconnを通じて操作する
+       roundnum=conn.get(ctx.author.name+"ラウンド")
+       if roundnum<=3:
+         kungfuchr="剣破皇脚翼旋斬弾槍滅追絶覇閃砲極空襲陣舞滅砲衝刃射蹴砕封蒼烈殺襲真絶散斬弓魔旋撃神空陣暴封砕射攻殺牙衝槍羅乱刃連破翼覇銃"#http://tookcg.elgraiv.com/tools/chu2v2.html
+         listlen=len(kungfuchr)
+         resultstr=""
+       
+         for num in range(3):
+          result=random.randint(1,listlen)
+          resultkanji=kungfuchr[result-1]
+          print(str(num)+"回目ロール:"+resultkanji)
+          resultstr=resultstr+resultkanji
+          
+         dbstr=conn.get(ctx.author.name)
+         dbstr=dbstr+resultkanji
+         conn.set(ctx.author.name, dbstr)
+         
+
+             # 待っているものに該当するかを確認する関数
+           
+         await ctx.send("新たな漢字は"+resultstr+"だ。「欲しい漢字/いらない漢字」の形式で漢字を入力するのだ。")
+         try:
+             # wait_forを用いて、イベントが発火し指定した条件を満たすまで待機する
+             msg = await ctx.wait_for('message', check=check)
+             # wait_forの1つ目のパラメータは、イベント名の on_がないもの
+             # 2つ目は、待っているものに該当するかを確認する関数 (任意)
+             # 3つ目は、タイムアウトして asyncio.TimeoutError が発生するまでの秒数
+             
+         # asyncio.TimeoutError が発生したらここに飛ぶ
+         except asyncio.TimeoutError:
+             await ctx.send("時間切れじゃ。もう一度抽選するのだ")
+         else:
+             dbstr=conn.get(ctx.author.name)
+             dbstr.replace(msg[2],"")
+             conn.set(ctx.author.name, dbstr+msg[0])
+             conn.set(ctx.author.name+"ラウンド", roundnum+1)
+             await ctx.send("交換が終了したぞ"+"お主の今の漢字は「"+dbstr+"」だ！") 
+       else:
+          await ctx.send("お主、3ラウンドを経過しているな！最初からやり直せっ！")
+         
+
 
 # @bot.command()
 # async def makefield(ctx):
