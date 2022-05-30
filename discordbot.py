@@ -160,8 +160,8 @@ async def draw3(ctx):
              await ctx.send("時間切れじゃ。もう一度抽選するのだ")
          else:
              dbstr=conn.get(ctx.author.name)
-             dbstr.replace(msg[2],"")
-             conn.set(ctx.author.name, dbstr+msg[0])
+             dbstr.replace(msg.content[2],"")
+             conn.set(ctx.author.name, dbstr+msg.content[0])
              conn.set(ctx.author.name+"ラウンド", int(roundnum)+1)
              await ctx.send("交換が終了したぞ"+"お主の今の漢字は「"+dbstr+"」だ！") 
        else:
