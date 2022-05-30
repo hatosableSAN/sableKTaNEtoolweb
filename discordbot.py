@@ -54,7 +54,7 @@ async def kungfu(ctx):
 
        kungfuchr="剣破皇脚翼旋斬弾槍滅追絶覇閃砲極空襲陣舞滅砲衝刃射蹴砕封蒼烈殺襲真絶散斬弓魔旋撃神空陣暴封砕射攻殺牙衝槍羅乱刃連破翼覇銃"#http://tookcg.elgraiv.com/tools/chu2v2.html
        listlen=len(kungfuchr)
-       resultstr!=""
+       resultstr=""
        conn = db.connect() # このconnを通じて操作する
        for num in range(3):
         result=random.randint(1,listlen)
