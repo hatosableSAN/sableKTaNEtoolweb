@@ -153,7 +153,7 @@ async def draw3(ctx):
          await ctx.send("新たな漢字は"+resultstr+"だ。「欲しい漢字/いらない漢字」の形式で漢字を入力するのだ。")
          try:
              # wait_forを用いて、イベントが発火し指定した条件を満たすまで待機する
-             msg = await ctx.wait_for('message', check=check)
+             msg = await bot.wait_for('message', check=check)
              # wait_forの1つ目のパラメータは、イベント名の on_がないもの
              # 2つ目は、待っているものに該当するかを確認する関数 (任意)
              # 3つ目は、タイムアウトして asyncio.TimeoutError が発生するまでの秒数
