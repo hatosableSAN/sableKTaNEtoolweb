@@ -147,7 +147,7 @@ async def draw3(ctx):
 
              # 待っているものに該当するかを確認する関数
            
-         await ctx.send("新たな漢字は"+resultstr+"だ。「欲しい漢字/いらない漢字」の形式で漢字を入力するのだ。")
+         await ctx.send("新たな漢字は「"+resultstr+"」だ。「欲しい漢字/いらない漢字」の形式で漢字を入力するのだ。")
          try:
              # wait_forを用いて、イベントが発火し指定した条件を満たすまで待機する
              msg = await bot.wait_for('message', check=check)
@@ -157,13 +157,14 @@ async def draw3(ctx):
              
          # asyncio.TimeoutError が発生したらここに飛ぶ
          except asyncio.TimeoutError:
-             await ctx.send("時間切れじゃ。もう一度抽選するのだ")
+             await ctx.send("時間切れじゃ。もう一度抽選するのだ！")
          else:
              dbstr=conn.get(ctx.author.name)
              dbstr.replace(msg.content[2],"")
-             conn.set(ctx.author.name, dbstr+msg.content[0])
+             dbstr=dbstr+msg.content[0]
+             conn.set(ctx.author.name, dbstr)
              conn.set(ctx.author.name+"ラウンド", int(roundnum)+1)
-             await ctx.send("交換が終了したぞ"+"お主の今の漢字は「"+dbstr+"」だ！") 
+             await ctx.send("交換が終了したぞ。"+"お主の今の漢字は「"+dbstr+"」だ！") 
        else:
           await ctx.send("お主、3ラウンドを経過しているな！最初からやり直せっ！")
          
