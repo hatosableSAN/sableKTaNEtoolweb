@@ -98,36 +98,37 @@ async def mykungfu(ctx):
 async def draw2(ctx):
        conn = db.connect() # このconnを通じて操作する
        roundnum=conn.get(ctx.author.name+"ラウンド")
-       if int(roundnum)<=3:
+       if int(roundnum)<3:
          kungfuchr="剣破皇脚翼旋斬弾槍滅追絶覇閃砲極空襲陣舞滅砲衝刃射蹴砕封蒼烈殺襲真絶散斬弓魔旋撃神空陣暴封砕射攻殺牙衝槍羅乱刃連破翼覇銃"#http://tookcg.elgraiv.com/tools/chu2v2.html
          listlen=len(kungfuchr)
          resultstr=""
        
          for num in range(2):
-          result=random.randint(1,listlen)
-          resultkanji=kungfuchr[result-1]
-          print(str(num)+"回目ロール:"+resultkanji)
-          resultstr=resultstr+resultkanji
-          
-          dbstr=conn.get(ctx.author.name)
-          dbstr=dbstr+resultkanji
-          conn.set(ctx.author.name, dbstr)
-          conn.set(ctx.author.name+"ラウンド", int(roundnum)+1)
+           result=random.randint(1,listlen)
+           resultkanji=kungfuchr[result-1]
+           print(str(num)+"回目ロール:"+resultkanji)
+           resultstr=resultstr+resultkanji
+           
+           dbstr=conn.get(ctx.author.name)
+           dbstr=dbstr+resultkanji
+           conn.set(ctx.author.name, dbstr)
+           conn.set(ctx.author.name+"ラウンド", int(roundnum)+1)
 
 
-          await ctx.send(resultstr+"が新たな漢字だ。"+"お主の今の漢字は「"+dbstr+"」だ！") 
+         await ctx.send("「"+resultstr+"」が新たな漢字だ。"+"お主の今の漢字は「"+dbstr+"」だ！") 
        else:
           await ctx.send("お主、3ラウンドを経過しているな！最初からやり直せっ！")   
 
 @bot.command()
 async def draw3(ctx):
+       conn = db.connect() # このconnを通じて操作する
        def check(m):
                # メッセージが `おはよう` かつ メッセージを送信したチャンネルが
-               # コマンドを打ったチャンネルという条件
-               return resultstr[0].contain(m.content[0]) and resultstr[1]=="/" and resultstr[2].contain(m.content[0])
-       conn = db.connect() # このconnを通じて操作する
+               # 欲しいもの「/」[]
+               return resultstr.contain(m.content[0]) and m[1]=="/" and conn.get(ctx.author.name).contain(m.content[2])
+       
        roundnum=conn.get(ctx.author.name+"ラウンド")
-       if int(roundnum)<=3:
+       if int(roundnum)<3:
          kungfuchr="剣破皇脚翼旋斬弾槍滅追絶覇閃砲極空襲陣舞滅砲衝刃射蹴砕封蒼烈殺襲真絶散斬弓魔旋撃神空陣暴封砕射攻殺牙衝槍羅乱刃連破翼覇銃"#http://tookcg.elgraiv.com/tools/chu2v2.html
          listlen=len(kungfuchr)
          resultstr=""
@@ -138,9 +139,9 @@ async def draw3(ctx):
           print(str(num)+"回目ロール:"+resultkanji)
           resultstr=resultstr+resultkanji
           
-         dbstr=conn.get(ctx.author.name)
-         dbstr=dbstr+resultkanji
-         conn.set(ctx.author.name, dbstr)
+          dbstr=conn.get(ctx.author.name)
+          dbstr=dbstr+resultkanji
+          conn.set(ctx.author.name, dbstr)
          
 
              # 待っているものに該当するかを確認する関数
