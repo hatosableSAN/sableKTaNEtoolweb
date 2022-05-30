@@ -71,19 +71,19 @@ async def kungfu(ctx):
           resultstr=resultkanji
           conn.set(ctx.author.name, resultstr)
 
-        embed = discord.Embed(
-        description="お主の漢字はこれだ！"
-        )
-        embed.add_field(name="漢字一覧",value=resultstr)
+       embed = discord.Embed(
+       description="お主の漢字はこれだ！"
+       )
+       embed.add_field(name="漢字一覧",value=resultstr)
 
          
         
        
-        embed.set_author(name=ctx.author.name, # Botのユーザー名
-         url="https://repo.exapmle.com/bot", # titleのurlのようにnameをリンクにできる。botのWebサイトとかGithubとか
-         icon_url=ctx.author.avatar_url # Botのアイコンを設定してみる
-         )
-        await ctx.send(embed=embed)
+       embed.set_author(name=ctx.author.name, # Botのユーザー名
+        url="https://repo.exapmle.com/bot", # titleのurlのようにnameをリンクにできる。botのWebサイトとかGithubとか
+        icon_url=ctx.author.avatar_url # Botのアイコンを設定してみる
+        )
+       await ctx.send(embed=embed)
 
 
 
