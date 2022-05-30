@@ -98,7 +98,7 @@ async def mykungfu(ctx):
 async def draw2(ctx):
        conn = db.connect() # このconnを通じて操作する
        roundnum=conn.get(ctx.author.name+"ラウンド")
-       if roundnum<=3:
+       if int(roundnum)<=3:
          kungfuchr="剣破皇脚翼旋斬弾槍滅追絶覇閃砲極空襲陣舞滅砲衝刃射蹴砕封蒼烈殺襲真絶散斬弓魔旋撃神空陣暴封砕射攻殺牙衝槍羅乱刃連破翼覇銃"#http://tookcg.elgraiv.com/tools/chu2v2.html
          listlen=len(kungfuchr)
          resultstr=""
@@ -127,7 +127,7 @@ async def draw3(ctx):
                return resultstr[0].contain(m.content[0]) and resultstr[1]=="/" and resultstr[2].contain(m.content[0])
        conn = db.connect() # このconnを通じて操作する
        roundnum=conn.get(ctx.author.name+"ラウンド")
-       if roundnum<=3:
+       if int(roundnum)<=3:
          kungfuchr="剣破皇脚翼旋斬弾槍滅追絶覇閃砲極空襲陣舞滅砲衝刃射蹴砕封蒼烈殺襲真絶散斬弓魔旋撃神空陣暴封砕射攻殺牙衝槍羅乱刃連破翼覇銃"#http://tookcg.elgraiv.com/tools/chu2v2.html
          listlen=len(kungfuchr)
          resultstr=""
