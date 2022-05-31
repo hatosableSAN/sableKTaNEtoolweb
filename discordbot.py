@@ -185,7 +185,7 @@ async def change(ctx):
        if int(roundnum)<3:
          conn = db.connect() # このconnを通じて操作する
          koukaistr=conn.get("公開カード")
-         if koukaistr!="":
+         if koukaistr is not None:
           await ctx.send("公開中の漢字は「"+koukaistr+"」だ。「欲しい漢字/いらない漢字」の形式で漢字を入力するのだ。")
           try:
               # wait_forを用いて、イベントが発火し指定した条件を満たすまで待機する
