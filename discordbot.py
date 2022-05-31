@@ -278,7 +278,7 @@ async def wo(ctx,error):
 async def wordgame(ctx):
 
        conn = db.connect() # このconnを通じて操作する
-       if conn.get("wordgame_TableA") is None:
+       if conn.lrange("wordgame_TableA") is None:
         conn.rpush("wordgame_TableA", "山")
         conn.rpush("wordgame_TableA", "チャーハン")
         conn.rpush("wordgame_TableA", "鞄")
