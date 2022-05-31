@@ -140,9 +140,8 @@ async def draw3(ctx):
           print(str(num)+"回目ロール:"+resultkanji)
           resultstr=resultstr+resultkanji
           
-          dbstr=conn.get(ctx.author.name)
-          dbstr=dbstr+resultkanji
-          conn.set(ctx.author.name, dbstr)
+
+          
          
 
              # 待っているものに該当するかを確認する関数
