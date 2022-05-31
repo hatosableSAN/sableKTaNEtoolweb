@@ -60,7 +60,7 @@ async def kungfu(ctx):
        for num in range(3):
         result=random.randint(1,listlen)
         resultkanji=kungfuchr[result-1]
-        print(str(num)+"回目ロール:"+resultkanji)
+        print(str(num+1)+"回目ロール:"+resultkanji)
 
         if resultstr!="":#2回目いこう
           resultstr=resultstr+","+resultkanji
@@ -106,7 +106,7 @@ async def draw2(ctx):
          for num in range(2):
            result=random.randint(1,listlen)
            resultkanji=kungfuchr[result-1]
-           print(str(num)+"回目ロール:"+resultkanji)
+           print(str(num+1)+"回目ロール:"+resultkanji)
            resultstr=resultstr+resultkanji
            
            dbstr=conn.get(ctx.author.name)
@@ -172,7 +172,46 @@ async def draw3(ctx):
              await ctx.send("交換が終了したぞ。"+"お主の今の漢字は「"+dbstr+"」だ！") 
        else:
           await ctx.send("お主、3ラウンドを経過しているな！最初からやり直せっ！")
-         
+       
+@bot.command()
+async def change(ctx):
+       conn = db.connect() # このconnを通じて操作する
+       def check(m):
+
+               
+               return m.content[0] in koukaistr and m.content[1]=="/" and m.content[2] in conn.get(ctx.author.name)
+       
+       roundnum=conn.get(ctx.author.name+"ラウンド")
+       if int(roundnum)<3:
+         conn = db.connect() # このconnを通じて操作する
+         koukaistr=conn.get("公開カード")
+         if koukaistr!="":
+          await ctx.send("公開中の漢字は「"+koukaistr+"」だ。「欲しい漢字/いらない漢字」の形式で漢字を入力するのだ。")
+          try:
+              # wait_forを用いて、イベントが発火し指定した条件を満たすまで待機する
+              msg = await bot.wait_for('message', check=check)
+              # wait_forの1つ目のパラメータは、イベント名の on_がないもの
+              # 2つ目は、待っているものに該当するかを確認する関数 (任意)
+              # 3つ目は、タイムアウトして asyncio.TimeoutError が発生するまでの秒数
+              
+          # asyncio.TimeoutError が発生したらここに飛ぶ
+          except asyncio.TimeoutError:
+              await ctx.send("時間切れじゃ。もう一度抽選するのだ！")
+          else:
+              dbstr=conn.get(ctx.author.name)
+              print(dbstr)
+              dbstr=dbstr.replace(msg.content[2],"")
+              koukaistr=koukaistr.replace(msg.content[0],"")
+              conn.set("公開カード", koukaistr)
+              print(msg.content[2]+"と交換")
+              dbstr=dbstr+msg.content[0]
+              conn.set(ctx.author.name, dbstr)
+              conn.set(ctx.author.name+"ラウンド", int(roundnum)+1)
+              await ctx.send("交換が終了したぞ。"+"お主の今の漢字は「"+dbstr+"」だ！")
+         else:
+          await ctx.send("交換可能な公開カードが無いぞ！")
+       else:
+          await ctx.send("お主、3ラウンドを経過しているな！最初からやり直せっ！")
 
 
 # @bot.command()
