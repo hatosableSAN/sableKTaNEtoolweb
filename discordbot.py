@@ -163,7 +163,7 @@ async def draw3(ctx):
          else:
              dbstr=conn.get(ctx.author.name)
              print(dbstr)
-             dbstr.replace(msg.content[2],"")
+             dbstr=dbstr.replace(msg.content[2],"")
              print(msg.content[2]+"と交換")
              dbstr=dbstr+msg.content[0]
              print(dbstr)
