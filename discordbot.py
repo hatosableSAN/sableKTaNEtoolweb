@@ -275,10 +275,10 @@ async def wo(ctx,error):
    await ctx.send("チャンネル名が空ですよ！")
 
 @bot.command()
-async def wordgame(ctx,ndm):
+async def wordgame(ctx):
 
        conn = db.connect() # このconnを通じて操作する
-       if conn.get("wordgame_TableA") in None:
+       if conn.get("wordgame_TableA") is None:
         conn.rpush("wordgame_TableA", "山")
         conn.rpush("wordgame_TableA", "チャーハン")
         conn.rpush("wordgame_TableA", "鞄")
