@@ -260,5 +260,93 @@ async def roll(ctx,ndm):
      )
     await ctx.send(embed=embed)
 
+
+
+
+# @bot.command()
+# async def makefield(ctx):
+#   await ctx.send("チャンネル名が空ですよ！")
+
+@makefield.error
+async def wo(ctx,error):
+ error = getattr(error, "original", error)
+
+ if isinstance(error, commands.MissingRequiredArgument):
+   await ctx.send("チャンネル名が空ですよ！")
+
+@bot.command()
+async def wordgame(ctx,ndm):
+
+       conn = db.connect() # このconnを通じて操作する
+       if conn.get("wordgame_TableA") in None:
+        conn.rpush("wordgame_TableA", "山")
+        conn.rpush("wordgame_TableA", "チャーハン")
+        conn.rpush("wordgame_TableA", "鞄")
+        conn.rpush("wordgame_TableA", "サラリーマン")
+        conn.rpush("wordgame_TableA", "カメラ")
+        conn.rpush("wordgame_TableA", "バナナ")
+        conn.rpush("wordgame_TableA", "安心感")
+        conn.rpush("wordgame_TableA", "セミナー")
+        conn.rpush("wordgame_TableA", "RPG")
+        conn.rpush("wordgame_TableA", "お父さん")
+        conn.rpush("wordgame_TableA", "小説")
+        conn.rpush("wordgame_TableA", "ネズミ")
+        conn.rpush("wordgame_TableA", "ゴミ")
+        conn.rpush("wordgame_TableA", "赤ちゃん")
+        conn.rpush("wordgame_TableA", "サブレ")
+        conn.rpush("wordgame_TableA", "ライブ")
+        conn.rpush("wordgame_TableA", "鈴")
+        conn.rpush("wordgame_TableA", "警察官")
+        conn.rpush("wordgame_TableA", "大学")
+        conn.rpush("wordgame_TableA", "墓")
+        conn.rpush("wordgame_TableA", "結婚式")
+        conn.rpush("wordgame_TableA", "人生")
+
+        conn.rpush("wordgame_TableB", "にありがちな")
+        conn.rpush("wordgame_TableB", "をモチーフとした")
+        conn.rpush("wordgame_TableB", "が好きな")
+        conn.rpush("wordgame_TableB", "で遊ぶ")
+        conn.rpush("wordgame_TableB", "がどうしても勝てない")
+        conn.rpush("wordgame_TableB", "の")
+        conn.rpush("wordgame_TableB", "が嫌いな")
+        conn.rpush("wordgame_TableB", "が作った")
+        conn.rpush("wordgame_TableB", "と一緒にいる")
+        conn.rpush("wordgame_TableB", "による")
+        conn.rpush("wordgame_TableB", "だけの")
+        conn.rpush("wordgame_TableB", "だらけの")
+        conn.rpush("wordgame_TableB", "っぽい")
+
+       listlen=conn.llen("wordgame_TableA")#長さゲット
+       result=random.randint(1,listlen)
+       wordA = conn.lindex("wordgame_TableA", result)
+
+       listlen=conn.llen("wordgame_TableB")#長さゲット
+       result=random.randint(1,listlen)
+       wordB = conn.lindex("wordgame_TableB", result)
+
+       listlen=conn.llen("wordgame_TableA")#長さゲット
+       result=random.randint(1,listlen)
+       wordC = conn.lindex("wordgame_TableA", result)
+
+
+       
+       await ctx.send("ゲームを始めるよ！\n今回のお題は…こちら！親は見ちゃダメだよ！")
+       await ctx.send("||"+wordA+wordB+wordC+"||")
+         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 token = getenv('DISCORD_BOT_TOKEN')
 bot.run(token)
