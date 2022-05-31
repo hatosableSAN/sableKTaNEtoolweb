@@ -164,6 +164,8 @@ async def draw3(ctx):
              dbstr=conn.get(ctx.author.name)
              print(dbstr)
              dbstr=dbstr.replace(msg.content[2],"")
+             resultstr=resultstr.replace(msg.content[0],"")
+             conn.set("公開カード", resultstr)
              print(msg.content[2]+"と交換")
              dbstr=dbstr+msg.content[0]
              print(dbstr)
