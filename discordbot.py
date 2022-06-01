@@ -329,6 +329,8 @@ async def showwordtable(ctx):
       )
       embed.add_field(name="A",value=listA)
       embed.add_field(name="B",value=listB)
+      embed.add_field(name="Aの個数",value=len(listA))
+      embed.add_field(name="Bの個数",value=len(listB))
        
       
      
