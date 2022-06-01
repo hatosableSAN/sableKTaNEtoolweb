@@ -317,6 +317,27 @@ async def addwordB(ctx,string):
        
        await ctx.send(string+"を追加したのだ")
 
+@bot.command()
+async def showwordtable(ctx):
+      conn = db.connect() # このconnを通じて操作する
+      listA=conn.lrange("wordgame_TableA", 0, conn.llen("wordgame_TableA"))
+      listB=conn.lrange("wordgame_TableB", 0, conn.llen("wordgame_TableB"))
+
+
+      embed = discord.Embed(
+      description="表データ一覧"
+      )
+      embed.add_field(name="A",value=listA)
+      embed.add_field(name="B",value=listB)
+       
+      
+     
+      embed.set_author(name=ctx.author.name, # Botのユーザー名
+       url="https://repo.exapmle.com/bot", # titleのurlのようにnameをリンクにできる。botのWebサイトとかGithubとか
+       icon_url=ctx.author.avatar_url )# Botのアイコンを設定してみる
+
+       
+      await ctx.send(embed=embed)
          
 
 
