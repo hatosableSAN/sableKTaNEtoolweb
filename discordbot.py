@@ -296,26 +296,26 @@ async def wordgame(ctx):
        await ctx.send("||"+wordA+wordB+wordC+"||")
 
 @bot.command()
-async def addwordA(ctx):
-
+async def addwordA(ctx,string):
+       word=str(string)
        conn = db.connect() # このconnを通じて操作する
-       conn.lpush("wordgame_TableA",ctx)#長さゲット
+       conn.lpush("wordgame_TableA",word)
 
 
 
        
-       await ctx.send(ctx+"を追加したのだ")
+       await ctx.send(string+"を追加したのだ")
 
 @bot.command()
-async def addwordB(ctx):
-
+async def addwordB(ctx,string):
+       word=str(string)
        conn = db.connect() # このconnを通じて操作する
-       conn.lpush("wordgame_TableB",ctx)#長さゲット
+       conn.lpush("wordgame_TableB",word)#長さゲット
 
 
 
        
-       await ctx.send(ctx+"を追加したのだ")
+       await ctx.send(string+"を追加したのだ")
 
          
 
