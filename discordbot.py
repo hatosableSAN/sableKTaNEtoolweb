@@ -354,11 +354,6 @@ async def wordgame2(ctx):
        await ctx.send("改善版ゲームを始めるよ！\n今回のお題は…こちら！親は見ちゃダメだよ！")
        await ctx.send("||"+wordA+wordB+wordC+"||")
 
-@bot.command()
-async def addwordA(ctx,string):
-       word=str(string)
-       conn = db.connect() # このconnを通じて操作する
-       conn.lpush("wordgame_TableA",word)
 
 
 
