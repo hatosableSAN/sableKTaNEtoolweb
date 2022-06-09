@@ -316,6 +316,7 @@ async def addwordB(ctx,string):
 
        
        await ctx.send(string+"を追加したのだ")
+@bot.command()
 async def copy(ctx):
        conn = db.connect() # このconnを通じて操作する
        listA=conn.lrange("wordgame_Things", 0, conn.llen("wordgame_Things"))
