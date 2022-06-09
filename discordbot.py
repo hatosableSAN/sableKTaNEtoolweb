@@ -319,10 +319,16 @@ async def addwordB(ctx,string):
 @bot.command()
 async def copy(ctx):
        conn = db.connect() # このconnを通じて操作する
-       listA=conn.lrange("wordgame_Things", 0, conn.llen("wordgame_Things"))
-       listlen=conn.llen("wordgame_Things")#長さゲット
-       for num in range(listlen):
-        conn.lpush("wordgame_TableA",listA[num])#長さゲット
+       #listA=conn.lrange("wordgame_Things", 0, conn.llen("wordgame_Things"))
+       listB=conn.lrange("wordgame_Name", 0, conn.llen("wordgame_Name"))
+       listC=conn.lrange("wordgame_Object", 0, conn.llen("wordgame_Object"))
+       #listlen=conn.llen("wordgame_Things")#長さゲット
+       listlen1=conn.llen("wordgame_Name")#長さゲット
+       listlen2=conn.llen("wordgame_Object")#長さゲット
+       for num in range(listlen1):
+        conn.lpush("wordgame_TableA",listB[num])#長さゲット
+       for num in range(listlen2):
+        conn.lpush("wordgame_TableA",listC[num])#長さゲット
        
        await ctx.send("追加したのだよ〜")
 
