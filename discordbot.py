@@ -316,6 +316,14 @@ async def addwordB(ctx,string):
 
        
        await ctx.send(string+"を追加したのだ")
+async def copy(ctx):
+       conn = db.connect() # このconnを通じて操作する
+       listA=conn.lrange("wordgame_Things", 0, conn.llen("wordgame_Things"))
+       listlen=conn.llen("wordgame_Things")#長さゲット
+       for num in range(listlen):
+        conn.lpush("wordgame_TableA",listA[num])#長さゲット
+       
+       await ctx.send("追加したのだ")
 
 @bot.command()
 async def addwordPerson(ctx,string):
