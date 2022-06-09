@@ -333,17 +333,17 @@ async def wordgame2(ctx):
         wordBlist = ["が霞むほどの","だけじゃない","に騙されそうな","故の","かもしれない","にありがちな","をモチーフとした","が好きな","がどうしても勝てない","の","が嫌いな","が作った","と一緒にいる","による","だけの","だらけの","っぽい"]
         listlen=len(wordBlist)
         result=random.randint(1,listlen)
-        wordB = wordBlist.index(result)
+        wordB = wordBlist[result]
        elif wordA in listB :#物の名前
         wordBlist = ["の上の","入っている","but","故の","かもしれない","にありがちな","で遊ぶ","をモチーフとした","だけの","だらけの","っぽい"]
         listlen=len(wordBlist)
         result=random.randint(1,listlen)
-        wordB = wordBlist.index(result)
+        wordB = wordBlist[result]
        elif wordA in listA :#概念の名前
          wordBlist = ["but","故の","にありがちな","をモチーフとした","にありがちな","の","による","だらけの","っぽい"]
          listlen=len(wordBlist)
          result=random.randint(1,listlen)
-         wordB = wordBlist.index(result)
+         wordB = wordBlist[result]
 
        listlen=conn.llen("wordgame_TableA")#長さゲット
        result=random.randint(1,listlen)
