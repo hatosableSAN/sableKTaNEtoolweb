@@ -1,4 +1,5 @@
 import asyncio
+from operator import indexOf
 from ssl import RAND_add
 import discord
 from discord.ext import commands
@@ -317,20 +318,52 @@ async def addwordB(ctx,string):
        
        await ctx.send(string+"を追加したのだ")
 @bot.command()
-async def copy(ctx):
+async def wordgame2(ctx):
        conn = db.connect() # このconnを通じて操作する
-       #listA=conn.lrange("wordgame_Things", 0, conn.llen("wordgame_Things"))
-       listB=conn.lrange("wordgame_Name", 0, conn.llen("wordgame_Name"))
-       listC=conn.lrange("wordgame_Object", 0, conn.llen("wordgame_Object"))
-       #listlen=conn.llen("wordgame_Things")#長さゲット
-       listlen1=conn.llen("wordgame_Name")#長さゲット
-       listlen2=conn.llen("wordgame_Object")#長さゲット
-       for num in range(listlen1):
-        conn.lpush("wordgame_TableA",listB[num])#長さゲット
-       for num in range(listlen2):
-        conn.lpush("wordgame_TableA",listC[num])#長さゲット
+
+       listA=conn.lrange("wordgame_Things", 0, conn.llen("wordgame_Things"))
+       listB=conn.lrange("wordgame_Object", 0, conn.llen("wordgame_Object"))
+       listC=conn.lrange("wordgame_Name", 0, conn.llen("wordgame_Name"))
+
+
+       listlen=conn.llen("wordgame_TableA")#長さゲット
+       result=random.randint(1,listlen)
+       wordA = conn.lindex("wordgame_TableA", result)
+       if wordA in listC :#人の名前
+        wordBlist = ["が霞むほどの","だけじゃない","に騙されそうな","故の","かもしれない","にありがちな","をモチーフとした","が好きな","がどうしても勝てない","の","が嫌いな","が作った","と一緒にいる","による","だけの","だらけの","っぽい"]
+        listlen=len(wordBlist)
+        result=random.randint(1,listlen)
+        wordB = wordBlist.indexOf(result)
+       elif wordA in listB :#物の名前
+        wordBlist = ["の上の","入っている","but","故の","かもしれない","にありがちな","で遊ぶ","をモチーフとした","だけの","だらけの","っぽい"]
+        listlen=len(wordBlist)
+        result=random.randint(1,listlen)
+        wordB = wordBlist.indexOf(result)
+       elif wordA in listA :#概念の名前
+         wordBlist = ["but","故の","にありがちな","をモチーフとした","にありがちな","の","による","だらけの","っぽい"]
+         listlen=len(wordBlist)
+         result=random.randint(1,listlen)
+         wordB = wordBlist.indexOf(result)
+
+       listlen=conn.llen("wordgame_TableA")#長さゲット
+       result=random.randint(1,listlen)
+       wordC = conn.lindex("wordgame_TableA", result)
+
+
        
-       await ctx.send("追加したのだよ〜")
+       await ctx.send("改善版ゲームを始めるよ！\n今回のお題は…こちら！親は見ちゃダメだよ！")
+       await ctx.send("||"+wordA+wordB+wordC+"||")
+
+@bot.command()
+async def addwordA(ctx,string):
+       word=str(string)
+       conn = db.connect() # このconnを通じて操作する
+       conn.lpush("wordgame_TableA",word)
+
+
+
+       
+       await ctx.send(string+"を追加したのだ")
 
 @bot.command()
 async def addwordPerson(ctx,string):
@@ -388,7 +421,7 @@ async def showwordtable2(ctx):
       conn = db.connect() # このconnを通じて操作する
       listA=conn.lrange("wordgame_Things", 0, conn.llen("wordgame_Things"))
       listB=conn.lrange("wordgame_Object", 0, conn.llen("wordgame_Object"))
-      listB=conn.lrange("wordgame_Name", 0, conn.llen("wordgame_Name"))
+      listC=conn.lrange("wordgame_Name", 0, conn.llen("wordgame_Name"))
 
 
       embed = discord.Embed(
@@ -396,7 +429,7 @@ async def showwordtable2(ctx):
       )
       embed.add_field(name="概念",value=listA)
       embed.add_field(name="物",value=listB)
-      embed.add_field(name="名前",value=listB)
+      embed.add_field(name="名前",value=listC)
 
        
       
