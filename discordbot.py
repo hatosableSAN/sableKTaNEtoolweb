@@ -323,7 +323,7 @@ async def copy(ctx):
        for num in range(listlen):
         conn.lpush("wordgame_TableA",listA[num])#長さゲット
        
-       await ctx.send("追加したのだ")
+       await ctx.send("追加したのだよ〜")
 
 @bot.command()
 async def addwordPerson(ctx,string):
