@@ -358,7 +358,7 @@ async def wordgame2(ctx):
 
 
        
-       await ctx.send(string+"を追加したのだ")
+
 
 @bot.command()
 async def addwordPerson(ctx,string):
