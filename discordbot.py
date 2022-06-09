@@ -318,6 +318,33 @@ async def addwordB(ctx,string):
        await ctx.send(string+"を追加したのだ")
 
 @bot.command()
+async def addwordPerson(ctx,string):
+       word=str(string)
+       conn = db.connect() # このconnを通じて操作する
+       conn.lpush("wordgame_Name",word)
+       conn.lpush("wordgame_TableA",word)#長さゲット
+       
+       await ctx.send(string+"を追加したのだ")
+
+@bot.command()
+async def addwordObject(ctx,string):
+       word=str(string)
+       conn = db.connect() # このconnを通じて操作する
+       conn.lpush("wordgame_Object",word)#長さゲット
+       conn.lpush("wordgame_TableA",word)#長さゲット
+
+       await ctx.send(string+"を追加したのだ")
+
+@bot.command()
+async def addwordThings(ctx,string):
+       word=str(string)
+       conn = db.connect() # このconnを通じて操作する
+       conn.lpush("wordgame_Things",word)#長さゲット
+       conn.lpush("wordgame_TableA",word)#長さゲット
+
+       await ctx.send(string+"を追加したのだ")
+
+@bot.command()
 async def showwordtable(ctx):
       conn = db.connect() # このconnを通じて操作する
       listA=conn.lrange("wordgame_TableA", 0, conn.llen("wordgame_TableA"))
@@ -331,6 +358,31 @@ async def showwordtable(ctx):
       embed.add_field(name="B",value=listB)
       embed.add_field(name="Aの個数",value=len(listA))
       embed.add_field(name="Bの個数",value=len(listB))
+       
+      
+     
+      embed.set_author(name=ctx.author.name, # Botのユーザー名
+       url="https://repo.exapmle.com/bot", # titleのurlのようにnameをリンクにできる。botのWebサイトとかGithubとか
+       icon_url=ctx.author.avatar_url )# Botのアイコンを設定してみる
+
+       
+      await ctx.send(embed=embed)
+
+@bot.command()
+async def showwordtable2(ctx):
+      conn = db.connect() # このconnを通じて操作する
+      listA=conn.lrange("wordgame_Things", 0, conn.llen("wordgame_Things"))
+      listB=conn.lrange("wordgame_Object", 0, conn.llen("wordgame_Object"))
+      listB=conn.lrange("wordgame_Name", 0, conn.llen("wordgame_Name"))
+
+
+      embed = discord.Embed(
+      description="表データ一覧"
+      )
+      embed.add_field(name="概念",value=listA)
+      embed.add_field(name="物",value=listB)
+      embed.add_field(name="名前",value=listB)
+
        
       
      
