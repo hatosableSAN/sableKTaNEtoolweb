@@ -121,10 +121,15 @@ input[type="text"] ,input[type="email"] {
 
 textarea{
  border: 2px solid #eb6100;
+ resize: none;
+ width:650px;
+ height: 350px;
+ overflow:scroll;
+
 }
 
 input[type="number"]{
- margin-right: 10%;
+ margin-right: 5px;
  width:60px;
  border: 2px solid #eb6100;
 font: bold;
@@ -139,5 +144,11 @@ input.pluralBtn{
 input.pluralBtn:active{
  border-bottom:none;
  transform: translate(0,2px);
+}
+
+div.memoarea{
+position: absolute;
+top: 10%;
+right: 10%;
 }
 

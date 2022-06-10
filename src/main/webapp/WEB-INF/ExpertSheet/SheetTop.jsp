@@ -25,8 +25,11 @@ SERIAL：<input type="text" name="name" pattern="^[A-Z0-9]{5}[0-9]"  placeholder
 
     <h2>BATTERYS</h2>
     <p>
+[種類別]</br>    
 D BATTERY(単1):<input type="number" name="name" value="0" min="0" size="2">   
-AA BATTERY(単3):<input type="number" name="name"value="0" min="0" size="2">    
+AA BATTERY(単3):<input type="number" name="name"value="0" min="0" size="2"></br>
+[本数別]</br>  
+BATTERYS(総本数):<input type="number" name="name" value="0" min="0" size="2">    
 HOLDER:<input type="number" name="number" value="0" min="0" size="2">
 </p>
  
@@ -86,8 +89,10 @@ Stereo RCA:<input type="text" name="name" size="3"> -->
 
     
 <p>
-<h2>MEMO</h2>
-<textarea name="kanso" rows="40" cols="100"></textarea>
+ <div class ="memoarea">
+<h2 style="position: relative;">MEMO</h2>
+<textarea name="kanso" class="memo"></textarea>
+</div>
 </p>
 
 </form>
