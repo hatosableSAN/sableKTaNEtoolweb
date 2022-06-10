@@ -11,7 +11,7 @@
     </head>
     <body>
       <br/><a href="/index"><button type="button" class="reset" style="border-radius: 10px;padding:10px;font-size:100%;font:#fff;">BACK</button></a><br>
-      <h1>日本語マニュアル変換ツール(ベータ版)</h1>
+      <h1>日本語マニュアル変換ツール</h1>
       <form action="./Converter" method="post"enctype="multipart/form-data">
         <input type="file" name="select" class="btn btn--red btn--radius btn--cubic" required accept=".html"/><a style="color: red;">*</a>
         <% if(nothtml!=null){%>

@@ -22,3 +22,10 @@ $ git clone git@github.com:heroku/devcenter-embedded-tomcat.git
 If you would like to create the application yourself, then follow the Dev Center guide on how to [Create a Java Web Application using Embedded Tomcat](https://devcenter.heroku.com/articles/create-a-java-web-application-using-embedded-tomcat).
 
 
+# how to run local
+
+mvn package
+
+からの
+
+sh target/bin/webapp

@@ -10,54 +10,56 @@
     <link rel="shortcut icon" href="./favicon.ico" >
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script type="text/javascript" src="./addportplate.js"></script>
-
+  <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/cssfile.css">
 </head>
 <body>
   <br/><a href="/index"><button type="button" class="reset" style="border-radius: 10px;padding:10px;font-size:100%;font:#fff;">BACK</button></a><br>
                 <h1>KTaNE Experting Sheet</h1>
 <form name="sheet">
 <p>
-SERIAL：<input type="text" name="name" pattern="^[A-Z0-9]{5}[0-9]">   <button type="button" class="reset">RESET</button><br/><br/>
+SERIAL：<input type="text" name="name" pattern="^[A-Z0-9]{5}[0-9]"  placeholder="XXXXXX" maxlength="6">   <button type="button" class="reset">RESET</button><br/><br/>
 
 </p>
 
-    <h2>INDICATORS</h2>
-    <p>
-LIT:
-  <input type="checkbox">BOB
-  <input type="checkbox">CAR
-  <input type="checkbox">CLR
-  <input type="checkbox">FRK
-  <input type="checkbox">FRQ
-  <input type="checkbox">IND
-  <input type="checkbox">MSA
-  <input type="checkbox">NSA
-  <input type="checkbox">SIG
-  <input type="checkbox">SND
-  <input type="checkbox">TRN  
-</p>
- <p>
-UNLIT:
-  <input type="checkbox">BOB
-  <input type="checkbox">CAR
-  <input type="checkbox">CLR
-  <input type="checkbox">FRK
-  <input type="checkbox">FRQ
-  <input type="checkbox">IND
-  <input type="checkbox">MSA
-  <input type="checkbox">NSA
-  <input type="checkbox">SIG
-  <input type="checkbox">SND
-  <input type="checkbox">TRN  
-</p>
+   
 
     <h2>BATTERYS</h2>
     <p>
-D BATTERY(単1):<input type="number" name="name">
-AA BATTERY(単3):<input type="number" name="name">
-HOLDER:<input type="number" name="number">
+D BATTERY(単1):<input type="number" name="name" value="0" min="0" size="2">   
+AA BATTERY(単3):<input type="number" name="name"value="0" min="0" size="2">    
+HOLDER:<input type="number" name="number" value="0" min="0" size="2">
 </p>
-    
+ 
+<h2>INDICATORS</h2>
+<p>
+LIT:
+<input type="checkbox">BOB
+<input type="checkbox">CAR
+<input type="checkbox">CLR
+<input type="checkbox">FRK
+<input type="checkbox">FRQ
+<input type="checkbox">IND
+<input type="checkbox">MSA
+<input type="checkbox">NSA
+<input type="checkbox">SIG
+<input type="checkbox">SND
+<input type="checkbox">TRN  
+</p>
+<p>
+UNLIT:
+<input type="checkbox">BOB
+<input type="checkbox">CAR
+<input type="checkbox">CLR
+<input type="checkbox">FRK
+<input type="checkbox">FRQ
+<input type="checkbox">IND
+<input type="checkbox">MSA
+<input type="checkbox">NSA
+<input type="checkbox">SIG
+<input type="checkbox">SND
+<input type="checkbox">TRN  
+</p>
+
     <h2>PORTS</h2>
 
     <div id="portbox">
@@ -75,16 +77,12 @@ Stereo RCA:<input type="text" name="name" size="3"> -->
       <input type="checkbox" name="port">Serial
       <input type="checkbox"name="port">Parallel
        <input type="checkbox" name="port">NO Ports
-        <input type="button" value="＋" class="add pluralBtn" style="color: #000;
-        background-color: #ffae00;
-       border:none; border-bottom: 5px solid #cc7a00;">
-        <input type="button" value="－" class="del pluralBtn" style="color: #000;
-        background-color: #ffae00;border:none;
-        border-bottom: 5px solid #cc7a00;">
+       <input type="button" value="＋" class="add pluralBtn">
+       <input type="button" value="－" class="del pluralBtn">      
         
 </div>
 </div>
-    
+
 
     
 <p>
@@ -134,60 +132,5 @@ $(document).on("click", ".add", function() {
 
 
 </html>
-
-
-<style>
-.reset{
-  color: #fff;
-  font-size: 100%;
-  background-color: #eb6100;
-  border-style: none;
-}
-.reset:hover{
-  font-size: 100%;
-  color: #fff;
-  background: #f56500;
-  border-style: none;
-}
-
-h1 {
-  position: relative;
-  display: inline-block;
-  padding: 1rem 2rem 1rem 4rem;
-  color: #fff;
-  border-radius: 100vh 0 0 100vh;
-  background: #fa4141;
-}
-
-h1:before {
-  position: absolute;
-  top: calc(50% - 7px);
-  left: 10px;
-  width: 14px;
-  height: 14px;
-  content: '';
-  border-radius: 50%;
-  background: #fff;
-}
-
-  h2 {
-    width: 30%;
-  padding: 1rem 2rem;
-  color: #fff;
-  border-radius: 10px;
-  background-image: -webkit-gradient(linear, left top, right top, from(#0478a5), to(#17d1f1));
-  background-image: -webkit-linear-gradient(left, #0478a5 0%, #17d1f1 100%);
-  background-image: linear-gradient(to right, #0478a5 0%, #17d1f1 100%);
-}
-p{
-  font-size: large;
-  font-weight:bold;
-}
-div{
-  font-size: large;
-  font-weight:bold;
-}
-
-  </style>
 
 
