@@ -20,6 +20,10 @@
 <div class="topbutton">
 <a href="./ConvertMenu" class="btn btn--blue">日本語用マニュアル作成ツール</a>
 </div>
+
+
+ <h2>更新履歴</h2>
+ <li>2022/06/14 更新履歴の項目を追加。Experting Sheetをレスポンシブ対応。
 <footer>
  <p>© 2022 Hatosable</p>
 </footer>

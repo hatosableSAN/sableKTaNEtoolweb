@@ -7,6 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="./favicon.ico" >
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/cssfile.css">
     <title>日本語マニュアル変換ツール</title>
     </head>
     <body>
@@ -39,75 +40,3 @@
 
     </body>
   </html>
-  <style>
-    .reset{
-      color: #fff;
-      font-size: 100%;
-      background-color: #eb6100;
-      border-style: none;
-    }
-    .reset:hover{
-      font-size: 100%;
-      color: #fff;
-      background: #f56500;
-      border-style: none;
-    }
-    
-    h1 {
-      position: relative;
-      display: inline-block;
-      padding: 1rem 2rem 1rem 4rem;
-      color: #fff;
-      border-radius: 100vh 0 0 100vh;
-      background: #fa4141;
-    }
-    
-    h1:before {
-      position: absolute;
-      top: calc(50% - 7px);
-      left: 10px;
-      width: 14px;
-      height: 14px;
-      content: '';
-      border-radius: 50%;
-      background: #fff;
-    }
-    
-      h2 {
-        width: 30%;
-      padding: 1rem 2rem;
-      color: #fff;
-      border-radius: 10px;
-      background-image: -webkit-gradient(linear, left top, right top, from(#0478a5), to(#17d1f1));
-      background-image: -webkit-linear-gradient(left, #0478a5 0%, #17d1f1 100%);
-      background-image: linear-gradient(to right, #0478a5 0%, #17d1f1 100%);
-    }
-    p{
-      font-size: large;
-      font-weight:bold;
-    }
-    div{
-      font-size: large;
-      font-weight:bold;
-    }
-
-
-input.btn--orange {
-  border:none;
-  color: #fff;
-  background-color: #eb6100;
-  border-bottom: 3px solid #b84c00;
-}
-input.btn--orange:active {
-  margin-top: 3px;
-  color: #fff;
-  background: #f56500;
-  border-bottom: 1px solid #b84c00;
-}
-
-
-
-    
-    
-      </style>
-    

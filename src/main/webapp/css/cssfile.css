@@ -1,4 +1,7 @@
-.reset{
+li{
+ font-size: small;
+}
+button,input.btn--orange,.reset{
  color: #fff;
  font-size: 100%;
  background-color: #eb6100;
@@ -7,7 +10,7 @@
  border-bottom: 5px solid #fa9908;
  border-radius: 10%;
 }
-.reset:active{
+button:active,input.btn--orange:active,.reset:active{
  font-size: 100%;
  color: #fff;
  background: #f56500;
@@ -109,10 +112,8 @@ a.btn--blue:active {
  border-bottom:none;
  transform: translate(0,2px);
 }
-input{
- border: 2px solid #eb6100;
-}
-input[type="text"] ,input[type="email"] {
+
+.serial ,input[type="email"] {
  border: 2px solid #eb6100;
  width:160px;
  height:55px;
@@ -120,9 +121,11 @@ input[type="text"] ,input[type="email"] {
 }
 
 textarea{
+ font-size: 20px;
  border: 2px solid #eb6100;
  resize: none;
- width:650px;
+ box-sizing:border-box;
+ width:80%;
  height: 350px;
  overflow:scroll;
 
@@ -133,6 +136,7 @@ input[type="number"]{
  width:60px;
  border: 2px solid #eb6100;
 font: bold;
+
 }
 
 input.pluralBtn{
@@ -143,12 +147,85 @@ input.pluralBtn{
 
 input.pluralBtn:active{
  border-bottom:none;
+
  transform: translate(0,2px);
 }
 
+
 div.memoarea{
 position: absolute;
-top: 10%;
-right: 10%;
+top:10%;
+left:50%;
+width: 50%;
+
 }
 
+
+
+#open,
+#close {
+  cursor: pointer;
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+  padding: 12px;
+  background: #4caf50;
+  color: white;
+  border-bottom: 5px solid #acffa4;
+}
+
+  #open:active,#close:active{
+   border-bottom:none;
+
+   transform: translate(0,2px);
+  }
+  
+  input.pluralBtn:active{
+   border-bottom:none;
+  
+   transform: translate(0,2px);
+  }
+  
+
+
+
+#open{
+ display:none;
+}
+#mask {
+ background: rgba(0, 0, 0, 0.4);
+ position: fixed;
+ top: 0;
+ bottom: 0;
+ right: 0;
+ left: 0;
+ z-index: 1;
+ display: none;
+}
+
+#modal {
+ background: #fff;
+ color: #555;
+ width: 50%;
+ padding: 40px;
+ border-radius: 4px;
+ position: absolute;
+ top: 40px;
+ left: 0;
+ right: 0;
+ margin: 0 auto;
+ z-index: 2;
+ display: none;
+}
+
+
+@media screen and (max-width: 1000px) {/* 1000px以下のとき */
+ div.memoarea{
+  visibility: hidden;
+ } 
+#open{
+
+  display: block;
+ } 
+}
