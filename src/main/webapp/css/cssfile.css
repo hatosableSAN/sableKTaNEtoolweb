@@ -219,6 +219,10 @@ width: 50%;
  display: none;
 }
 
+div.sheet{
+ height: 10%;
+}
+
 
 @media screen and (max-width: 1000px) {/* 1000px以下のとき */
  div.memoarea{
@@ -229,3 +233,4 @@ width: 50%;
   display: block;
  } 
 }
+

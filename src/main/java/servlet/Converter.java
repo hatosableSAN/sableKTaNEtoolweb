@@ -70,9 +70,9 @@ public class Converter extends HttpServlet {
 				write(writer,text);
 			}
 
-			else if(text.contains("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/font.css\">")){
+			else if(text.contains("   <link rel=\"stylesheet\" type=\"text/css\" href=\"css/font.css\">")){
 				
-				String inserttext="<link rel=\"stylesheet\" type=\"text/css\" href=\"css/font-japanese.css\">";//font-japanese追加
+				String inserttext="   <link rel=\"stylesheet\" type=\"text/css\" href=\"css/font-japanese.css\">";//font-japanese追加
 				write(writer,text);
 				write(writer,inserttext);//後ろに挿入するようにしたよ
 

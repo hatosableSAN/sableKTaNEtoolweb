@@ -15,7 +15,8 @@
 <body>
   <br/><a href="/index"><button type="button" class="reset" style="border-radius: 10px;padding:10px;font-size:100%;font:#fff;">BACK</button></a><br>
                 <h1>KTaNE Experting Sheet</h1>
-<form name="sheet">
+<div class="sheet">
+<form name="sheet" >
 <p>
 SERIAL：<input type="text" class="serial" name="name" pattern="^[A-Z0-9]{5}[0-9]"  placeholder="XXXXXX" maxlength="6">   <button type="button" class="reset">RESET</button><br/><br/>
 <div id='open' onclick="OpenModal();">
@@ -99,7 +100,8 @@ Stereo RCA:<input type="text" name="name" size="3"> -->
        <input type="button" value="＋" class="add pluralBtn">
        <input type="button" value="－" class="del pluralBtn">      
         
-</div>
+           </div>
+      </div>
 </div>
 </form>
 </body>
