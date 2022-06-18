@@ -223,6 +223,13 @@ div.sheet{
  height: 10%;
 }
 
+div.original,div.clone{
+ border-style: solid;
+ padding-top: 0.5%;
+ padding-bottom: 0.5%;
+ border-color: rgb(196, 196, 196);
+ width:75%;
+}
 
 @media screen and (max-width: 1000px) {/* 1000px以下のとき */
  div.memoarea{

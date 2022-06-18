@@ -83,13 +83,7 @@ UNLIT:
     <h2>PORTS</h2>
 
     <div id="portbox">
-    <div id="portplate">
-<!-- DVI-D:<input type="text" name="name" size="3">
-Parallel:<input type="text" name="name" size="3">
-PS/2:<input type="text" name="name" size="3">
-RJ-45:<input type="text" name="name" size="3">
-Serial:<input type="text" name="name" size="3">
-Stereo RCA:<input type="text" name="name" size="3"> -->
+    <div id="portplate-contents" class="original">
       <input type="checkbox" name="port">DVI-D
       <input type="checkbox" name="port">Stereo RCA
       <input type="checkbox" name="port">PS/2
@@ -97,9 +91,10 @@ Stereo RCA:<input type="text" name="name" size="3"> -->
       <input type="checkbox" name="port">Serial
       <input type="checkbox"name="port">Parallel
        <input type="checkbox" name="port">NO Ports
-       <input type="button" value="＋" class="add pluralBtn">
-       <input type="button" value="－" class="del pluralBtn">      
-        
+           <span id="port-button">
+           <input type="button" value="＋" class="add pluralBtn">
+           <input type="button" value="－" class="del pluralBtn">
+           </span>      
            </div>
       </div>
 </div>

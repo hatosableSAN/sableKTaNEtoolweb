@@ -66,24 +66,24 @@ public class Converter extends HttpServlet {
 			}
 
 			else if(text.contains(" Keep Talking and Nobody Explodes Module</title>")){
-				text="<title>"+JAName+" — Keep Talking and Nobody Explodes Module</title>";//文字化け防止のため一応別枠処理
+				text="    <title>"+JAName+" — Keep Talking and Nobody Explodes Module</title>";//文字化け防止のため一応別枠処理
 				write(writer,text);
 			}
 
 			else if(text.contains("   <link rel=\"stylesheet\" type=\"text/css\" href=\"css/font.css\">")){
 				
-				String inserttext="   <link rel=\"stylesheet\" type=\"text/css\" href=\"css/font-japanese.css\">";//font-japanese追加
+				String inserttext="    <link rel=\"stylesheet\" type=\"text/css\" href=\"css/font-japanese.css\">";//font-japanese追加
 				write(writer,text);
 				write(writer,inserttext);//後ろに挿入するようにしたよ
 
 			}
 			else if(text.contains("<span class=\"page-header-section-title\">")){
-				text="<span class=\"page-header-section-title\">"+JAName+"</span>";//セクションタイトルの変更
+				text="                <span class=\"page-header-section-title\">"+JAName+"</span>";//セクションタイトルの変更
 				write(writer,text);
 			}
 
 			else if(text.contains(" <h2>On the Subject of")){
-				text=" <h2>モジュール詳細："+JAName+"</h2>";//タイトルの変更
+				text="                <h2>モジュール詳細："+JAName+"</h2>";//タイトルの変更
 				write(writer,text);
 			}
 
