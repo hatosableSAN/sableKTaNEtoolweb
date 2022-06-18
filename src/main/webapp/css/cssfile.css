@@ -223,7 +223,7 @@ div.sheet{
  height: 10%;
 }
 
-div.original,div.clone{
+#portplate-contents{
  border-style: solid;
  padding-top: 0.5%;
  padding-bottom: 0.5%;
