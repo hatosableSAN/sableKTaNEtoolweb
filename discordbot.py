@@ -344,7 +344,7 @@ async def wordgame2(ctx):
          listlen=len(wordBlist)-1
          result=random.randint(1,listlen)
          wordB = wordBlist[result]
-       if(wordB=="遊ぶ"):
+       if(wordB=="で遊ぶ"):
         listlen=conn.llen("wordgame_Name")#長さゲット
        else:
         listlen=conn.llen("wordgame_TableA")#長さゲット
