@@ -335,7 +335,7 @@ async def wordgame2(ctx):
         result=random.randint(1,listlen)
         wordB = wordBlist[result]
        elif wordA in listB :#物の名前
-        wordBlist = ["の上の","入っている","but","故の","かもしれない","にありがちな","で遊ぶ","をモチーフとした","だけの","だらけの","っぽい"]
+        wordBlist = ["の上の","に入っている","but","故の","かもしれない","にありがちな","で遊ぶ","をモチーフとした","だけの","だらけの","っぽい"]
         listlen=len(wordBlist)-1
         result=random.randint(1,listlen)
         wordB = wordBlist[result]
@@ -439,7 +439,22 @@ async def showwordtable2(ctx):
       await ctx.send(embed=embed)
          
 
+@bot.command()
+async def GdbGSelect(ctx):
+   URLCommonStr="https://gdbg.tv/release/"
+   year=random.randint(2009,2021)#2009~2021
+   albumnum=year-2009
+   albumlist=[[7,7,6,6,6],[17,17,5],[12,12,11],[12,12,13],[12,12,12],[10,9,9,10],[10,10,10,11],[10,10,10,10],[20,20],[6,5,5,6,5,5,5,5],[10,9,10,10,10],[12,12,12,12],[12,12,12,12]]
+   thisalbum=albumlist[albumnum]
+   albumsize=len(thisalbum)
+   discpos=random.randint(1,albumsize)#ディスクきめ
+   disc=thisalbum[discpos]
+   track=random.randint(1,disc)
 
+   String=URLCommonStr+str(year)+"-"+str(disc)+"-"+str(track)
+
+
+   await ctx.send("今回のおすすめはこちら\n"+String)
 
 
 
