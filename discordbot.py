@@ -451,7 +451,7 @@ async def GdbGSelect(ctx):
    disc=thisalbum[discpos]
    track=random.randint(1,disc)
 
-   String=URLCommonStr+str(year)+"-"+str(disc)+"-"+str(track)
+   String=URLCommonStr+str(year)+"-"+str(discpos)+"-"+str(track)
 
 
    await ctx.send("今回のおすすめはこちら\n"+String)
