@@ -21,6 +21,7 @@
         %>
         <p>モジュール和名：<input type="text" name="name" required/><a style="color: red;"> *</a></p>
         <p>翻訳者：<input type="text" name="creator" required/><a style="color: red;"> *</a></p>
+        <p>差分名：<input type="text" name="subtitle"/> (インタラクティブ等オリジナルからさらに改変を行う場合、説明を記入)</p>
         <input type="submit" class="btn btn--orange btn--cubic btn--shadow" value="変換！">
           </form>
       <h2>使い方</h2>
@@ -35,6 +36,8 @@
   <p> ・<code>&lt;link rel="stylesheet" type="text/css" href="css/font-japanese.css"&gt;</code>の追加</p>
 <p>  ・ページタイトル&セクションタイトル&タイトルh2タグ(モジュール詳細：〇〇)の自動和名置換</p>
 <p>     ・ページ数の自動変換 Page 1 of 1 → ページ 1/1</p>
+
+<h2>マニュアルを読み取ってもらえない場合、ファイルの末尾にある改行を削除することで読み取れる場合があります。</h2>
 
 
 
