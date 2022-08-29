@@ -12,6 +12,7 @@ bot = commands.Bot(command_prefix='!')
 
 @bot.command()
 async def GdbGSelect(ctx):
+  if(ctx.message.channel.id ==='1013711594804498462'):
    URLCommonStr="https://gdbg.tv/release/"
    year=random.randint(2009,2021)#2009~2021
    albumnum=year-2009
@@ -25,7 +26,10 @@ async def GdbGSelect(ctx):
    String=URLCommonStr+str(year)+"-"+str(discpos)+"-"+str(track)
 
 
-   await ctx.send("今回のおすすめはこの楽曲。\n"+String)
+   await ctx.send("今回のおすすめはこの楽曲。\nThis is the song We recommend to you!\n"+String)
+  else:
+   await ctx.send("このチャンネルではコマンドの使用が許可されていません。That command can use only #XXX channel.")
+
 
 token = getenv('DISCORD_BOT_TOKEN')
 bot.run(token)
