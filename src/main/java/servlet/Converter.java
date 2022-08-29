@@ -58,7 +58,7 @@ String Subtitle=request.getParameter("subtitle");
 //String filename=part.getSubmittedFileName();//ie対応が不要な場合
 //アップロードするフォルダ
 //実際にファイルが保存されるパス確認
-String insertName=originalName+" translated (日本語 — "+JAName+") "+Subtitle+"("+Creator+")";
+String insertName=originalName+" translated (日本語 — "+JAName+") "+Subtitle+" ("+Creator+")";
 String encodedname =URLEncoder.encode(insertName+".html","utf-8");
 encodedname = encodedname.replace("+", "%20");
 response.setHeader("Content-Disposition", "attachment;filename*=utf8''"+ encodedname);
