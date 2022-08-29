@@ -50,7 +50,10 @@ rd.forward(request, response);
 }else{
 String originalName=part.getSubmittedFileName().replace(".html", "");
 String Creator=request.getParameter("creator");
-String Subtitle=request.getParameter("subtitle")+" ";
+String Subtitle=request.getParameter("subtitle");
+if(Subtitle.length()!=0){
+Subtitle+=" ";
+}
 
 
 
