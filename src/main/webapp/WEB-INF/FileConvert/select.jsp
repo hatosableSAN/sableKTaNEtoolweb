@@ -8,6 +8,7 @@
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="./favicon.ico" >
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/cssfile.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title>日本語マニュアル変換ツール</title>
     </head>
     <body>
@@ -21,7 +22,12 @@
         %>
         <p>モジュール和名：<input type="text" name="name" required/><a style="color: red;"> *</a></p>
         <p>翻訳者：<input type="text" name="creator" required/><a style="color: red;"> *</a></p>
-        <p>差分名：<input type="text" name="subtitle"/> (インタラクティブ等オリジナルからさらに改変を行う場合、説明を記入)</p>
+
+        <input type="checkbox" id="manualcheck" name="checkbox" onclick="valueChange();" value="on"> 差分マニュアル作成時はここにチェック
+        <span id="interactive" style="visibility: hidden;">
+        <p>オリジナルマニュアル名(英語)：<input type="text" name="original"/><a style="color: red;"> *</a></p>
+        <p>差分名：<input type="text" name="subtitle"/><span style="font-size: small;">(インタラクティブ等オリジナルからさらに改変を行う場合、説明を記入)</span></p> 
+       </span>
         <input type="submit" class="btn btn--orange btn--cubic btn--shadow" value="変換！">
           </form>
       <h2>使い方</h2>
@@ -38,8 +44,7 @@
 <p>     ・ページ数の自動変換 Page 1 of 1 → ページ 1/1</p>
 
 <p>マニュアルを読み取ってもらえない場合、ファイルの末尾にある改行を削除することで読み取れる場合があります。</p>
-
-
-
     </body>
+    <script type="text/javascript" src="/js/interactive.js"></script>
+
   </html>

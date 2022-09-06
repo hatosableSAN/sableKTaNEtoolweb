@@ -51,17 +51,21 @@ rd.forward(request, response);
 String originalName=part.getSubmittedFileName().replace(".html", "");
 String Creator=request.getParameter("creator");
 String Subtitle=request.getParameter("subtitle");
-if(Subtitle.length()!=0){
-Subtitle+=" ";
-}
-
+String Original=request.getParameter("original");
+String Check=request.getParameter("checkbox");
 
 
 //ファイル名を取得
 //String filename=part.getSubmittedFileName();//ie対応が不要な場合
 //アップロードするフォルダ
 //実際にファイルが保存されるパス確認
-String insertName=originalName+" translated (日本語 — "+JAName+") "+Subtitle+"("+Creator+")";
+String insertName;
+System.out.println(Check);
+if(!(Check.equals("on"))){
+insertName=originalName+" translated (日本語 — "+JAName+") ("+Creator+")";
+}else{
+insertName=Original+" translated (日本語 — "+JAName+") "+Subtitle+" ("+Creator+")";
+}
 String encodedname =URLEncoder.encode(insertName+".html","utf-8");
 encodedname = encodedname.replace("+", "%20");
 response.setHeader("Content-Disposition", "attachment;filename*=utf8''"+ encodedname);
