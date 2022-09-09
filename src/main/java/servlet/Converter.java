@@ -61,7 +61,7 @@ String Check=request.getParameter("checkbox");
 //実際にファイルが保存されるパス確認
 String insertName;
 System.out.println(Check);
-if(!(Check.equals("on"))){
+if(!(Check==null)){
 insertName=originalName+" translated (日本語 — "+JAName+") ("+Creator+")";
 }else{
 insertName=Original+" translated (日本語 — "+JAName+") "+Subtitle+" ("+Creator+")";
