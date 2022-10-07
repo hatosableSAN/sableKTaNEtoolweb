@@ -87,6 +87,11 @@ if(text.contains("<html>")){
   	write(writer,text);
   }
 
+  else if(text.contains(" Keep Talking and Nobody Explodes Mod</title>")){
+  	text="    <title>"+JAName+" — Keep Talking and Nobody Explodes Mod</title>";//文字化け防止のため一応別枠処理
+  	write(writer,text);
+  }
+
   else if(text.contains("   <link rel=\"stylesheet\" type=\"text/css\" href=\"css/font.css\">")){
   	
   	String inserttext="    <link rel=\"stylesheet\" type=\"text/css\" href=\"css/font-japanese.css\">";//font-japanese追加
@@ -108,7 +113,11 @@ if(text.contains("<html>")){
   	text = text.replace("Page", "ページ");
   	text = text.replace(" of ", "/");
   	write(writer,text);
-  }else{
+  }
+  else if(text.contains("</html>")){//ファイルの終了
+   writer.write(text);
+  }
+  else{
   	write(writer,text);
   }
 }

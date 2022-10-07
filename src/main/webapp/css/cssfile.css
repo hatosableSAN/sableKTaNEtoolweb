@@ -1,6 +1,9 @@
 li{
  font-size: small;
 }
+body{
+ font-family: sans-serif;
+}
 button,input.btn--orange,.reset{
  color: #fff;
  font-size: 100%;
@@ -50,7 +53,6 @@ h1:before {
 p{
  
  font-size: large;
- font-weight:bold;
 }
 
 
