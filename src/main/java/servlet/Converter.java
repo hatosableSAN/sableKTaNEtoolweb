@@ -43,7 +43,8 @@ public class Converter extends HttpServlet {
 
 String JAName =request.getParameter("name");
 InputStream input=part.getInputStream();
-if(!(part.getSubmittedFileName().contains(".html"))){
+String FileName=part.getSubmittedFileName();
+if(!(FileName.contains(".html"))){
   request.setAttribute("nothtml","1");
   RequestDispatcher rd=request.getRequestDispatcher("/WEB-INF/FileConvert/fileError.jsp");
 rd.forward(request, response);
@@ -63,8 +64,11 @@ String insertName;
 System.out.println(Check);
 if(Check==null){//通常マニュアル
 insertName=originalName+" translated (日本語 — "+JAName+") ("+Creator+")";
-}else{
-insertName=Original+" translated (日本語 — "+JAName+") "+Subtitle+" ("+Creator+")";
+}else{//差分マニュアル
+int startindex=FileName.indexOf("(")+1;
+int endindex=FileName.indexOf(")");
+String OriginalAuthor=FileName.substring(startindex,endindex);
+insertName=Original+" translated (日本語 — "+JAName+") "+Subtitle+" ("+OriginalAuthor+", "+Creator+")";
 }
 String encodedname =URLEncoder.encode(insertName+".html","utf-8");
 encodedname = encodedname.replace("+", "%20");
@@ -82,12 +86,12 @@ if(text.contains("<html>")){
   	write(writer,text);
   }
 
-  else if(text.contains(" Keep Talking and Nobody Explodes Module</title>")){
+  else if(text.contains("Keep Talking and Nobody Explodes Module</title>")){
   	text="    <title>"+JAName+" — Keep Talking and Nobody Explodes Module</title>";//文字化け防止のため一応別枠処理
   	write(writer,text);
   }
 
-  else if(text.contains(" Keep Talking and Nobody Explodes Mod</title>")){
+  else if(text.contains("Keep Talking and Nobody Explodes Mod</title>")){
   	text="    <title>"+JAName+" — Keep Talking and Nobody Explodes Mod</title>";//文字化け防止のため一応別枠処理
   	write(writer,text);
   }
