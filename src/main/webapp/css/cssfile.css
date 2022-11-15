@@ -19,6 +19,22 @@ button:active,input.btn--orange:active,.reset:active{
  background: #f56500;
  border-style: none;
 }
+button,input.btn--green{
+ color: #fff;
+ font-size: 100%;
+ background-color: #00763b;
+ border-style: none;
+ padding: 5px;
+ border-bottom: 5px solid #00453b;
+ border-radius: 10%;
+ text-align: center;
+}
+button:active,input.btn--green:active{
+ font-size: 100%;
+ color: #fff;
+ background: #00763b;
+ border-style: none;
+}
 
 h1 {
  position: relative;
@@ -91,7 +107,7 @@ text-align: right;
 a.btn--yellow:active {
 
  color: #000;
- background: #fff20a;
+ background: #ccc100;
  border-bottom:none;
  transform: translate(0,2px);
 
@@ -104,16 +120,34 @@ text-align: center;
  width: 350px;
  height: 50px;
  background-color: #0004ff;
- border-bottom: 5px solid #06004193;
+ border-bottom: 5px solid #1d1379ee;
  padding: 10px,10x;
  text-decoration: none;
 }
 a.btn--blue:active {
 
- background: #0004ff;
+ background: #1d1379ee;
  border-bottom:none;
  transform: translate(0,2px);
 }
+
+a.btn--green {
+ text-align: center;
+  display: inline-block;
+  color: rgb(255, 255, 255);
+  width: 350px;
+  height: 50px;
+  background-color: #00763b;
+  border-bottom: 5px solid #00453b;
+  padding: 10px,10x;
+  text-decoration: none;
+ }
+ a.btn--green:active {
+ 
+  background: #00453b;
+  border-bottom:none;
+  transform: translate(0,2px);
+ }
 
 .serial ,input[type="email"] {
  border: 2px solid #eb6100;
@@ -231,6 +265,14 @@ div.sheet{
  padding-bottom: 0.5%;
  border-color: rgb(196, 196, 196);
  width:75%;
+}
+
+table{
+ background-color: #cdefff;  /* 背景色指定 */ 
+}
+
+th{
+ background-color: #ffffff;  /* 背景色指定 */ 
 }
 
 @media screen and (max-width: 1000px) {/* 1000px以下のとき */

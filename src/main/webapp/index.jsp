@@ -20,9 +20,13 @@
 <div class="topbutton">
 <a href="./ConvertMenu" class="btn btn--blue">Manual Converter</br>(日本語用マニュアル作成ツール)</a>
 </div>
+<div class="topbutton">
+ <a href="./ProfilesGet" class="btn btn--green">Profile's Stores</br>(プロファイル保管庫)</a>
+ </div>
 
 
  <h2>更新履歴</h2>
+ <li>2022/11/15 新ページ「マニュアル保管庫」を追加。ページのタイトルを修正
  <li>2022/10/20 Manual Converter:差分マニュアルのファイル名に原著者名を併記するように修正。
  <li>2022/10/07 Manual Converter:ファイルの末尾に改行が入る問題を修正。その他フォントを改良。
  <li>2022/09/06 Manual Converter:差分作成時に原文名を求めるように修正(オリジナルマニュアルとの整合性を図るため)

@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1">
-    <title>KTaNE Experting Sheet</title>
+    <title>KTaNE Experting Sheet -Hatosable's KTaNE Page-</title>
     <link rel="shortcut icon" href="./favicon.ico" >
   <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/cssfile.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
