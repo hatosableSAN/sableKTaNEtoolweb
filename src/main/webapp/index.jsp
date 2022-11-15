@@ -18,7 +18,7 @@
 <a href="./Expert" class="btn btn--yellow">Experting Sheet</br>(処理担当者ツール)</a>
 </div>
 <div class="topbutton">
-<a href="./ConvertMenu" class="btn btn--blue">Manual Converter</br>(日本語用マニュアル作成ツール)</a>
+<a href="./ConvertMenu" class="btn btn--blue">Manual Converter</br>(日本語用マニュアル変換ツール)</a>
 </div>
 <div class="topbutton">
  <a href="./ProfilesGet" class="btn btn--green">Profile's Stores</br>(プロファイル保管庫)</a>

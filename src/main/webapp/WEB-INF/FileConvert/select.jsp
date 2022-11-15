@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="./favicon.ico" >
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/cssfile.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <title>日本語マニュアル変換ツール</title>
+    <title>日本語マニュアル変換ツール　 -Hatosable's KTaNE Page-</title>
     </head>
     <body>
       <br/><a href="/index"><button type="button" class="reset" style="border-radius: 10px;padding:10px;font-size:100%;font:#fff;">BACK</button></a><br>

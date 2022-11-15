@@ -6,10 +6,10 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <title>日本語マニュアル変換ツール</title>
+    <title>日本語マニュアル変換ツール　-Hatosable's KTaNE Page-</title>
     </head>
     <body>
-      <h1>日本語マニュアル変換ツール(ベータ版)</h1>
+      <h1>日本語マニュアル変換ツール</h1>
           <p style="color: red;">拡張子が.htmlのファイルを読み込ませてください</p>
           <button class="btn btn--orange">
           <a href="./ConvertMenu" style="color: white;text-decoration: none;">戻る</a></button>
