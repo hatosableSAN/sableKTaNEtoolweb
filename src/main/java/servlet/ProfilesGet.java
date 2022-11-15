@@ -3,6 +3,7 @@ package servlet;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -42,16 +43,18 @@ public class ProfilesGet extends HttpServlet {
    FileName="Veryhard eraser(def)";
   }
   ServletContext context = this.getServletContext();
-  Path file = Paths.get(context.getRealPath("/WEB-INF/jsondata/"+FileName+".json"));
- List<String> text = Files.readAllLines(file);
+  FileReader fr = new FileReader(context.getRealPath("/WEB-INF/jsondata/"+FileName+".json"));
+  System.out.println(context.getRealPath("/WEB-INF/jsondata/"+FileName+".json"));
+  BufferedReader br = new BufferedReader(fr);
  String FileStr="";
- for(int i=0;i<text.size();i++){
-  FileStr=FileStr+text.get(i);
+ String str = br.readLine();
+ System.out.println(str);
+ while(str!=null){
+  FileStr=FileStr+str;
+  str=br.readLine();
  }
  response.setHeader("Content-Disposition", "attachment;filename*=utf8''"+ FileName+".json");
  PrintWriter writer = response.getWriter();
  writer.write(FileStr);
-		RequestDispatcher rd=request.getRequestDispatcher("/WEB-INF/ProfilesRepo/select.jsp");
-		rd.forward(request, response);
 	}
 }
