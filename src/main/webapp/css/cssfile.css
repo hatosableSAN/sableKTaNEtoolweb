@@ -131,7 +131,7 @@ a.btn--blue:active {
  transform: translate(0,2px);
 }
 
-a.btn--green {
+a.btn--green{
  text-align: center;
   display: inline-block;
   color: rgb(255, 255, 255);
