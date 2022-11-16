@@ -13,7 +13,7 @@
     </head>
     <body>
       <br/><a href="/index"><button type="button" class="reset" style="border-radius: 10px;padding:10px;font-size:100%;font:#fff;">BACK</button></a><br>
-      <h1>日本語マニュアル変換ツール</h1>
+      <h1>プロファイル保管庫</h1>
       <p>(ほぼ自分用ですが)遊ぶのに便利なプロファイルを配布します。必要に応じて設定を変更してください。</p>
       <p>今後も不定期更新予定。</p>
       <table>
