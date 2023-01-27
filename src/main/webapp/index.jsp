@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1">
-    <title>KTaNE Experting Sheet</title>
+    <title>トップページ -Hatosable's KTaNE Page-</title>
   <link rel="shortcut icon" href="./favicon.ico" >
   <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/cssfile.css">
 
@@ -23,8 +23,10 @@
 <div class="topbutton">
  <a href="./ProfilesGet" class="btn btn--green">Profile's Stores</br>(プロファイル保管庫)</a>
  </div>
-
-
+ <div class="topbutton">
+  <a href="./Calculator" class="btn btn--green">Profile's Stores</br>(プロファイル保管庫)</a>
+  </div>
+  <a href="./GetComplete" class="btn btn--green">ModuleComplete</br>(モジュールコンプリっとチェック)</a>
  <h2>更新履歴</h2>
  <li>2022/11/15 新ページ「マニュアル保管庫」を追加。ページのタイトルを修正
  <li>2022/10/20 Manual Converter:差分マニュアルのファイル名に原著者名を併記するように修正。

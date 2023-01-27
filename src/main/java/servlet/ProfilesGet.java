@@ -41,7 +41,9 @@ public class ProfilesGet extends HttpServlet {
    FileName="Veryhard eraser(exp)";
   }else if(FileId==3){
    FileName="Veryhard eraser(def)";
-  }
+  }else if(FileId==3){
+  FileName="Boss module only";
+ }
   ServletContext context = this.getServletContext();
   FileReader fr = new FileReader(context.getRealPath("/WEB-INF/jsondata/"+FileName+".json"));
   System.out.println(context.getRealPath("/WEB-INF/jsondata/"+FileName+".json"));
@@ -55,6 +57,6 @@ public class ProfilesGet extends HttpServlet {
  }
  response.setHeader("Content-Disposition", "attachment;filename*=utf8''"+ FileName+".json");
  PrintWriter writer = response.getWriter();
- writer.write(FileStr);
+ writer.write(FileStr);  
 	}
 }
