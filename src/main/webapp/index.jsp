@@ -26,8 +26,8 @@
  <div class="topbutton">
   <a href="./Calculator" class="btn btn--green">Profile's Stores</br>(プロファイル保管庫)</a>
   </div>
-  <a href="./GetComplete" class="btn btn--green">ModuleComplete</br>(モジュールコンプリっとチェック)</a>
  <h2>更新履歴</h2>
+ <li>2022/11/15 プロファイル保管庫に新規プロファイルを追加。細かい内容の修正。
  <li>2022/11/15 新ページ「マニュアル保管庫」を追加。ページのタイトルを修正
  <li>2022/10/20 Manual Converter:差分マニュアルのファイル名に原著者名を併記するように修正。
  <li>2022/10/07 Manual Converter:ファイルの末尾に改行が入る問題を修正。その他フォントを改良。
