@@ -41,7 +41,7 @@ public class ProfilesGet extends HttpServlet {
    FileName="Veryhard eraser(exp)";
   }else if(FileId==3){
    FileName="Veryhard eraser(def)";
-  }else if(FileId==3){
+  }else if(FileId==4){
   FileName="Boss module only";
  }
   ServletContext context = this.getServletContext();
