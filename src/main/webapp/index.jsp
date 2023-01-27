@@ -23,9 +23,6 @@
 <div class="topbutton">
  <a href="./ProfilesGet" class="btn btn--green">Profile's Stores</br>(プロファイル保管庫)</a>
  </div>
- <div class="topbutton">
-  <a href="./Calculator" class="btn btn--green">Profile's Stores</br>(プロファイル保管庫)</a>
-  </div>
  <h2>更新履歴</h2>
  <li>2023/01/27 プロファイル保管庫に新規プロファイルを追加。細かい内容の修正。
  <li>2022/11/15 新ページ「マニュアル保管庫」を追加。ページのタイトルを修正
