@@ -19,10 +19,13 @@
       <table>
        <tr><th>名前</th><th>説明</th><th colspan="2">Download</th></tr>
        <tr><td>Boss module eraser</td><td>全てのボスモジュール(準ボスを除く)を非表示にします。</td><td style="text-align: center;" colspan="2"><input type="hidden" value="1" form="1" name="id"></input><input type="submit" value="クリックして入手" form="1" class="btn--green"></input></td><td></td></tr>
-       <tr><td>Veryhard eraser</td><td>分析担当者(Expert)/処理担当者(Defuser)の難易度がVeryhardに設定されているモジュールを除外します。<br>両方有効化しておくと、かなりフリープレイが行いやすくなります。</td><td style="text-align: center;" ><input type="hidden" value="2" form="1" name="id"></input><input type="submit" value="Expert版" form="2" class="btn--green"></input></td><td style="text-align: center;" ><input type="hidden" value="3" form="1" name="id"></input><input type="submit" value="Defuser版" form="3" class="btn--green"></input></td></tr>
-       <tr><td>Boss module only</td><td>全てのボスモジュールのみを有効にします。</td><td style="text-align: center;" colspan="2"><input type="hidden" value="4" form="1" name="id"></input><input type="submit" value="クリックして入手" form="1" class="btn--green"></input></td><td></td></tr>
+       <tr><td>Veryhard eraser</td><td>分析担当者(Expert)/処理担当者(Defuser)の難易度がVeryhardに設定されているモジュールを除外します。<br>両方有効化しておくと、かなりフリープレイが行いやすくなります。</td><td style="text-align: center;" ><input type="hidden" value="2" form="2" name="id"></input><input type="submit" value="Expert版" form="2" class="btn--green"></input></td><td style="text-align: center;" ><input type="hidden" value="3" form="3" name="id"></input><input type="submit" value="Defuser版" form="3" class="btn--green"></input></td></tr>
+       <tr><td>Boss module only</td><td>全てのボスモジュールのみを表示します。</td><td style="text-align: center;" colspan="2"><input type="hidden" value="4" form="4" name="id"></input><input type="submit" value="クリックして入手" form="4" class="btn--green"></input></td><td></td></tr>
        </table>
        
       <form action="./ProfilesGet" method="post" id="1" enctype="multipart/form-data"></form>
+      <form action="./ProfilesGet" method="post" id="2" enctype="multipart/form-data"></form>
+      <form action="./ProfilesGet" method="post" id="3" enctype="multipart/form-data"></form>
+      <form action="./ProfilesGet" method="post" id="4" enctype="multipart/form-data"></form>
     </body>
   </html>
