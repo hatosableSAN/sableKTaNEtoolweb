@@ -86,6 +86,26 @@ text-align: center;
  text-decoration: none;
 }
 
+a.btn--red{
+ vertical-align: middle;
+text-align: center;
+ display: inline-block;
+ color: #fff;
+ width: 350px;
+ height: 50px;
+ vertical-align: middle;
+ background-color: #fa4141;
+ border-bottom: 5px solid #781414;
+ padding: 10px,px;
+ text-decoration: none;
+}
+a.btn--red:active {
+ background: #781414;
+ border-bottom:none;
+ transform: translate(0,2px);
+
+}
+
 div{
  font-size: large;
  font-weight:bold;
@@ -95,7 +115,15 @@ div{
 
 div.topbutton{
  text-align: center;
- margin-bottom: 10%;
+ margin: 5px;
+ margin-bottom: 1%;
+ 
+}
+div.rowed{
+ display:flex;
+ text-align: center;
+ margin: 0 auto;
+ justify-content: center;
 }
 
 footer{

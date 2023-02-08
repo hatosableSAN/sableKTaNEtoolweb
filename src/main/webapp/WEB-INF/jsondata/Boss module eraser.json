@@ -58,7 +58,10 @@
     "pointerPointerModule",
     "slightGibberishTwistModule",
     "PianoParadoxModule",
-    "Omission"
+    "Omission", 
+    "generator", 
+    "nobodysCodeModule", 
+    "inOrderModule"
   ],
   "Operation": 1
 }

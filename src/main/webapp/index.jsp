@@ -14,16 +14,24 @@
 
                 <h1>Hatosable's KTaNE Page</h1>
 <p>ようこそ！ここはHatosableによるKeep Talking and Nobody Explodes関連のツールを用意しております。</p>
-<div class="topbutton">
-<a href="./Expert" class="btn btn--yellow">Experting Sheet</br>(処理担当者ツール)</a>
+<div class="rowed">
+   <div class="topbutton">
+   <a href="./Expert" class="btn btn--yellow">Experting Sheet</br>(処理担当者ツール)</a>
+   </div>
+   <div class="topbutton">
+   <a href="./ConvertMenu" class="btn btn--blue">Manual Converter</br>(日本語用マニュアル変換ツール)</a>
+   </div>
 </div>
+<div class="rowed">
 <div class="topbutton">
-<a href="./ConvertMenu" class="btn btn--blue">Manual Converter</br>(日本語用マニュアル変換ツール)</a>
+     <a href="./ProfilesGet" class="btn btn--green">Profile's Stores</br>(プロファイル保管庫)</a>
+     </div>
+     <div class="topbutton">
+      <a href="./Calculator" class="btn btn--red">Base Calculator</br>(進数計算機)</a>
+  </div>
 </div>
-<div class="topbutton">
- <a href="./ProfilesGet" class="btn btn--green">Profile's Stores</br>(プロファイル保管庫)</a>
- </div>
  <h2>更新履歴</h2>
+ <li>2023/02/08 プロファイル保管庫の内容を更新。
  <li>2023/01/27 プロファイル保管庫に新規プロファイルを追加。細かい内容の修正。
  <li>2022/11/15 新ページ「マニュアル保管庫」を追加。ページのタイトルを修正
  <li>2022/10/20 Manual Converter:差分マニュアルのファイル名に原著者名を併記するように修正。

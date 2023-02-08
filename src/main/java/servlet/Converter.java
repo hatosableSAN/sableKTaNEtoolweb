@@ -2,28 +2,21 @@ package servlet;
 
 import java.io.BufferedReader;
 import java.io.EOFException;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.Writer;
 import java.net.URLEncoder;
-import java.nio.file.Paths;
+import java.text.Normalizer;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-
-import org.apache.tomcat.util.http.fileupload.FileUploadBase;
-import org.apache.tomcat.util.http.fileupload.FileUploadBase.IOFileUploadException;
 
 @WebServlet("/Converter")
 @MultipartConfig
@@ -70,9 +63,13 @@ int endindex=FileName.indexOf(")");
 String OriginalAuthor=FileName.substring(startindex,endindex);
 insertName=Original+" translated (日本語 — "+JAName+") "+Subtitle+" ("+OriginalAuthor+", "+Creator+")";
 }
+insertName = Normalizer.normalize(insertName, Normalizer.Form.NFC);
 String encodedname =URLEncoder.encode(insertName+".html","utf-8");
+System.out.println(encodedname);
 encodedname = encodedname.replace("+", "%20");
 response.setHeader("Content-Disposition", "attachment;filename*=utf8''"+ encodedname);
+System.out.println(response.getHeader("Content-Disposition"));
+
 
 BufferedReader br = new BufferedReader(new InputStreamReader(input,"UTF-8")) ;
 String text="<!DOCTYPE html>";//最初の文字列は固定

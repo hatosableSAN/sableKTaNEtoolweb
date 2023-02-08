@@ -78,7 +78,11 @@
     "ArithmeticCipherModule",
     "superpositionRB",
     "undertunneling",
-    "unfairsForgottenCiphers"
+    "unfairsForgottenCiphers", 
+    "TortureModule",
+    "RedHuffmanCipherModule",
+    "rgbArithmeticDecomposed",
+    "3x3YellowCipher"
   ],
   "Operation": 1
 }

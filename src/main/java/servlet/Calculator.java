@@ -14,11 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletContext;
 
 
-@WebServlet("/ProfilesGet")
+@WebServlet("/Calculator")
 @MultipartConfig
-public class ProfilesGet extends HttpServlet {
+public class Calculator extends HttpServlet {
  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-  RequestDispatcher rd=request.getRequestDispatcher("/WEB-INF/ProfilesRepo/select.jsp");
+  RequestDispatcher rd=request.getRequestDispatcher("/WEB-INF/Calculator/SheetTop.jsp");
 		rd.forward(request, response);
  }
 
@@ -33,9 +33,7 @@ public class ProfilesGet extends HttpServlet {
    FileName="Veryhard eraser(exp)";
   }else if(FileId==3){
    FileName="Veryhard eraser(def)";
-  }else if(FileId==4){
-  FileName="Boss module only";
- }
+  }
   ServletContext context = this.getServletContext();
   FileReader fr = new FileReader(context.getRealPath("/WEB-INF/jsondata/"+FileName+".json"));
   System.out.println(context.getRealPath("/WEB-INF/jsondata/"+FileName+".json"));
@@ -49,6 +47,6 @@ public class ProfilesGet extends HttpServlet {
  }
  response.setHeader("Content-Disposition", "attachment;filename*=utf8''"+ FileName+".json");
  PrintWriter writer = response.getWriter();
- writer.write(FileStr);  
+ writer.write(FileStr);
 	}
 }

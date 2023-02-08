@@ -15,7 +15,7 @@
       <br/><a href="/index"><button type="button" class="reset" style="border-radius: 10px;padding:10px;font-size:100%;font:#fff;">BACK</button></a><br>
       <h1>プロファイル保管庫</h1>
       <p>(ほぼ自分用ですが)遊ぶのに便利なプロファイルを配布します。必要に応じて設定を変更してください。</p>
-      <p>今後も不定期更新予定。</p>
+      <p>毎月月末に最新版に更新されます。</p>
       <table>
        <tr><th>名前</th><th>説明</th><th colspan="2">Download</th></tr>
        <tr><td>Boss module eraser</td><td>全てのボスモジュール(準ボスを除く)を非表示にします。</td><td style="text-align: center;" colspan="2"><input type="hidden" value="1" form="1" name="id"></input><input type="submit" value="クリックして入手" form="1" class="btn--green"></input></td><td></td></tr>
