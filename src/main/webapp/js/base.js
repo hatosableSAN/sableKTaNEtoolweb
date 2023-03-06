@@ -9,6 +9,9 @@ searchWord = function(){
       if(inputbase=="52"){
        offset=0;
       }
+      if(Number(inputbase)<=36){
+       inputbase=inputbase.toUpperCase();
+      }
       
       base_d = makedigitstr(input,offset,base_d);//各桁に分解
       
