@@ -10,7 +10,7 @@ searchWord = function(){
        offset=0;
       }
       if(Number(inputbase)<=36){
-       inputbase=inputbase.toUpperCase();
+       input=input.toUpperCase();
       }
       
       base_d = makedigitstr(input,offset,base_d);//各桁に分解
