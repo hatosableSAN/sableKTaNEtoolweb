@@ -4,12 +4,9 @@ searchWord = function(){
       input = document.getElementById('inputnumber').value;
       inputbase = document.getElementById('inputbase').value;
       inputN= document.getElementById('inputN').value;
-      if(inputN==""){
-       inputN=6;//default
-      }
 
       offset=10;
-      if(inputN=="52"){
+      if(inputbase=="52"){
        offset=0;
       }
       
@@ -50,7 +47,7 @@ searchWord = function(){
       }       
       if(inputbase==1){//ﾌｧｱｱｱｱｱ
        
-       return input.length;
+       return base_d.length;
       }
       else{
       if(base_d[i]<basenum){//0~base-1以外の数字が入力されているか確認
@@ -83,9 +80,9 @@ searchWord = function(){
     result=result+'...';
    }
    if(basenum==0){
-    result='この文字は変換できません！'
+    return result='変換先の進数値が空欄です。'
    }
-   while(decinum / basenum!=0&&i<10) {
+   while(decinum / basenum!=0&&i<50) {
     modlist.unshift(decinum % basenum);
     decinum=Math.floor(decinum/basenum);
     i++;
@@ -94,7 +91,7 @@ searchWord = function(){
    for (var i = 0; i < modlist.length; ++i) {
     var thisdigit=modlist[i];
     if(thisdigit>=offset){//その桁は英字や記号ですか？
-     thisdigit=Letters[thisdigit-offset];//A=10,B=11....
+     thisdigit=Letters[thisdigit-offset];//A=10,B=11...
     }
     result=result+thisdigit;
   }
@@ -115,6 +112,7 @@ makedigitstr = function(numstr,offset,baselist){
   Letterexp =  new RegExp('[A-Za-z]');
    for (var i = 0; i < numstr.length; ++i) {
     var thisdigit=numstr.charAt(i);
+    console.log("thisdigit:"+thisdigit);
     
     if(Letterexp.test(thisdigit)||thisdigit=='+'||thisdigit=='/'){//その桁は英字や記号ですか？
      console.log("thisis letter");
