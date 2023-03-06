@@ -53,7 +53,7 @@ searchWord = function(){
       if(base_d[i]<basenum){//0~base-1以外の数字が入力されているか確認
        console.log("mimam");
       result=result+Number(base_d[i])*multiplier;
-      multiplier=multiplier*basenum;//乗数を2条
+      multiplier=multiplier*basenum;//乗数を2乗
       }else{
        console.log("over");
        return NaN;
