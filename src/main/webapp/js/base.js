@@ -34,6 +34,8 @@ searchWord = function(){
       
      
 }
+
+
   convertdeci = function(base_d,basenum){
       var result=0;
       var multiplier=1;
@@ -82,8 +84,12 @@ searchWord = function(){
     }
     result=result+'...';
    }
-   if(basenum==0){
-    return result='変換先の進数値が空欄です。'
+   if(basenum==-3){
+     return result=convertbalanced(decinum);
+   }
+   else if(basenum<1||basenum
+    =="-"){
+    return result='変換先の進数値が不正な値です。'
    }
    while(decinum / basenum!=0&&i<50) {
     modlist.unshift(decinum % basenum);
@@ -102,7 +108,20 @@ searchWord = function(){
 
   return result;
  }
-
+ convertbalanced= function(input){
+  var digit;
+  var result="";
+  do{
+   console.log(input);
+   digit=input%3;
+   input=Math.floor(input/3);
+   if(digit==0){result="0"+result;};
+   if(digit==1){result="+"+result;};
+   if(digit==2){result="-"+result;digit++;}
+  }while(input/3!=0);
+  
+  return result;
+ }
 
  // $('.search-result__list').empty();
  // $('.search-result__hit-num').empty();
