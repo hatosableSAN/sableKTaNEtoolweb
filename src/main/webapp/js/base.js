@@ -12,6 +12,7 @@ searchWord = function(){
       if(Number(inputbase)<=36){
        input=input.toUpperCase();
       }
+
       
       base_d = makedigitstr(input,offset,base_d);//各桁に分解
       
@@ -31,7 +32,9 @@ searchWord = function(){
        document.getElementById( "base36" ).value =  'この文字は変換できません。';
        document.getElementById( "baseother" ).value =  'この文字は変換できません。';
       }
-      
+      if(Number(input)<0&&Number(inputN)==-3){
+       document.getElementById( "baseother" ).value = convertbalanced(Number(input),true);
+      }  
      
 }
 
@@ -108,15 +111,24 @@ searchWord = function(){
 
   return result;
  }
- convertbalanced= function(input){
+ convertbalanced= function(input,minus){
+  if(minus==true){
+   input=input*(-1);
+   var p="-";
+   var m="+";   
+  }else{
+   var p="+";
+   var m="-";
+  }
+  
   var digit;
   var result="";
   do{
    digit=input%3;
-   if(digit==2){result="-"+result;input++;}
+   if(digit==2){result=m+result;input++;}
    input=Math.floor(input/3);
    if(digit==0){result="0"+result;};
-   if(digit==1){result="+"+result;};
+   if(digit==1){result=p+result;};
   }while(input/3!=0);
   
   return result;
