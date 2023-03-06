@@ -112,12 +112,11 @@ searchWord = function(){
   var digit;
   var result="";
   do{
-   console.log(input);
    digit=input%3;
+   if(digit==2){result="-"+result;input++;}
    input=Math.floor(input/3);
    if(digit==0){result="0"+result;};
    if(digit==1){result="+"+result;};
-   if(digit==2){result="-"+result;digit++;}
   }while(input/3!=0);
   
   return result;
