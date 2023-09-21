@@ -23,15 +23,12 @@
    </div>
 </div>
 <div class="rowed">
-<div class="topbutton">
-     <a href="./Glossary" class="btn btn--green">Profile's Stores</br>(プロファイル保管庫)</a>
-     </div>
      <div class="topbutton">
       <a href="./Calculator" class="btn btn--red">Base Calculator</br>(進数計算機)</a>
   </div>
 </div>
  <h2>更新履歴</h2>
- <li>2023/09/21 更新が大変なため、プロファイル保管庫を一旦凍結。用語集を追加。
+ <li>2023/09/21 更新が大変なため、プロファイル保管庫を一旦凍結。Experting Sheetのデザインを改善。
  <li>2023/03/10 進数計算機:64進数および52進数が正常に計算出来なかった不具合を修正。<span style="color: #FFF; font-size: 2px;">+隠し機能を追加。Nに-3進数を指定すると…？</span>
  <li>2023/02/08 進数計算機を追加。プロファイル保管庫の内容を更新。
  <li>2023/01/27 プロファイル保管庫に新規プロファイルを追加。細かい内容の修正。
