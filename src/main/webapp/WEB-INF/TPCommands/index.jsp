@@ -33,16 +33,15 @@
       <table class="command">
        <tr><th>概要</th><th>コマンド</th><th>説明</th></tr>
        <tr><td>ヘルプ</td><td>!help</td><td>TPの説明を表示する。</td></tr>
+       <tr><td>ログ取得</td><td>!log</td><td>直前の爆弾のログを取得する。</td></tr>
+       <tr><td>順位確認</td><td>!rank (順位/ユーザー)</td><td>特定のユーザーの順位やその順位のユーザーを確認する。引数無しの場合、自分の順位を確認する。</td></tr>
+       <tr><td>ゲームを開始する</td><td>!run<br>!run [vanilla/light/mixed/heavy/mods] [モジュール数]<br>!run [モジュール数] [vanilla/light/mixed/heavy/mods] [GoodチームのHP] [EvilチームのHP]<br>!run [ミッション名]<br></td><td>モジュール数を指定してゲームを開始する。<br>MODモジュールの割合を第2引数で指定する(mixedlightのように連結させた語句も可能)。引数無しでヘルプを表示する。</td></tr>
        <tr><td>モード変更</td><td>!timemode [on/off]<br>!vsmode [on/off]<br>!zenmode [on/off]<br>!trainingmode [on/off]</td><td>ゲームモードを有効/無効化する。<br>training modeはzen modeの仕様に加え、ミスが記録されてもカウントダウンタイマーの速度が上昇しない。</td></tr>
        <tr><td>VSモードに参加</td><td>!join (good/evil)</td><td>VSモードのチームに参加する。引数で参加チームを指定できる。</td></tr>
        <tr><td>VSモードの解散</td><td>!clearvsplayers</td><td>VSモードの参加者情報を削除する。管理者のみ可能。</td></tr>
        <tr><td>VSモード参加者表示</td><td>!players</td><td>各チームの参加者を確認する。</td></tr>
-       <tr><td>順位確認</td><td>!rank (順位/ユーザー)</td><td>特定のユーザーの順位やその順位のユーザーを確認する。引数無しの場合、自分の順位を確認する。</td></tr>
        <tr><td>ソロランク確認</td><td>!rank solo [順位/ユーザー]</td><td>特定のユーザーのソロランクやそのソロランクのユーザーを確認する。</td></tr>
-       <tr><td>ログ取得</td><td>!log</td><td>直前の爆弾のログを取得する。</td></tr>
-       <tr><td>URL短縮</td><td>!shorturl</td><td>URLの短縮設定を切り替える。</td></tr>
        <tr><td>起動日確認</td><td>!builddate</td><td>TPが起動した日時を確認する。</td></tr>
-       <tr><td>ゲームを開始する</td><td>!run<br>!run [vanilla/light/mixed/heavy/mods] [モジュール数]<br>!run [モジュール数] [vanilla/light/mixed/heavy/mods] [GoodチームのHP] [EvilチームのHP]<br>!run [ミッション名]<br></td><td>モジュール数を指定してゲームを開始する。<br>MODモジュールの割合を第2引数で指定する(mixedlightのように連結させた語句も可能)。引数無しでヘルプを表示する。</td></tr>
        <tr><td>プロファイルの設定</td><td>!profile enable [プロファイル名]<br>!profile disable [プロファイル名]<br>!profile enabled<br>!profile list</td><td>プロファイルを有効/無効化する。<br>enabledオプションで有効なプロファイルを表示したり、listオプションで利用可能なプロファイルを表示できる。</td></tr>
        <tr><td>モジュール情報の呼び出し</td><td>!readmodule [情報名] [モジュール]</td><td>モジュールの情報を呼び出す。</td></tr>
        <tr><td>プロファイルの編集</td><td>!profile add [モジュール名/モジュールID] [プロファイル名]<br>!profile remove [モジュール名/モジュールID] [プロファイル名]<br>!profile enabled<br>!profile list</td><td>プロファイルにモジュールを追加したり削除したりする。<br>引数にスペースが含まれる場合、""で囲む。プロファイル名は部分一致が可能。</td></tr>

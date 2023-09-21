@@ -12,13 +12,68 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+<style>
+  @font-face {
+	font-family: 'ind';
+	src: url(<%=request.getContextPath() %>/font/OstrichSans-Black.otf);
+}
+  div { display: inline-flex;}
+  .serialdiv{
+   display: inline-flex;
+   flex-direction: column;
+   align-items: flex-end;
+  }
+  .serialset{
+
+   margin-left: 10px;
+   margin-right: 10px;
+  }
+  .indicator{
+
+   color: #fff;
+   background-color: rgb(86, 2, 2);
+   padding: 5px;
+   font-family: "ind";
+  }
+  .lightlit, .lightunlit {
+    width: 1.5em;
+    height: 1.5em;
+    background-color: #92b2d0;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 2px solid #848484;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+/*チェックボックスクリック時に色を設定*/
+.lightlit:checked {
+    background-color: #ffffff;
+}
+.lightunlit:checked {
+    background-color: #292929;
+}
+#portplate-contents {
+    display: block;
+}
+ </style>
+   
+
 <body>
   <br/><a href="/index"><button type="button" class="reset" style="border-radius: 10px;padding:10px;font-size:100%;font:#fff;">BACK</button></a><br>
                 <h1>KTaNE Experting Sheet</h1>
-<div class="sheet">
+<div class="sheet" style="display: block;">
 <form name="sheet" >
 <p>
-SERIAL：<input type="text" class="serial" name="name" pattern="^[A-Z0-9]{5}[0-9]"  placeholder="XXXXXX" maxlength="6">   <button type="button" class="reset">RESET</button><br/><br/>
+<div class="serialset">
+ <div class="serialdiv" style="height: 130%;">
+  <span style="color: #fff;font-size:14px;background-color:rgb(115, 3, 3);width: 168px;text-align: center;">SERIAL</span>
+<input type="text" class="serial" name="name" pattern="^[A-Z0-9]{5}[0-9]"  placeholder="XXXXXX" maxlength="6">
+</div>
+<button type="button" class="reset" style="margin-top: auto;">RESET</button>
+</div>
+
 <div id='open' onclick="OpenModal();">
  メモを開く
 </div>
@@ -53,48 +108,53 @@ HOLDER:<input type="number" name="number" value="0" min="0" size="2">
 <h2>INDICATORS</h2>
 <p>
 LIT:
-<input type="checkbox">BOB
-<input type="checkbox">CAR
-<input type="checkbox">CLR
-<input type="checkbox">FRK
-<input type="checkbox">FRQ
-<input type="checkbox">IND
-<input type="checkbox">MSA
-<input type="checkbox">NSA
-<input type="checkbox">SIG
-<input type="checkbox">SND
-<input type="checkbox">TRN  
+<div class="indicator"><input type="checkbox" class="lightlit">BOB</div>
+<div class="indicator"><input type="checkbox" class="lightlit">CAR</div>
+<div class="indicator"><input type="checkbox" class="lightlit">CLR</div>
+<div class="indicator"><input type="checkbox" class="lightlit">FRK</div>
+<div class="indicator"><input type="checkbox" class="lightlit">FRQ</div>
+<div class="indicator"><input type="checkbox" class="lightlit">IND</div>
+<div class="indicator"><input type="checkbox" class="lightlit">MSA</div>
+<div class="indicator"><input type="checkbox" class="lightlit">NSA</div>
+<div class="indicator"><input type="checkbox" class="lightlit">SIG</div>
+<div class="indicator"><input type="checkbox" class="lightlit">SND</div>
+<div class="indicator"><input type="checkbox" class="lightlit">TRN</div>
+<div class="indicator"><input type="checkbox" class="lightlit">NLL </div> 
 </p>
 <p>
 UNLIT:
-<input type="checkbox">BOB
-<input type="checkbox">CAR
-<input type="checkbox">CLR
-<input type="checkbox">FRK
-<input type="checkbox">FRQ
-<input type="checkbox">IND
-<input type="checkbox">MSA
-<input type="checkbox">NSA
-<input type="checkbox">SIG
-<input type="checkbox">SND
-<input type="checkbox">TRN  
+<div class="indicator"><input type="checkbox" class="lightunlit">BOB</div>
+<div class="indicator"><input type="checkbox" class="lightunlit">CAR</div>
+<div class="indicator"><input type="checkbox" class="lightunlit">CLR</div>
+<div class="indicator"><input type="checkbox" class="lightunlit">FRK</div>
+<div class="indicator"><input type="checkbox" class="lightunlit">FRQ</div>
+<div class="indicator"><input type="checkbox" class="lightunlit">IND</div>
+<div class="indicator"><input type="checkbox" class="lightunlit">MSA</div>
+<div class="indicator"><input type="checkbox" class="lightunlit">NSA</div>
+<div class="indicator"><input type="checkbox" class="lightunlit">SIG</div>
+<div class="indicator"><input type="checkbox" class="lightunlit">SND</div>
+<div class="indicator"><input type="checkbox" class="lightunlit">TRN</div>
+<div class="indicator"><input type="checkbox" class="lightunlit">NLL</div> 
 </p>
 
     <h2>PORTS</h2>
 
     <div id="portbox">
     <div id="portplate-contents" class="original">
-      <input type="checkbox" name="port">DVI-D
-      <input type="checkbox" name="port">Stereo RCA
-      <input type="checkbox" name="port">PS/2
-      <input type="checkbox" name="port">RJ-45
-      <input type="checkbox" name="port">Serial
-      <input type="checkbox"name="port">Parallel
-       <input type="checkbox" name="port">NO Ports
+     <div class="port"><input type="checkbox" name="port">DVI-D</div>
+     <div class="port"><input type="checkbox" name="port">Stereo RCA</div>
+     <div class="port"><input type="checkbox" name="port">PS/2</div>
+     <div class="port"><input type="checkbox" name="port">RJ-45</div>
+     <div class="port"><input type="checkbox" name="port">Serial</div>
+     <div class="port"><input type="checkbox"name="port">Parallel</div>
+     <div class="port"><input type="checkbox" name="port">NO Ports</div>
+     <div class="port"><input type="text" name="port" placeholder="MOD Port" style="width: 75%;"></div>
+     <div>
            <span id="port-button">
            <input type="button" value="＋" class="add pluralBtn">
            <input type="button" value="－" class="del pluralBtn">
-           </span>      
+           </span> 
+     </div>     
            </div>
       </div>
 </div>
