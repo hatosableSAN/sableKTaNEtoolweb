@@ -33,3 +33,35 @@ clone=0;
         document.sheet.reset();
         $('.cloned').remove();
       });
+
+      function noportplate() {
+       if (document.getElementById('portvisible').checked){
+        // btn_1を非表示
+        document.getElementById('portbox').style.visibility = 'hidden'
+      }else{
+        // btn_1を表示
+        document.getElementById('portbox').style.visibility = 'visible'
+      }
+    }
+
+    function nolitindicator() {
+     if (document.getElementById('litindvisible').checked){
+      // btn_1を非表示
+      document.getElementById('lit').style.visibility = 'hidden'
+    }else{
+      // btn_1を表示
+      document.getElementById('lit').style.visibility = 'visible'
+    }
+  }
+  function nounlitindicator() {
+   if (document.getElementById('unlitindvisible').checked){
+    // btn_1を非表示
+    document.getElementById('unlit').style.visibility = 'hidden'
+  }else{
+    // btn_1を表示
+    document.getElementById('unlit').style.visibility = 'visible'
+  }
+}
+      
+     
+       

@@ -17,7 +17,7 @@
 	font-family: 'ind';
 	src: url(<%=request.getContextPath() %>/font/OstrichSans-Black.otf);
 }
-  div { display: inline-flex;}
+  div { display: inline-block;}
   .serialdiv{
    display: inline-flex;
    flex-direction: column;
@@ -56,6 +56,9 @@
 }
 #portplate-contents {
     display: block;
+}
+#lit, #unlit{
+ margin: 10px;
 }
  </style>
    
@@ -106,7 +109,9 @@ HOLDER:<input type="number" name="number" value="0" min="0" size="2">
 </p>
  
 <h2>INDICATORS</h2>
-<p>
+<p><input type="checkbox" id="litindvisible" onclick="nolitindicator();">No LIT indicators</p>
+<p><input type="checkbox" id="unlitindvisible" onclick="nounlitindicator();">No UNLIT indicators</p>
+<div id="lit">
 LIT:
 <div class="indicator"><input type="checkbox" class="lightlit">BOB</div>
 <div class="indicator"><input type="checkbox" class="lightlit">CAR</div>
@@ -120,8 +125,8 @@ LIT:
 <div class="indicator"><input type="checkbox" class="lightlit">SND</div>
 <div class="indicator"><input type="checkbox" class="lightlit">TRN</div>
 <div class="indicator"><input type="checkbox" class="lightlit">NLL </div> 
-</p>
-<p>
+</div>
+<div id="unlit">
 UNLIT:
 <div class="indicator"><input type="checkbox" class="lightunlit">BOB</div>
 <div class="indicator"><input type="checkbox" class="lightunlit">CAR</div>
@@ -135,10 +140,10 @@ UNLIT:
 <div class="indicator"><input type="checkbox" class="lightunlit">SND</div>
 <div class="indicator"><input type="checkbox" class="lightunlit">TRN</div>
 <div class="indicator"><input type="checkbox" class="lightunlit">NLL</div> 
-</p>
+</div>
 
     <h2>PORTS</h2>
-
+    <p class="port"><input type="checkbox" id="portvisible" onclick="noportplate();">No Portplates</p>
     <div id="portbox">
     <div id="portplate-contents" class="original">
      <div class="port"><input type="checkbox" name="port">DVI-D</div>
@@ -147,10 +152,10 @@ UNLIT:
      <div class="port"><input type="checkbox" name="port">RJ-45</div>
      <div class="port"><input type="checkbox" name="port">Serial</div>
      <div class="port"><input type="checkbox"name="port">Parallel</div>
-     <div class="port"><input type="checkbox" name="port">NO Ports</div>
+     <div class="port"><input type="checkbox" name="port">Empty</div>
      <div class="port"><input type="text" name="port" placeholder="MOD Port" style="width: 75%;"></div>
-     <div>
-           <span id="port-button">
+     <div id="port-button">
+           <span>
            <input type="button" value="＋" class="add pluralBtn">
            <input type="button" value="－" class="del pluralBtn">
            </span> 
