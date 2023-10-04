@@ -72,7 +72,7 @@
 <div class="serialset">
  <div class="serialdiv" style="height: 130%;">
   <span style="color: #fff;font-size:14px;background-color:rgb(115, 3, 3);width: 168px;text-align: center;">SERIAL</span>
-<input type="text" class="serial" name="name" pattern="^[A-Z0-9]{5}[0-9]"  placeholder="XXXXXX" maxlength="6">
+<input type="text" class="serial" name="name" placeholder="XXXXXX" maxlength="6" oninput="value = value.toUpperCase();">
 </div>
 <button type="button" class="reset" style="margin-top: auto;">RESET</button>
 </div>
@@ -165,18 +165,9 @@ UNLIT:
 </div>
 </form>
 </body>
-
-
   <script type="text/javascript" src="/js/addportplate.js"></script>
   <script type="text/javascript" src="/js/modal.js"></script>
   <script type="text/javascript" src="/js/reset.js"></script>
-
-
-
-
-
-
-
 </html>
 
 

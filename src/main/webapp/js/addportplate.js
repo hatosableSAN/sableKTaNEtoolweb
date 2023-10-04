@@ -16,22 +16,32 @@ clone=0;
 
   
 });
-    $(document).on("click", ".del", function() {
-     var targetname=".clone"+String(clone);
-     console.log(targetname);
-        var target = $(targetname);
 
-            target.remove();
-     if(clone>0){
-      clone=clone-1;
-     }
-      
+function deleteport() {
+ var targetname=".clone"+String(clone);
+ console.log(targetname);
+    var target = $(targetname);
+
+        target.remove();
+ if(clone>0){
+  clone=clone-1;
+ }
+}
+    $(document).on("click", ".del", function() {
+     deleteport();     
     });
+
 
 
       $(document).on("click", ".reset", function(){
         document.sheet.reset();
-        $('.cloned').remove();
+        while(clone>0){
+         deleteport();
+        }
+        document.getElementById('portbox').style.visibility = 'visible';
+        document.getElementById('lit').style.visibility = 'visible';
+        document.getElementById('unlit').style.visibility = 'visible';
+
       });
 
       function noportplate() {
