@@ -112,7 +112,7 @@ HOLDER:<input type="number" name="number" value="0" min="0" size="2">
 <p><input type="checkbox" id="litindvisible" onclick="nolitindicator();">No LIT indicators</p>
 <p><input type="checkbox" id="unlitindvisible" onclick="nounlitindicator();">No UNLIT indicators</p>
 <div id="lit">
-LIT:
+ <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIT:</span>
 <div class="indicator"><input type="checkbox" class="lightlit">BOB</div>
 <div class="indicator"><input type="checkbox" class="lightlit">CAR</div>
 <div class="indicator"><input type="checkbox" class="lightlit">CLR</div>
