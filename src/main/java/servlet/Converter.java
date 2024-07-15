@@ -128,7 +128,7 @@ if(text.contains("<html>")){
   	text = text.replace("Page", "ページ");
   	write(writer,text);
   }
-   else if(text.contains("        .page-footer::after { content: \" of 1\"; }")){//ページ数 Ver2
+   else if(text.contains("        .page-footer::after { content: \" of ")){//ページ数 Ver2
   	text = text.replace(" of ", "/");
   	write(writer,text);
   }
