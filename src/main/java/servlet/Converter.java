@@ -124,6 +124,14 @@ if(text.contains("<html>")){
   	text = text.replace(" of ", "/");
   	write(writer,text);
   }
+    else if(text.contains("        .page-footer::before { content: \"Page \"; }")){//ページ数 Ver2
+  	text = text.replace("Page", "ページ");
+  	write(writer,text);
+  }
+   else if(text.contains("        .page-footer::after { content: \" of 1\"; }")){//ページ数 Ver2
+  	text = text.replace(" of ", "/");
+  	write(writer,text);
+  }
   else if(text.contains("</html>")){//ファイルの終了
    writer.write(text);
   }
