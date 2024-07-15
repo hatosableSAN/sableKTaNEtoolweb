@@ -14,10 +14,9 @@ button,input.btn--orange,.reset{
  border-radius: 10%;
 }
 button:active,input.btn--orange:active,.reset:active{
- font-size: 100%;
- color: #fff;
  background: #f56500;
  border-style: none;
+ transform: translate(0,2px);
 }
 button,input.btn--green{
  color: #fff;
