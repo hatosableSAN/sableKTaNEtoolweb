@@ -1,0 +1,64 @@
+* {
+ box-sizing: border-box;
+}
+
+// 2.の場合、summaryの「▼」をリセット
+summary {
+ list-style: none;
+ &::-webkit-details-marker {
+   display: none;
+ }
+}
+
+.Accordion {
+ margin: 20px;
+ border: 2px solid #ccf;
+}
+
+.Accordion__Summary {
+ cursor: pointer;
+ width: 100%;
+ font-size: 18px;
+ position: relative;
+ padding: 20px;
+ background-color: #ccf;
+ color: #33c;
+ text-align: left;
+ 
+ // 「＋」「－」の装飾
+ &::before,
+ &::after {
+   position: absolute;
+   top: 50%;
+   display: block;
+   width: 16px;
+   height: 2px;
+   content: "";
+   background-color: currentColor;
+   right: 30px;
+ }
+ &::before {
+   transform: translateY(-50%);
+ }
+ &::after {
+   transition: transform 0.5s;
+   transform: translateY(-50%) rotate(-90deg);
+ }
+ // 1. の場合
+ &[aria-expanded="true"]::after {
+   transform: translateY(-50%);
+ }
+ // 2. の場合
+ .Accordion[open]:not([data-accordion-before-close]) &::after {
+   transform: translateY(-50%);
+ }
+}
+
+
+.Accordion__Content {
+ overflow: hidden;
+ 
+ > p {
+   padding: 20px;
+ }
+}
