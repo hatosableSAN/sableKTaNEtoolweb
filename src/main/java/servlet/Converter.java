@@ -81,7 +81,7 @@ while ((text = br.readLine()) != null) {
 if(text.contains("<meta property=\"")){//メタデータは除外
   	continue;
   }
-if(text.contains("<html lang=\"en\">")){
+if(text.contains("<html lang=\"en\">") || text.contains("<html>")){
   	text="<html lang=\"ja\">";//ja入りに置き換え
   	write(writer,text);
   }
