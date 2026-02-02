@@ -1,0 +1,7 @@
+target
+.git
+.gitignore
+/.mvn
+**/node_modules
+**/dist
+**/build

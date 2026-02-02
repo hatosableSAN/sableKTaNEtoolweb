@@ -29,3 +29,26 @@ mvn package
 からの
 
 sh target/bin/webapp
+
+-- または Spring Boot で起動 --
+
+mvn spring-boot:run
+
+もしくは
+
+mvn package
+java -jar target/embeddedTomcatSample-1.0-SNAPSHOT.jar
+
+（Heroku 環境変数 `PORT` を参照します）
+
+-- Docker (local) --
+
+# Build
+docker build -t embeddedtomcatsample:latest .
+
+# Run
+docker run -p 8080:8080 -e PORT=8080 embeddedtomcatsample:latest
+
+-- CI --
+
+A basic GitHub Actions workflow has been added at `.github/workflows/ci.yml` to build the project and (optionally) build a Docker image.

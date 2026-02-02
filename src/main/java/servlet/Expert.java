@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/Expert")
+// @WebServlet("/Expert")  // disabled: replaced by Spring controller
 @MultipartConfig
 public class Expert extends HttpServlet {
 

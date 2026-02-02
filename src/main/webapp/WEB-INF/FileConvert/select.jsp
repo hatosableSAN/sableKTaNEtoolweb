@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
  pageEncoding="UTF-8"%>
- <% String nothtml=(String)request.getAttribute("nothtml"); %>
+<% response.sendRedirect(request.getContextPath() + "/fileconvert/select"); return; %>
+<%-- Redirected to Spring Boot Thymeleaf UI for FileConvert (backups deleted) --%>
 
 <!DOCTYPE html>
 <html lang="ja">

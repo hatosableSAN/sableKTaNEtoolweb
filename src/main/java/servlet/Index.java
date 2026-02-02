@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/index")
+// @WebServlet("/index")  // disabled: replaced by Spring controller
 // HttpServletを継承することで、このクラスはServletとして、働くことができる
 public class Index extends HttpServlet {
 

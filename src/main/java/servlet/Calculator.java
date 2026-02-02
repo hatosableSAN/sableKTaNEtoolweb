@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletContext;
 
 
-@WebServlet("/Calculator")
+// @WebServlet("/Calculator")  // disabled: replaced by Spring controller
 @MultipartConfig
 public class Calculator extends HttpServlet {
  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

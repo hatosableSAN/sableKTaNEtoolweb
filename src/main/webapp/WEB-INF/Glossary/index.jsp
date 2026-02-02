@@ -1,15 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
  pageEncoding="UTF-8"%>
 
+<%-- Removed: Glossary page was removed; backups deleted --%>
 <!DOCTYPE html>
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <link rel="shortcut icon" href="./favicon.ico" >
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/cssfile.css">
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/accordion.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <title>用語集 -Hatosable's KTaNE Page-</title>
+    <title>Glossary Removed</title>
 </head>
 <style>
  p { font-size: 13px;}
