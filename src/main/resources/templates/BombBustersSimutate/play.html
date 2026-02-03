@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bomb Busters Simutate</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bomb-busters.css}" />
+</head>
+<body th:attr="data-player-name=${session.playerName}">
+    <div class="page">
+        <header class="hero">
+            <div class="hero-top">
+                <label class="theme-toggle" for="theme-toggle">
+                    <span class="toggle-label">ライト</span>
+                    <input type="checkbox" id="theme-toggle" aria-label="ライトモード切り替え">
+                    <span class="toggle-track" aria-hidden="true"></span>
+                </label>
+                <div class="hero-badge">
+                    <span>ROOM 01</span>
+                    <strong>同期中</strong>
+                </div>
+            </div>
+            <div class="hero-content">
+                <p class="eyebrow">Bomb Busters Simutate</p>
+                <h1>『ボムバスターズ』シミュレーター</h1>
+                <p class="hero-sub">ルール：</p>
+                <p class="hero-sub">自分の手番になったら、以下のアクションのうち1つを実行する。</p>
+                <p class="hero-sub">① 相手のワイヤを1枚選んで、その数字を当てる。正解した場合、そのワイヤを切断(公開)し、自分は宣言した数字と同じワイヤ1本を切断する。不正解の場合、相手のワイヤは切断されず、起爆ダイヤルが1減少する。相手は正しい数字のトークンを乗せる。</p>
+                <p class="hero-sub" style="font-size: 60%;">※自分の手札に無い数字は、宣言できない。黄色は黄色同士で切断する。赤色のワイヤを切断しようとした場合、即座に爆発する。</p>
+                <p class="hero-sub">② 自分の手札内の同じ数字のワイヤ4本(黄色4本も可能)を切断する。</p>
+                <p class="hero-sub">③ 自分の手札内の同じ数字のワイヤ2本(黄色2本も可能)を切断する。ただし、その数字がすでに2枚公開されていなければいけない。</p>
+                <p class="hero-sub">④ 自分の未公開のワイヤが赤色のみである場合、それら全てを公開する。</p>
+                <br>
+                <p class="hero-sub">装備カードは、デフォルトで「フツーノ探知機」を1個所持している。</p>
+                <p class="hero-sub">その他の装備カードは、対応する数字のワイヤを2本以上切断すれば、使用できるようになる。使用した装備カードは破棄する。</p>
+            </div>
+        </header>
+
+        <main class="content play">
+            <section class="panel board-panel">
+                <div class="status-row">
+                    <div>
+                        <span class="label">プレイヤー</span>
+                        <span id="player-label">未設定</span>
+                    </div>
+                    <div>
+                        <span class="label">接続</span>
+                        <span id="connection-label">未接続</span>
+                    </div>
+                    <div>
+                        <span class="label">最終操作</span>
+                        <span id="last-action">-</span>
+                    </div>
+                    <div>
+                        <span class="label">ゲーム</span>
+                        <span id="game-status">準備中</span>
+                    </div>
+                </div>
+                <div class="game-actions">
+                    <button type="button" id="start-button">ゲームスタート</button>
+                    <button type="button" id="end-button" class="hidden">ゲーム強制終了</button>
+                    <span class="game-note" id="game-note">プレイヤー1のみ開始できます。</span>
+                </div>
+                <div class="notice" id="notice"></div>
+                <div class="action-panel" id="action-panel">
+                    <button type="button" class="action-button" id="action-reveal4">同数4枚公開</button>
+                    <button type="button" class="action-button" id="action-reveal2">同数2枚公開</button>
+                    <button type="button" class="action-button" id="action-reveal-reds">赤のみ公開</button>
+                    <button type="button" class="action-button" id="action-target">相手を選んで公開</button>
+                </div>
+                <div class="options-panel" id="options-panel">
+                    <div class="option-block option-yellow">
+                        <h3>黄色数字設定</h3>
+                        <div class="option-grid">
+                            <label>最小値<input type="number" id="yellow-min" value="1" min="1" max="11"></label>
+                            <label>最大値<input type="number" id="yellow-max" value="11" min="1" max="11"></label>
+                            <label>プール本数<input type="number" id="yellow-pool" value="0" min="0" max="4"></label>
+                            <label>抽出本数<input type="number" id="yellow-draw" value="0" min="0" max="4" step="2"></label>
+                        </div>
+                    </div>
+                    <div class="option-block option-red">
+                        <h3>赤色数字設定</h3>
+                        <div class="option-grid">
+                            <label>最小値<input type="number" id="red-min" value="1" min="1" max="11"></label>
+                            <label>最大値<input type="number" id="red-max" value="11" min="1" max="11"></label>
+                            <label>プール本数<input type="number" id="red-pool" value="0" min="0" max="3"></label>
+                            <label>抽出本数<input type="number" id="red-draw" value="0" min="0" max="3"></label>
+                        </div>
+                    </div>
+                    <div class="option-block option-other">
+                        <div class="option-header">
+                            <h3>その他設定</h3>
+                            <button type="button" class="option-toggle" id="other-toggle" aria-expanded="false">
+                                表示
+                            </button>
+                        </div>
+                        <div class="option-body is-collapsed" id="other-body">
+                            <div class="option-grid option-grid-wide">
+                                <label>数字カード最小値<input type="number" id="card-min" value="1" min="1" max="12"></label>
+                                <label>数字カード最大値<input type="number" id="card-max" value="12" min="1" max="12"></label>
+                            </div>
+                            <div class="option-equip">
+                                <span class="option-sub">除外する装備カード</span>
+                                <div class="option-checks" id="exclude-equipments">
+                                    <label><input type="checkbox" name="exclude-equipment" value="1">1</label>
+                                    <label><input type="checkbox" name="exclude-equipment" value="2">2</label>
+                                    <label><input type="checkbox" name="exclude-equipment" value="3">3</label>
+                                    <label><input type="checkbox" name="exclude-equipment" value="4">4</label>
+                                    <label><input type="checkbox" name="exclude-equipment" value="5">5</label>
+                                    <label><input type="checkbox" name="exclude-equipment" value="6">6</label>
+                                    <label><input type="checkbox" name="exclude-equipment" value="7">7</label>
+                                    <label><input type="checkbox" name="exclude-equipment" value="8">8</label>
+                                    <label><input type="checkbox" name="exclude-equipment" value="9">9</label>
+                                    <label><input type="checkbox" name="exclude-equipment" value="10">10</label>
+                                    <label><input type="checkbox" name="exclude-equipment" value="11">11</label>
+                                    <label><input type="checkbox" name="exclude-equipment" value="12">12</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="board-wrapper">
+                    <div class="hands-grid" aria-label="配られたカード">
+                        <div class="hand-slot" id="hand-container-1">
+                            <span class="hand-label" id="hand-label-1"></span>
+                            <span class="parent-icon" id="parent-icon-1" aria-label="親">👑</span>
+                            <span class="hand-name" id="player-name-1">未参加</span>
+                            <ul class="hand-list" id="hand-slot-1"></ul>
+                            <button type="button" class="hand-detector" id="detector-1" aria-label="フツーノ探知機">
+                                <img class="detector-icon" src="/img/image0.png" alt="">
+                                <span class="sr-only">フツーノ探知機</span>
+                                <span class="detector-tooltip">フツーノ探知機：任意のカードを2枚選び、宣言した数字がどちらかに含まれていれば正解。</span>
+                            </button>
+                        </div>
+                        <div class="hand-slot" id="hand-container-2">
+                            <span class="hand-label" id="hand-label-2"></span>
+                            <span class="parent-icon" id="parent-icon-2" aria-label="親">👑</span>
+                            <span class="hand-name" id="player-name-2">未参加</span>
+                            <ul class="hand-list" id="hand-slot-2"></ul>
+                            <button type="button" class="hand-detector" id="detector-2" aria-label="フツーノ探知機">
+                                <img class="detector-icon" src="/img/image0.png" alt="">
+                                <span class="sr-only">フツーノ探知機</span>
+                                <span class="detector-tooltip">フツーノ探知機：任意のカードを2枚選び、宣言した数字がどちらかに含まれていれば正解。</span>
+                            </button>
+                        </div>
+                        <div class="deck-panel deck-panel-inline game-only" id="deck-panel">
+                            <span class="deck-label">山札に含まれる数字</span>
+                            <ul class="deck-list" id="deck-list"></ul>
+                        </div>
+                        <div class="mid-panel game-only" id="mid-panel">
+                            <div class="mist-panel">
+                                <span class="mid-label">起爆ダイヤル</span>
+                                <span class="mist-value" id="mist-value">4</span>
+                            </div>
+                            <div class="equipment-panel">
+                                <span class="mid-label">装備カード</span>
+                                <div class="equipment-buttons">
+                                    <button type="button" class="equipment-button" id="equipment-1">
+                                        <span class="equipment-label">-</span>
+                                        <img class="equipment-image" src="/img/image1.png" alt="装備1">
+                                    </button>
+                                    <button type="button" class="equipment-button" id="equipment-2">
+                                        <span class="equipment-label">-</span>
+                                        <img class="equipment-image" src="/img/image2.png" alt="装備2">
+                                    </button>
+                                    <button type="button" class="equipment-button" id="equipment-3">
+                                        <span class="equipment-label">-</span>
+                                        <img class="equipment-image" src="/img/image1.png" alt="装備3">
+                                    </button>
+                                    <button type="button" class="equipment-button" id="equipment-4">
+                                        <span class="equipment-label">-</span>
+                                        <img class="equipment-image" src="/img/image2.png" alt="装備4">
+                                    </button>
+                                </div>
+                                <div class="equipment-tooltip" id="equipment-tooltip" role="tooltip" aria-hidden="true">
+                                    <div class="tooltip-title" id="tooltip-title">-</div>
+                                    <div class="tooltip-row"><span class="tooltip-label">番号</span><span id="tooltip-number">-</span></div>
+                                    <div class="tooltip-row"><span class="tooltip-label">装備名</span><span id="tooltip-name">-</span></div>
+                                    <div class="tooltip-row"><span class="tooltip-label">効果</span><span id="tooltip-effect">-</span></div>
+                                    <div class="tooltip-row"><span class="tooltip-label">使用可能タイミング</span><span id="tooltip-timing">-</span></div>
+                                </div>
+                            </div>
+                            <div class="guess-panel" id="guess-panel">
+                                <div class="guess-title" id="guess-title">このカードの数字を推測してください</div>
+                                <div class="guess-list" id="guess-list"></div>
+                            </div>
+                        </div>
+                        <div class="hand-slot" id="hand-container-3">
+                            <span class="hand-label" id="hand-label-3"></span>
+                            <span class="parent-icon" id="parent-icon-3" aria-label="親">👑</span>
+                            <span class="hand-name" id="player-name-3">未参加</span>
+                            <ul class="hand-list" id="hand-slot-3"></ul>
+                            <button type="button" class="hand-detector" id="detector-3" aria-label="フツーノ探知機">
+                                <img class="detector-icon" src="/img/image0.png" alt="">
+                                <span class="sr-only">フツーノ探知機</span>
+                                <span class="detector-tooltip">フツーノ探知機：任意のカードを2枚選び、宣言した数字がどちらかに含まれていれば正解。</span>
+                            </button>
+                        </div>
+                        <div class="hand-slot" id="hand-container-4">
+                            <span class="hand-label" id="hand-label-4"></span>
+                            <span class="parent-icon" id="parent-icon-4" aria-label="親">👑</span>
+                            <span class="hand-name" id="player-name-4">未参加</span>
+                            <ul class="hand-list" id="hand-slot-4"></ul>
+                            <button type="button" class="hand-detector" id="detector-4" aria-label="フツーノ探知機">
+                                <img class="detector-icon" src="/img/image0.png" alt="">
+                                <span class="sr-only">フツーノ探知機</span>
+                                <span class="detector-tooltip">フツーノ探知機：任意のカードを2枚選び、宣言した数字がどちらかに含まれていれば正解。</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-overlay" id="equipment-modal" aria-hidden="true">
+                    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="equipment-modal-title">
+                        <h2 class="modal-title" id="equipment-modal-title">装備カード</h2>
+                        <p class="modal-message" id="equipment-modal-message">-</p>
+                        <div class="modal-actions">
+                            <button type="button" class="modal-button modal-cancel" id="equipment-modal-cancel">いいえ</button>
+                            <button type="button" class="modal-button modal-confirm" id="equipment-modal-confirm">はい</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-overlay" id="swap-modal" aria-hidden="true">
+                    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="swap-modal-title">
+                        <h2 class="modal-title" id="swap-modal-title">カード交換</h2>
+                        <p class="modal-message" id="swap-modal-message">-</p>
+                        <div class="modal-actions">
+                            <button type="button" class="modal-button modal-confirm" id="swap-modal-confirm">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="equipment-target-modal" aria-hidden="true">
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="equipment-target-title">
+            <h2 class="modal-title" id="equipment-target-title">相手を選択</h2>
+            <p class="modal-message" id="equipment-target-message">入れ替え先のプレイヤーを選んでください。</p>
+            <div class="modal-actions" id="equipment-target-buttons"></div>
+            <div class="modal-actions">
+                <button type="button" class="modal-button modal-cancel" id="equipment-target-cancel">キャンセル</button>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/webjars/sockjs-client/sockjs.min.js}"></script>
+    <script th:src="@{/webjars/stomp-websocket/stomp.min.js}"></script>
+    <script th:src="@{/js/bomb-busters-play.js}"></script>
+</body>
+</html>

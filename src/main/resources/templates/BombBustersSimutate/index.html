@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bomb Busters Simutate</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bomb-busters.css}" />
+</head>
+<body>
+    <div class="page">
+        <header class="hero">
+            <div class="hero-content">
+                <p class="eyebrow">Bomb Busters Simutate</p>
+                <h1>『ボムバスターズ』シミュレーター</h1>
+                <p class="hero-sub">ルール：</p>
+                <p class="hero-sub">自分の手番になったら、以下のアクションのうち1つを実行する。</p>
+                <p class="hero-sub">① 相手のワイヤを1枚選んで、その数字を当てる。正解した場合、そのワイヤを切断(公開)し、自分は宣言した数字と同じワイヤ1本を切断する。不正解の場合、相手のワイヤは切断されず、起爆ダイヤルが1減少する。相手は正しい数字のトークンを乗せる。</p>
+                <p class="hero-sub" style="font-size: 60%;">※自分の手札に無い数字は、宣言できない。黄色は黄色同士で切断する。赤色のワイヤを切断しようとした場合、即座に爆発する。</p>
+                <p class="hero-sub">② 自分の手札内の同じ数字のワイヤ4本(黄色4本も可能)を切断する。</p>
+                <p class="hero-sub">③ 自分の手札内の同じ数字のワイヤ2本(黄色2本も可能)を切断する。ただし、その数字がすでに2枚公開されていなければいけない。</p>
+                <p class="hero-sub">④ 自分の未公開のワイヤが赤色のみである場合、それら全てを公開する。</p>
+                <br>
+                <p class="hero-sub">装備カードは、デフォルトで「フツーノ探知機」を1個所持している。</p>
+                <p class="hero-sub">その他の装備カードは、対応する数字のワイヤを2本以上切断すれば、使用できるようになる。使用した装備カードは破棄する。</p>
+
+            </div>
+            <div class="hero-badge">
+                <span>ROOM 01</span>
+                <strong>同期中</strong>
+            </div>
+        </header>
+
+        <main class="content">
+            <section class="panel join-panel" id="join-panel">
+                <h2>プレイヤー名</h2>
+                <p>セッションに保存されるので、ページ更新しても維持されます。</p>
+                <div class="join-form">
+                    <input type="text" id="player-name" placeholder="名前を入力" maxlength="12" />
+                    <button type="button" id="join-button">ログイン</button>
+                </div>
+                <p class="join-message" id="join-message"></p>
+            </section>
+
+            <section class="panel board-panel">
+                <div class="status-row">
+                    <div>
+                        <span class="label">プレイヤー</span>
+                        <span id="player-label">未設定</span>
+                    </div>
+                    <div>
+                        <span class="label">接続</span>
+                        <span id="connection-label">未接続</span>
+                    </div>
+                    <div>
+                        <span class="label">最終操作</span>
+                        <span id="last-action">-</span>
+                    </div>
+                </div>
+                <div class="board-wrapper">
+                    <div class="player-grid" aria-label="プレイヤー一覧">
+                        <div class="player-slot" data-slot="1">
+                            <span class="slot-label">左上</span>
+                            <span class="slot-name" id="player-slot-1">空席</span>
+                        </div>
+                        <div class="player-slot" data-slot="2">
+                            <span class="slot-label">右上</span>
+                            <span class="slot-name" id="player-slot-2">空席</span>
+                        </div>
+                        <div class="player-slot" data-slot="3">
+                            <span class="slot-label">左下</span>
+                            <span class="slot-name" id="player-slot-3">空席</span>
+                        </div>
+                        <div class="player-slot" data-slot="4">
+                            <span class="slot-label">右下</span>
+                            <span class="slot-name" id="player-slot-4">空席</span>
+                        </div>
+                    </div>
+                    <div id="board" class="board" aria-label="カードボード"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/umd/stomp.min.js"></script>
+    <script th:src="@{/js/bomb-busters.js}"></script>
+</body>
+</html>

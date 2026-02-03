@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bomb Busters Simutate - Login</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bomb-busters.css}" />
+</head>
+<body>
+    <div class="page">
+        <header class="hero">
+            <div class="hero-content">
+                <p class="eyebrow">Bomb Busters Simutate</p>
+                <h1>ログイン</h1>
+                <p class="hero-sub">プレイヤー名を登録してプレイエリアに入ります。</p>
+            </div>
+            <div class="hero-badge">
+                <span>ROOM 01</span>
+                <strong>準備中</strong>
+            </div>
+        </header>
+
+        <main class="content single">
+            <section class="panel join-panel" id="join-panel">
+                <h2>プレイヤー名</h2>
+                <p>セッションに保存されます。4人まで参加できます。</p>
+                <div class="join-form">
+                    <input type="text" id="player-name" placeholder="名前を入力" maxlength="12" />
+                    <button type="button" id="join-button">プレイエリアへ</button>
+                </div>
+                <p class="join-message" id="join-message"></p>
+            </section>
+        </main>
+    </div>
+
+    <script th:src="@{/js/bomb-busters-login.js}"></script>
+</body>
+</html>
