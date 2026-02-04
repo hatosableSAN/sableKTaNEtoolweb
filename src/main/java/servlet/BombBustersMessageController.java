@@ -94,6 +94,13 @@ public class BombBustersMessageController {
         return gameService.executeEquipment(sessionId, request);
     }
 
+    @MessageMapping("/skip")
+    @SendTo("/topic/state")
+    public BombBustersState skip(SimpMessageHeaderAccessor accessor) {
+        String sessionId = resolveHttpSessionId(accessor);
+        return gameService.skipTurn(sessionId);
+    }
+
     private String resolvePlayerName(SimpMessageHeaderAccessor accessor) {
         if (accessor == null) {
             return "ゲスト";

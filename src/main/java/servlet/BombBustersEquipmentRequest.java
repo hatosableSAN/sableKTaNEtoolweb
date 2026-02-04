@@ -4,6 +4,7 @@ public class BombBustersEquipmentRequest {
     private Integer equipmentNumber;
     private String action;
     private Integer targetPlayerIndex;
+    private java.util.List<Integer> targetPlayerIndexes;
     private Integer fromPosition;
     private Integer targetPosition;
     private Integer position;
@@ -34,6 +35,14 @@ public class BombBustersEquipmentRequest {
 
     public void setTargetPlayerIndex(Integer targetPlayerIndex) {
         this.targetPlayerIndex = targetPlayerIndex;
+    }
+
+    public java.util.List<Integer> getTargetPlayerIndexes() {
+        return targetPlayerIndexes;
+    }
+
+    public void setTargetPlayerIndexes(java.util.List<Integer> targetPlayerIndexes) {
+        this.targetPlayerIndexes = targetPlayerIndexes;
     }
 
     public Integer getFromPosition() {

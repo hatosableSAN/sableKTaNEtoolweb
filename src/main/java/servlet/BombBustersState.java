@@ -37,6 +37,7 @@ public class BombBustersState {
     private Integer pendingWrongTokenFrom;
     private Integer pendingWrongTokenPosition;
     private Integer pendingWrongTokenPosition2;
+    private Integer pendingWrongTokenPosition3;
     private List<Boolean> detectorUsed;
     private Integer pendingDetectorGuesser;
     private Integer pendingDetectorBase;
@@ -61,6 +62,9 @@ public class BombBustersState {
     private Double swapHighlightValueB;
     private Integer swapHighlightPositionA;
     private Integer swapHighlightPositionB;
+    private Integer radarNumber;
+    private List<String> radarPlayers;
+    private Integer iceActiveBy;
     private String lastAction;
     private String lastUpdatedBy;
     private long version;
@@ -79,6 +83,7 @@ public class BombBustersState {
                             Integer pendingOpponentRevealFrom, Integer pendingOpponentRevealPosition, Integer pendingOpponentRevealPosition2,
                             Integer pendingOpponentRevealPosition3, Integer pendingOpponentRevealBase, boolean pendingOpponentRevealYellow,
                             Integer pendingWrongTokenFrom, Integer pendingWrongTokenPosition, Integer pendingWrongTokenPosition2,
+                            Integer pendingWrongTokenPosition3,
                             List<Boolean> detectorUsed, Integer pendingDetectorGuesser, Integer pendingDetectorBase,
                             boolean pendingDetectorYellow,
                             Integer pendingSelfRevealFrom, Integer pendingSelfRevealBase,
@@ -89,6 +94,8 @@ public class BombBustersState {
                             boolean swapPendingConfirmation, Integer swapHighlightPlayerA,
                             Integer swapHighlightPlayerB, Double swapHighlightValueA, Double swapHighlightValueB,
                             Integer swapHighlightPositionA, Integer swapHighlightPositionB,
+                            Integer radarNumber, List<String> radarPlayers,
+                            Integer iceActiveBy,
                             String lastAction, String lastUpdatedBy, long version) {
         this.cards = cards;
         this.players = players;
@@ -124,6 +131,7 @@ public class BombBustersState {
         this.pendingWrongTokenFrom = pendingWrongTokenFrom;
         this.pendingWrongTokenPosition = pendingWrongTokenPosition;
         this.pendingWrongTokenPosition2 = pendingWrongTokenPosition2;
+        this.pendingWrongTokenPosition3 = pendingWrongTokenPosition3;
         this.detectorUsed = detectorUsed;
         this.pendingDetectorGuesser = pendingDetectorGuesser;
         this.pendingDetectorBase = pendingDetectorBase;
@@ -148,6 +156,9 @@ public class BombBustersState {
         this.swapHighlightValueB = swapHighlightValueB;
         this.swapHighlightPositionA = swapHighlightPositionA;
         this.swapHighlightPositionB = swapHighlightPositionB;
+        this.radarNumber = radarNumber;
+        this.radarPlayers = radarPlayers;
+        this.iceActiveBy = iceActiveBy;
         this.lastAction = lastAction;
         this.lastUpdatedBy = lastUpdatedBy;
         this.version = version;
@@ -361,6 +372,30 @@ public class BombBustersState {
         this.swapHighlightPositionB = swapHighlightPositionB;
     }
 
+    public Integer getRadarNumber() {
+        return radarNumber;
+    }
+
+    public void setRadarNumber(Integer radarNumber) {
+        this.radarNumber = radarNumber;
+    }
+
+    public List<String> getRadarPlayers() {
+        return radarPlayers;
+    }
+
+    public void setRadarPlayers(List<String> radarPlayers) {
+        this.radarPlayers = radarPlayers;
+    }
+
+    public Integer getIceActiveBy() {
+        return iceActiveBy;
+    }
+
+    public void setIceActiveBy(Integer iceActiveBy) {
+        this.iceActiveBy = iceActiveBy;
+    }
+
     public int getParentIndex() {
         return parentIndex;
     }
@@ -527,6 +562,14 @@ public class BombBustersState {
 
     public void setPendingWrongTokenPosition2(Integer pendingWrongTokenPosition2) {
         this.pendingWrongTokenPosition2 = pendingWrongTokenPosition2;
+    }
+
+    public Integer getPendingWrongTokenPosition3() {
+        return pendingWrongTokenPosition3;
+    }
+
+    public void setPendingWrongTokenPosition3(Integer pendingWrongTokenPosition3) {
+        this.pendingWrongTokenPosition3 = pendingWrongTokenPosition3;
     }
 
     public List<Boolean> getDetectorUsed() {

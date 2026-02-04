@@ -11,18 +11,25 @@
     const equipmentTargetButtons = document.getElementById("equipment-target-buttons");
     const equipmentTargetMessage = document.getElementById("equipment-target-message");
     const equipmentTargetCancel = document.getElementById("equipment-target-cancel");
+    const equipmentTargetConfirm = document.getElementById("equipment-target-confirm");
     const themeToggle = document.getElementById("theme-toggle");
+    const logoutButton = document.getElementById("logout-button");
     const guessPanel = document.getElementById("guess-panel");
+    const guessTitle = document.getElementById("guess-title");
     const guessList = document.getElementById("guess-list");
     const actionPanel = document.getElementById("action-panel");
     const actionReveal4 = document.getElementById("action-reveal4");
     const actionReveal2 = document.getElementById("action-reveal2");
     const actionRevealReds = document.getElementById("action-reveal-reds");
     const actionTarget = document.getElementById("action-target");
+    const actionSkip = document.getElementById("action-skip");
     const optionsPanel = document.getElementById("options-panel");
     const swapModal = document.getElementById("swap-modal");
     const swapModalMessage = document.getElementById("swap-modal-message");
     const swapModalConfirm = document.getElementById("swap-modal-confirm");
+    const radarModal = document.getElementById("radar-modal");
+    const radarModalMessage = document.getElementById("radar-modal-message");
+    const radarModalConfirm = document.getElementById("radar-modal-confirm");
     let equipmentSelectionMode = null;
     const yellowMin = document.getElementById("yellow-min");
     const yellowMax = document.getElementById("yellow-max");
@@ -52,6 +59,21 @@
         document.querySelector("#equipment-3 .equipment-image"),
         document.querySelector("#equipment-4 .equipment-image"),
     ];
+    const detectorTooltipTitles = Array.from(
+        document.querySelectorAll(".detector-tooltip .tooltip-title")
+    );
+    const detectorTooltipNumbers = Array.from(
+        document.querySelectorAll(".detector-tooltip-number")
+    );
+    const detectorTooltipNames = Array.from(
+        document.querySelectorAll(".detector-tooltip-name")
+    );
+    const detectorTooltipEffects = Array.from(
+        document.querySelectorAll(".detector-tooltip-effect")
+    );
+    const detectorTooltipTimings = Array.from(
+        document.querySelectorAll(".detector-tooltip-timing")
+    );
     const parentIcons = [
         document.getElementById("parent-icon-1"),
         document.getElementById("parent-icon-2"),
@@ -117,7 +139,56 @@
     let equip12Selections = [];
     let equip3Selections = [];
     let equip3TargetIndex = null;
+    let equip10Selections = [];
+    let equip10ContextKey = null;
+    let equip7Selections = [];
+    let radarTimeoutId = null;
+    let radarKey = null;
+    let lastRedHintVersion = null;
+    let lastEquip7Version = null;
     let lastState = null;
+    const soundFiles = {
+        correct: "/sfx/correct.mp3",
+        incorrect: "/sfx/incorrect.mp3",
+        last1: "/sfx/last1.mp3",
+        equip: "/sfx/equip.mp3",
+        token: "/sfx/token.mp3",
+        reveal: "/sfx/reveal.mp3",
+        start: "/sfx/start.mp3",
+        boom: "/sfx/boom.mp3",
+        clear: "/sfx/clear.mp3",
+        battery: "/sfx/battery.mp3",
+        exchange: "/sfx/exchange.mp3",
+        ice: "/sfx/ice.mp3",
+        radar: "/sfx/radar.mp3",
+        recover: "/sfx/recover.mp3",
+        yourturn: "/sfx/yourturn.mp3",
+        skip: "/sfx/skip.mp3",
+    };
+    const sounds = {};
+    const playSound = (key) => {
+        const src = soundFiles[key];
+        if (!src) {
+            return;
+        }
+        if (!sounds[key]) {
+            const audio = new Audio(src);
+            audio.preload = "auto";
+            audio.volume = 0.6;
+            sounds[key] = audio;
+        }
+        const audio = sounds[key];
+        try {
+            audio.volume = 0.6;
+            audio.currentTime = 0;
+            const result = audio.play();
+            if (result && typeof result.catch === "function") {
+                result.catch(() => {});
+            }
+        } catch (error) {
+            // ignore play errors
+        }
+    };
     let pendingEquipmentNumber = null;
     let activeEquipmentNumber = null;
     const clientUsedEquipmentNumbers = new Set();
@@ -184,6 +255,9 @@
         equip12Selections = [];
         equip3Selections = [];
         equip3TargetIndex = null;
+        equip10Selections = [];
+        equip10ContextKey = null;
+        equip7Selections = [];
         document.querySelectorAll(".hand-card.selected").forEach((el) => el.classList.remove("selected"));
         if (!keepPreview) {
             document.querySelectorAll(".hand-card.preview-reveal").forEach((el) => el.classList.remove("preview-reveal"));
@@ -201,6 +275,9 @@
             return false;
         }
         if (lastState.pendingWrongTokenFrom != null) {
+            return false;
+        }
+        if (lastState.pendingTargetMode === "equip5" && lastState.pendingTargetIndex != null) {
             return false;
         }
         const pendingActive =
@@ -223,6 +300,9 @@
             return false;
         }
         if (lastState.missionEnded || lastState.preTokenPhase || lastState.gameStarted !== true) {
+            return false;
+        }
+        if (isAllRevealed(lastState, playerIndex)) {
             return false;
         }
         if (lastState.pendingWrongTokenFrom != null) {
@@ -418,10 +498,46 @@
         return hasUnrevealed;
     };
 
+    const isAllRevealed = (state, index) => {
+        if (!state || index < 0) {
+            return false;
+        }
+        const hand = Array.isArray(state.hands) ? state.hands[index] : [];
+        const revealRow = Array.isArray(state.revealed) ? state.revealed[index] : [];
+        if (!hand.length) {
+            return false;
+        }
+        for (let i = 0; i < hand.length; i += 1) {
+            if (!revealRow[i]) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    const countTokenHints = (state) => {
+        if (!state || !Array.isArray(state.wrongHints)) {
+            return 0;
+        }
+        let total = 0;
+        state.wrongHints.forEach((row) => {
+            if (!Array.isArray(row)) {
+                return;
+            }
+            row.forEach((value) => {
+                if (value !== null && value !== undefined) {
+                    total += 1;
+                }
+            });
+        });
+        return total;
+    };
+
     const renderState = (state) => {
         if (!state) {
             return;
         }
+        const prevState = lastState;
         lastState = state;
         const started = state.gameStarted === true;
         gameStatus.textContent = started ? "進行中" : "準備中";
@@ -469,6 +585,8 @@
             mistValue.textContent = String(state.mistakesRemaining);
         }
         const usedEquipmentNumbers = Array.isArray(state.usedEquipmentNumbers) ? state.usedEquipmentNumbers : [];
+        const equipmentLocked = state.equipmentInUseNumber != null && state.equipmentInUseBy != null;
+        const isSelfAllRevealed = isAllRevealed(state, playerIndex);
         if (Array.isArray(state.equipmentNumbers)) {
             const maxSlots = Math.max(
                 equipmentButtons.length,
@@ -500,7 +618,7 @@
                         const used =
                             usedEquipmentNumbers.includes(value) ||
                             clientUsedEquipmentNumbers.has(value);
-                        button.disabled = used || state.preTokenPhase;
+                        button.disabled = used || state.preTokenPhase || equipmentLocked || isSelfAllRevealed;
                         button.classList.toggle("equipment-used", used);
                     } else {
                         button.style.display = "none";
@@ -586,6 +704,7 @@
         const wrongHints = Array.isArray(state.wrongHints) ? state.wrongHints : [];
         const differentLabels = Array.isArray(state.differentLabels) ? state.differentLabels : [];
         const equalLabels = Array.isArray(state.equalLabels) ? state.equalLabels : [];
+        let redHintBlocked = false;
         const equipmentInUseNumber = state.equipmentInUseNumber;
         const equipmentInUseBy = state.equipmentInUseBy;
         const pendingTarget = state.pendingTargetIndex;
@@ -597,6 +716,7 @@
         const pendingWrongTokenFrom = state.pendingWrongTokenFrom;
         const pendingWrongTokenPosition = state.pendingWrongTokenPosition;
         const pendingWrongTokenPosition2 = state.pendingWrongTokenPosition2;
+        const pendingWrongTokenPosition3 = state.pendingWrongTokenPosition3;
         const pendingOpponentRevealFrom = state.pendingOpponentRevealFrom;
         const pendingOpponentRevealPosition = state.pendingOpponentRevealPosition;
         const pendingOpponentRevealPosition2 = state.pendingOpponentRevealPosition2;
@@ -617,6 +737,9 @@
         const pendingEquipmentFromPositionState = state.pendingEquipmentFromPosition;
         const pendingEquipmentTargetPositionState = state.pendingEquipmentTargetPosition;
         const pendingEquipmentWaitingTargetChoiceState = state.pendingEquipmentWaitingTargetChoice;
+        const radarNumber = state.radarNumber;
+        const radarPlayers = Array.isArray(state.radarPlayers) ? state.radarPlayers : [];
+        const iceActiveBy = state.iceActiveBy;
         const swapPendingConfirmationState = state.swapPendingConfirmation;
         const swapHighlightPlayerAState = state.swapHighlightPlayerA;
         const swapHighlightPlayerBState = state.swapHighlightPlayerB;
@@ -636,6 +759,7 @@
         const equip11Active = String(activeEquipmentNumber) === "11";
         const equip3Active = String(activeEquipmentNumber) === "3";
         const equip5Active = String(activeEquipmentNumber) === "5";
+        const equip10Active = String(activeEquipmentNumber) === "10";
         const equip4Available =
             equip4Active &&
             started &&
@@ -675,6 +799,16 @@
             !pendingActive &&
             pendingSelfFrom == null &&
             pendingOpponentRevealFrom == null;
+        const equip10Available =
+            equip10Active &&
+            started &&
+            !state.missionEnded &&
+            !state.preTokenPhase &&
+            !pendingActive &&
+            pendingSelfFrom == null &&
+            pendingOpponentRevealFrom == null &&
+            pendingWrongTokenFrom == null &&
+            playerIndex === state.turnIndex;
         const equipSpecialActive =
             equip1Available ||
             equip4Available ||
@@ -683,7 +817,9 @@
             equip3Available ||
             equip3Active ||
             equip5Available ||
-            equip5Active;
+            equip5Active ||
+            equip10Available ||
+            equip10Active;
 
         if (Array.isArray(state.players)) {
             state.players.forEach((name, index) => {
@@ -731,6 +867,7 @@
         const canReveal4 = canAct && canRevealSameCount(4);
         const canReveal2 = canAct && canRevealSameCount(2);
         const canRevealReds = canAct && canRevealAllReds();
+        const canSkip = canAct && isSelfAllRevealed;
         if (actionReveal4) {
             actionReveal4.style.display = canReveal4 ? "" : "none";
             actionReveal4.classList.toggle("is-active", canAct && actionMode === "reveal4");
@@ -747,7 +884,7 @@
             if (!btn) {
                 return;
             }
-            const canUseDetector = canAct && index === playerIndex;
+        const canUseDetector = canAct && index === playerIndex && !equipmentLocked && !isSelfAllRevealed;
             btn.style.display = canUseDetector ? "" : "none";
             if (targetMode === "detector" && canUseDetector) {
                 btn.classList.add("is-active");
@@ -756,33 +893,55 @@
             }
         });
         if (actionTarget) {
-            actionTarget.style.display = canAct ? "" : "none";
+            actionTarget.style.display = canAct && !isSelfAllRevealed ? "" : "none";
             actionTarget.classList.toggle("is-active", canAct && actionMode === null);
         }
+        if (actionSkip) {
+            actionSkip.style.display = canSkip ? "" : "none";
+            actionSkip.classList.toggle("is-active", false);
+        }
         if (notice) {
+            let redHintMessage = "";
+            let equip7Message = "";
+            if (redHintBlocked) {
+                const currentVersion = state.version;
+                if (currentVersion != null && currentVersion !== lastRedHintVersion) {
+                    redHintMessage = "⚠️ トークンを置こうとしましたが、実行できませんでした...。";
+                    lastRedHintVersion = currentVersion;
+                }
+            }
+            if (state.lastAction && state.lastAction.startsWith("装備7：")) {
+                const currentVersion = state.version;
+                if (currentVersion != null && currentVersion !== lastEquip7Version) {
+                    equip7Message = state.lastAction.replace(/^装備7：/, "");
+                    lastEquip7Version = currentVersion;
+                }
+            }
             if (state.missionEnded) {
-                notice.textContent = state.missionSuccess ? "ミッション成功！" : "ミッション失敗…";
+                notice.textContent = state.missionSuccess ? "🎉ミッション成功！" : "💥ミッション失敗…";
             } else if (inTokenPhase && isTokenTurn) {
-                notice.textContent = "初期トークン配置: 自分の手札から黄色/赤以外を1枚選んでください。";
+                notice.textContent = "🧩 初期トークン配置: 自分のコードから黄色/赤以外を1本選んでください。";
             } else if (inTokenPhase) {
-                notice.textContent = "初期トークン配置: 親から順に配置中です。";
+                notice.textContent = "🧩 初期トークン配置: 隊長から順に配置中です。";
             } else if (started && pendingOpponentRevealFrom === playerIndex) {
-                notice.textContent = "相手があなたのカードを当てました。選ばれたカードを公開してください。";
+                notice.textContent = "✅️ 相手があなたのコードを当てました！選ばれたコードを公開してください。";
             } else if (started && pendingOpponentRevealFrom !== null) {
-                notice.textContent = "正解です！相手の公開待ちです。";
+                notice.textContent = "✅️ 正解です！相手の公開待ちです。";
             } else if (started && pendingSelfFrom === playerIndex) {
-                notice.textContent = "正解です！自分のカードを1枚公開してください。";
+                notice.textContent = "✅️ 正解です！自分のコードを1本公開してください。";
             } else if (started && isMyTurn && targetMode === "detector") {
-                notice.textContent = "フツーノ探知機を使用します。任意のカードを2枚選んでください。";
+                notice.textContent = "🔍 個人装備: フツーノ探知機を使用します。任意のコードを2本選んでください（黄色は宣言不可）。";
             } else if (started && pendingWrongTokenFrom != null && playerIndex === pendingWrongTokenFrom) {
                 notice.textContent = pendingWrongTokenPosition == null
-                    ? "失敗しました。自分のコードの任意の1本にトークンを置いてください。"
-                    : "探知機が外れました。2枚のうち1枚を選んでトークンを置いてください。";
+                    ? "❌️ 失敗しました。自分のコードの任意の1本にトークンを置いてください。"
+                    : (pendingWrongTokenPosition3 != null
+                        ? "❌️ 失敗しました。3本のうち1本を選んでトークンを置いてください。"
+                        : "❌️ 失敗しました。2本のうち1本を選んでトークンを置いてください。");
             } else if (started && pendingWrongTokenFrom != null) {
-                notice.textContent = "相手がトークンを選択中です。";
+                notice.textContent = "⏳ 相手がトークンを選択中です。";
             } else if (started && pendingActive && playerIndex === pendingTarget) {
                 if (pendingMode === "equip5") {
-                    notice.textContent = "相手が数字を推測しています。";
+                    notice.textContent = "🎯 相手が数字を推測しています。";
                 } else {
                     const labels = [getPositionLabel(pendingPosition)];
                     if (
@@ -799,7 +958,7 @@
                     if (pendingMode === "equip3" && pendingPosition3 !== null) {
                         labels.push(getPositionLabel(pendingPosition3));
                     }
-                    notice.textContent = `あなたのカード${labels.join("&")}が選ばれました。相手が数字を推測しています。`;
+                    notice.textContent = `🎯 あなたのコード${labels.join("&")}が選ばれました。相手が数字を推測しています。`;
                 }
             } else if (
                 started &&
@@ -807,33 +966,39 @@
                 pendingEquipmentWaitingTargetChoiceState &&
                 pendingTarget === playerIndex
             ) {
-                notice.textContent = "交換相手に選ばれました。交換するカードを1枚選んでください。";
+                notice.textContent = "🔁 交換するコードを1本選んでください。";
             } else if (started && pendingEquipmentNumberState === 2 && pendingEquipmentWaitingTargetChoiceState) {
-                notice.textContent = "相手の選択待ちです。";
+                notice.textContent = "⏳ 相手の選択待ちです。";
             } else if (started && pendingEquipmentNumberState === 2 && pendingFrom === playerIndex) {
-                notice.textContent = "装備2: 自分のワイヤを選択してください。";
+                notice.textContent = "🔧 装備2: 自分のコードを選択してください。";
             } else if (started && pendingEquipmentNumberState === 2 && pendingTarget === playerIndex) {
-                notice.textContent = "交換相手に選ばれました。交換するカードを1枚選んでください。";
+                notice.textContent = "🔁 交換相手に選ばれました。相手の選択待ちです。";
             } else if (started && pendingGuessActive && playerIndex === pendingFrom) {
-                notice.textContent = pendingMode === "equip5"
-                    ? "数字を推測してください。"
-                    : "このカードの数字を推測してください。";
+                if (pendingMode === "equip5") {
+                    notice.textContent = "🎯 数字を宣言してください（黄色は宣言不可）。";
+                } else if (pendingMode === "equip10") {
+                    notice.textContent = "🎯 2つの数字を宣言してください。";
+                } else {
+                    notice.textContent = "🎯 このコードの数字を宣言してください。";
+                }
             } else if (started && pendingGuessActive) {
-                notice.textContent = "他プレイヤーの回答待ちです。";
+                notice.textContent = "⏳ 他プレイヤーの回答待ちです。";
             } else if (started && (equip1Available || equip4Available || equip12Available || equip11Available)) {
                 if (equip1Available) {
-                    notice.textContent = "装備1を使用中：自分の隣接する異なるワイヤを2本選んでください。";
+                    notice.textContent = "🔧 装備1を使用中：自分の隣接する異なるコードを2本選んでください。";
                 } else if (equip12Available) {
-                    notice.textContent = "装備12を使用中：自分の隣接する同じワイヤを2本選んでください。";
+                    notice.textContent = "🔧 装備12を使用中：自分の隣接する同じコードを2本選んでください。";
                 } else if (equip4Available) {
-                    notice.textContent = "装備4を使用中：自分の非赤/非黄色のワイヤを1つ選択してください。";
+                    notice.textContent = "🔧 装備4を使用中：自分の非赤/非黄色のコードを1つ選択してください。";
                 } else if (equip11Available) {
-                    notice.textContent = "装備11を使用中：次の手番プレイヤーを選んでください。";
+                    notice.textContent = "🔧 装備11を使用中：次の手番プレイヤーを選んでください。";
                 }
             } else if (started && equip3Available) {
-                notice.textContent = "装備3を使用中：同じ相手のカードを3枚選んでください。";
+                notice.textContent = "🔧 装備3を使用中：同じ相手のコードを3本選んでください（黄色は宣言不可）。";
             } else if (started && equip5Available) {
-                notice.textContent = "装備5を使用中：相手のプレイヤーを選んでください。";
+                notice.textContent = "🔧 装備5を使用中：相手のプレイヤーを選んでください（黄色は宣言不可）。";
+            } else if (started && equip10Available) {
+                notice.textContent = "🔧 装備10を使用中：相手のコードを1本選んでください。";
             } else if (
                 started &&
                 equipmentInUseNumber != null &&
@@ -842,13 +1007,22 @@
                 isMyTurn &&
                 !pendingActive
             ) {
-                notice.textContent = "他のプレイヤーが装備を使用しています。";
+                notice.textContent = "⏳ 他のプレイヤーが装備を使用しています。";
             } else if (started && isMyTurn) {
-                notice.textContent = "あなたの番です。相手の位置を選んでください。";
+                notice.textContent = "🕒 あなたの番です。相手のコードを1本選んでください。";
             } else if (started) {
-                notice.textContent = "他プレイヤーの番です。";
+                notice.textContent = "⏳ 他プレイヤーの番です。";
+                if (redHintMessage) {
+                    notice.textContent = `${redHintMessage} ${notice.textContent}`.trim();
+                }
             } else {
                 notice.textContent = "";
+            }
+            if (equip7Message && notice.textContent) {
+                notice.textContent = `${equip7Message} ${notice.textContent}`.trim();
+            }
+            if (iceActiveBy !== null && iceActiveBy !== undefined && notice.textContent) {
+                notice.textContent = `[🧊] ${notice.textContent}`;
             }
         }
         if (equipmentTargetModal && equipmentTargetButtons) {
@@ -857,18 +1031,29 @@
                 equipmentTargetButtons.classList.add("target-buttons");
                 let targetCount = 0;
                 state.players.forEach((name, index) => {
-                    if (index === playerIndex) {
+                    if (equipmentSelectionMode === 7 && !detectorUsed[index]) {
                         return;
                     }
-                    if (equipmentSelectionMode === 7 && !detectorUsed[index]) {
+                    if (equipmentSelectionMode === 11 && index === playerIndex) {
+                        return;
+                    }
+                    const fullyRevealedTarget = isAllRevealed(state, index);
+                    if (fullyRevealedTarget) {
                         return;
                     }
                     const button = document.createElement("button");
                     button.type = "button";
                     button.className = "target-button";
                     button.textContent = name && name.trim() ? name : `プレイヤー${index + 1}`;
+                    if (equipmentSelectionMode === 7 && equip7Selections.includes(index)) {
+                        button.classList.add("is-active");
+                        button.disabled = true;
+                    }
                     targetCount += 1;
                     button.addEventListener("click", () => {
+                        if (button.disabled) {
+                            return;
+                        }
                         if (equipmentSelectionMode === 2) {
                             stompClient.send(
                                 "/app/equipment",
@@ -886,11 +1071,26 @@
                                 })
                             );
                         } else if (equipmentSelectionMode === 7) {
-                            stompClient.send(
-                                "/app/equipment",
-                                {},
-                                JSON.stringify({ equipmentNumber: 7, targetPlayerIndex: index })
-                            );
+                            if (!equip7Selections.includes(index)) {
+                                equip7Selections.push(index);
+                            }
+                            if (equip7Selections.length < 2) {
+                                if (equipmentTargetMessage) {
+                                    equipmentTargetMessage.textContent = "もう1人選ぶか、完了を押してください。";
+                                }
+                                if (equipmentTargetConfirm) {
+                                    equipmentTargetConfirm.style.display = "";
+                                    equipmentTargetConfirm.disabled = false;
+                                }
+                                return;
+                            }
+                            if (stompClient && isConnected) {
+                                stompClient.send(
+                                    "/app/equipment",
+                                    {},
+                                    JSON.stringify({ equipmentNumber: 7, targetPlayerIndexes: equip7Selections })
+                                );
+                            }
                         } else {
                             stompClient.send(
                                 "/app/equipment",
@@ -900,9 +1100,7 @@
                         }
                         equipmentSelectionMode = null;
                         activeEquipmentNumber = null;
-                        if (equipmentTargetMessage) {
-                            equipmentTargetMessage.textContent = "入れ替え先のプレイヤーを選んでください。";
-                        }
+                        equip7Selections = [];
                         if (equipmentTargetModal.contains(document.activeElement)) {
                             document.activeElement.blur();
                         }
@@ -917,16 +1115,26 @@
                     if (equipmentSelectionMode === 11) {
                         equipmentTargetMessage.textContent = "次の手番プレイヤーを選んでください。";
                     } else if (equipmentSelectionMode === 5) {
-                        equipmentTargetMessage.textContent = "判定対象のプレイヤーを選んでください。";
+                        equipmentTargetMessage.textContent = "判定対象のプレイヤーを1人選んでください。";
                     } else if (equipmentSelectionMode === 7) {
-                        equipmentTargetMessage.textContent = "再使用可能にする探知機の持ち主を選んでください。";
+                        equipmentTargetMessage.textContent = "再使用可能にする探知機の持ち主を1〜2人選んでください。";
                     } else {
-                        equipmentTargetMessage.textContent = "入れ替え先のプレイヤーを選んでください。";
+                        equipmentTargetMessage.textContent = "交換先のプレイヤーを1人選んでください。";
+                    }
+                }
+                if (equipmentTargetConfirm) {
+                    if (equipmentSelectionMode === 7 && equip7Selections.length > 0) {
+                        equipmentTargetConfirm.style.display = "";
+                        equipmentTargetConfirm.disabled = false;
+                    } else {
+                        equipmentTargetConfirm.style.display = "none";
+                        equipmentTargetConfirm.disabled = true;
                     }
                 }
                 if (equipmentSelectionMode === 7 && targetCount === 0) {
                     equipmentSelectionMode = null;
                     activeEquipmentNumber = null;
+                    equip7Selections = [];
                     if (equipmentTargetModal.contains(document.activeElement)) {
                         document.activeElement.blur();
                     }
@@ -945,6 +1153,10 @@
                 equipmentTargetModal.classList.remove("is-visible");
                 equipmentTargetModal.setAttribute("aria-hidden", "true");
                 equipmentTargetModal.style.display = "";
+                if (equipmentTargetConfirm) {
+                    equipmentTargetConfirm.style.display = "none";
+                    equipmentTargetConfirm.disabled = true;
+                }
             }
         }
         if (actionPanel) {
@@ -955,7 +1167,7 @@
                 if (!button) {
                     return;
                 }
-                if (button.dataset.equipmentNumber === "11" || button.dataset.equipmentNumber === "3" || button.dataset.equipmentNumber === "5") {
+                if (button.dataset.equipmentNumber === "11" || button.dataset.equipmentNumber === "3" || button.dataset.equipmentNumber === "5" || button.dataset.equipmentNumber === "9" || button.dataset.equipmentNumber === "10") {
                     button.disabled = button.disabled || !isMyTurn;
                 }
             });
@@ -983,7 +1195,7 @@
             const detectorButton = detectorButtons[index];
             if (detectorButton) {
                 const alreadyUsed = !!detectorUsed[index];
-                const enabled = canAct && index === playerIndex && !alreadyUsed;
+                const enabled = canAct && index === playerIndex && !alreadyUsed && !isSelfAllRevealed;
                 detectorButton.disabled = !enabled;
                 if (targetMode === "detector" && enabled) {
                     detectorButton.classList.add("is-active");
@@ -1066,14 +1278,15 @@
                             hint.classList.add("hand-yellow");
                             hint.textContent = "■";
                         } else if (numericHint < 0) {
-                            hint.classList.add("hand-red");
-                            hint.textContent = "■";
+                            redHintBlocked = true;
                         } else {
                             const roundedHint = Math.round(numericHint * 10) / 10;
                             hint.textContent = Number.isInteger(roundedHint) ? String(roundedHint) : roundedHint.toFixed(1);
                         }
-                        item.appendChild(hint);
-                        hintElement = hint;
+                        if (numericHint >= 0 || Number.isNaN(numericHint)) {
+                            item.appendChild(hint);
+                            hintElement = hint;
+                        }
                     }
 
                     const labelCount = differentLabels[index] ? differentLabels[index][posIndex] : 0;
@@ -1124,7 +1337,7 @@
                                 const firstPos = equip1Selections[0];
                                 if (Math.abs(firstPos - posIndex) !== 1) {
                                     if (notice) {
-                                        notice.textContent = "隣接する2枚を選んでください。";
+                                        notice.textContent = "⚠️ 隣接していないコードを選んでいます。隣接する2本のコードを選んでください。";
                                     }
                                     return;
                                 }
@@ -1134,7 +1347,7 @@
                                 const fracB = Math.round((valueB - Math.floor(valueB)) * 10);
                                 if ((fracA === 1 && fracB === 1) || (fracA === 5 && fracB === 5) || valueA === valueB) {
                                     if (notice) {
-                                        notice.textContent = "異なる数字の隣接ワイヤを選んでください。";
+                                        notice.textContent = "⚠️ 数字が同じか、両方黄色/赤のコードを選んでいます。異なる数字のコードを選んでください。";
                                     }
                                     return;
                                 }
@@ -1169,7 +1382,7 @@
                                 const firstPos = equip12Selections[0];
                                 if (Math.abs(firstPos - posIndex) !== 1) {
                                     if (notice) {
-                                        notice.textContent = "隣接する2枚を選んでください。";
+                                        notice.textContent = "⚠️ 隣接していないコードを選んでいます。隣接する2本のコードを選んでください。";
                                     }
                                     return;
                                 }
@@ -1181,7 +1394,7 @@
                                 const bothRed = fracA === 5 && fracB === 5;
                                 if (!bothYellow && !bothRed && valueA !== valueB) {
                                     if (notice) {
-                                        notice.textContent = "同じ数字の隣接ワイヤを選んでください。";
+                                        notice.textContent = "⚠️ 数字が異なるコードを選んでいます。同じ数字の隣接コードを選んでください。(黄色/赤同士は同じ数字とみなす)";
                                     }
                                     return;
                                 }
@@ -1218,8 +1431,9 @@
                     }
 
                     if (equip3Available && index !== playerIndex) {
+                        const targetFullyRevealed = isAllRevealed(state, index);
                         const isHidden = !(revealed[index] && revealed[index][posIndex]);
-                        if (isHidden) {
+                        if (!targetFullyRevealed && isHidden) {
                             item.classList.add("selectable");
                             item.addEventListener("click", () => {
                                 if (detectorSelections.some((e) => e.playerIndex === index && e.position === posIndex)) {
@@ -1228,7 +1442,6 @@
                                     );
                                     item.classList.remove("selected");
                                     item.classList.remove("equip-selected");
-                                    console.log("[equip3] deselect", { index, posIndex, detectorSelections });
                                     if (detectorSelections.length === 0) {
                                         equip3TargetIndex = null;
                                     }
@@ -1238,17 +1451,14 @@
                                     equip3TargetIndex = index;
                                 }
                                 if (equip3TargetIndex !== index) {
-                                    console.log("[equip3] blocked other target", { equip3TargetIndex, index });
                                     return;
                                 }
                                 if (detectorSelections.length >= 3) {
-                                    console.log("[equip3] already 3 selected");
                                     return;
                                 }
                                 detectorSelections.push({ playerIndex: index, position: posIndex });
                                 item.classList.add("selected");
                                 item.classList.add("equip-selected");
-                                console.log("[equip3] select", { index, posIndex, detectorSelections });
                                 if (detectorSelections.length === 3 && equip3TargetIndex !== null) {
                                     stompClient.send(
                                         "/app/target",
@@ -1261,10 +1471,30 @@
                                             mode: "equip3",
                                         })
                                     );
-                                    console.log("[equip3] send target", { equip3TargetIndex, detectorSelections });
                                     clearSelection();
                                     activeEquipmentNumber = null;
                                 }
+                            });
+                        }
+                    }
+
+                    if (equip10Available && index !== playerIndex) {
+                        const targetFullyRevealed = isAllRevealed(state, index);
+                        const isHidden = !(revealed[index] && revealed[index][posIndex]);
+                        if (!targetFullyRevealed && isHidden) {
+                            item.classList.add("selectable");
+                            item.addEventListener("click", () => {
+                                stompClient.send(
+                                    "/app/target",
+                                    {},
+                                    JSON.stringify({
+                                        targetPlayerIndex: index,
+                                        targetPosition: posIndex,
+                                        mode: "equip10",
+                                    })
+                                );
+                                clearSelection();
+                                activeEquipmentNumber = null;
                             });
                         }
                     }
@@ -1367,7 +1597,7 @@
                         });
                     }
 
-                    if (equip3Active || equip3Available || targetMode === "equip3") {
+                    if (equip3Active || equip3Available || equip10Active || equip10Available || targetMode === "equip3") {
                         // prevent normal target selection while equip3 is active
                     } else if (pendingWrongTokenFrom != null && pendingWrongTokenFrom === playerIndex) {
                         const value = Number(item.dataset.value);
@@ -1375,9 +1605,11 @@
                         const isAllowedPosition =
                             pendingWrongTokenPosition == null ||
                             posIndex === pendingWrongTokenPosition ||
-                            posIndex === pendingWrongTokenPosition2;
+                            posIndex === pendingWrongTokenPosition2 ||
+                            posIndex === pendingWrongTokenPosition3;
                         const isRevealed = revealed[index] && revealed[index][posIndex];
                         if (index === playerIndex && isAllowedPosition && frac !== 5 && !isRevealed) {
+                            item.classList.add("eligible-card");
                             item.classList.add("selectable");
                             item.addEventListener("click", () => {
                                 stompClient.send(
@@ -1387,11 +1619,18 @@
                                 );
                             });
                         }
-                    } else if (!equipSpecialActive && isMyTurn && !pendingActive && pendingSelfFrom == null && !actionMode && index !== playerIndex) {
+                    } else if (!equipSpecialActive && !isSelfAllRevealed && isMyTurn && !pendingActive && pendingSelfFrom == null && pendingOpponentRevealFrom == null && !actionMode && index !== playerIndex) {
+                        const targetFullyRevealed = isAllRevealed(state, index);
                         const isHidden = !(revealed[index] && revealed[index][posIndex]);
-                        if (isHidden) {
+                        if (!targetFullyRevealed && isHidden) {
                             item.classList.add("selectable");
                             item.addEventListener("click", () => {
+                                if (isAllRevealed(lastState, playerIndex)) {
+                                    return;
+                                }
+                                if (isAllRevealed(lastState, index)) {
+                                    return;
+                                }
                                 if (equipmentSelectionMode === 2) {
                                     return;
                                 }
@@ -1552,13 +1791,7 @@
                         }
                     }
 
-                    if (state.lastGuessTarget === index && state.lastGuessPosition === posIndex) {
-                        if (state.lastGuessCorrect === true) {
-                            item.classList.add("guess-success");
-                        } else if (state.lastGuessCorrect === false) {
-                            item.classList.add("guess-fail");
-                        }
-                    }
+                    // guess animation removed
 
                     // highlight swapped cards while confirmation is waiting
                     if (swapPendingConfirmationState) {
@@ -1579,60 +1812,143 @@
         }
 
         if (guessPanel && guessList) {
+            if (pendingMode !== "equip10") {
+                equip10Selections = [];
+                equip10ContextKey = null;
+            }
+            const equip10Key = `${pendingFrom}-${pendingTarget}-${pendingPosition}-${pendingMode}`;
+            if (pendingMode === "equip10" && equip10ContextKey !== equip10Key) {
+                equip10Selections = [];
+                equip10ContextKey = equip10Key;
+            }
             guessList.innerHTML = "";
             if (actionsAllowed && pendingGuessActive && playerIndex === pendingFrom) {
+                if (guessTitle) {
+                    if (pendingMode === "equip10") {
+                        guessTitle.textContent = "宣言する数字を2つ選択してください";
+                    } else {
+                        guessTitle.textContent = "宣言する数字を選択してください";
+                    }
+                }
                 const hand = Array.isArray(state.hands) ? state.hands[playerIndex] : [];
+                const revealRow = Array.isArray(state.revealed) ? state.revealed[playerIndex] : [];
                 const values = [];
                 let hasYellow = false;
-                hand.forEach((value) => {
+                hand.forEach((value, idx) => {
+                    if (revealRow && revealRow[idx]) {
+                        return;
+                    }
                     const rounded = Math.round(value * 10) / 10;
                     const frac = Math.round((rounded - Math.floor(rounded)) * 10);
                     if (frac === 1) {
                         hasYellow = true;
                     }
-                    const base = Math.floor(rounded);
-                    if (!values.includes(base)) {
-                        values.push(base);
+                    if (frac === 0) {
+                        const base = Math.floor(rounded);
+                        if (!values.includes(base)) {
+                            values.push(base);
+                        }
                     }
                 });
                 values.sort((a, b) => a - b);
-                if (hasYellow && pendingMode !== "detector") {
-                    const yellowBtn = document.createElement("button");
-                    yellowBtn.type = "button";
-                    yellowBtn.className = "guess-item hand-yellow";
-                    yellowBtn.textContent = "黄色";
-                    yellowBtn.addEventListener("click", () => {
-                        stompClient.send(
-                            "/app/resolve",
-                            {},
-                            JSON.stringify({
-                                guessType: "yellow",
-                                targetPlayerIndex: pendingTarget,
-                                targetPosition: pendingPosition,
-                            })
+                if (pendingMode === "equip10") {
+                    const toggleEquip10 = (entry, button) => {
+                        const index = equip10Selections.findIndex(
+                            (item) => item.type === entry.type && item.value === entry.value
                         );
+                        if (index !== -1) {
+                            equip10Selections.splice(index, 1);
+                            button.classList.remove("selected");
+                            return;
+                        }
+                        if (equip10Selections.length >= 2) {
+                            return;
+                        }
+                        equip10Selections.push(entry);
+                        button.classList.add("selected");
+                        if (equip10Selections.length === 2) {
+                            const [first, second] = equip10Selections;
+                            stompClient.send(
+                                "/app/resolve",
+                                {},
+                                JSON.stringify({
+                                    guessType: first.type,
+                                    chosenNumber: first.value,
+                                    guessType2: second.type,
+                                    chosenNumber2: second.value,
+                                    targetPlayerIndex: pendingTarget,
+                                    targetPosition: pendingPosition,
+                                })
+                            );
+                            equip10Selections = [];
+                            equip10ContextKey = null;
+                        }
+                    };
+                    if (hasYellow) {
+                        const yellowBtn = document.createElement("button");
+                        yellowBtn.type = "button";
+                        yellowBtn.className = "guess-item hand-yellow";
+                        yellowBtn.textContent = "黄色";
+                        if (equip10Selections.some((item) => item.type === "yellow")) {
+                            yellowBtn.classList.add("selected");
+                        }
+                        yellowBtn.addEventListener("click", () => {
+                            toggleEquip10({ type: "yellow", value: null }, yellowBtn);
+                        });
+                        guessList.appendChild(yellowBtn);
+                    }
+                    values.forEach((value) => {
+                        const item = document.createElement("button");
+                        item.type = "button";
+                        item.className = "guess-item";
+                        item.textContent = String(value);
+                        if (equip10Selections.some((entry) => entry.type === "number" && entry.value === value)) {
+                            item.classList.add("selected");
+                        }
+                        item.addEventListener("click", () => {
+                            toggleEquip10({ type: "number", value }, item);
+                        });
+                        guessList.appendChild(item);
                     });
-                    guessList.appendChild(yellowBtn);
+                } else {
+                if (hasYellow && pendingMode !== "detector" && pendingMode !== "equip5" && pendingMode !== "equip3") {
+                        const yellowBtn = document.createElement("button");
+                        yellowBtn.type = "button";
+                        yellowBtn.className = "guess-item hand-yellow";
+                        yellowBtn.textContent = "黄色";
+                        yellowBtn.addEventListener("click", () => {
+                            stompClient.send(
+                                "/app/resolve",
+                                {},
+                                JSON.stringify({
+                                    guessType: "yellow",
+                                    targetPlayerIndex: pendingTarget,
+                                    targetPosition: pendingPosition,
+                                })
+                            );
+                        });
+                        guessList.appendChild(yellowBtn);
+                    }
+                    values.forEach((value) => {
+                        const item = document.createElement("button");
+                        item.type = "button";
+                        item.className = "guess-item";
+                        item.textContent = String(value);
+                        item.addEventListener("click", () => {
+                            stompClient.send(
+                                "/app/resolve",
+                                {},
+                                JSON.stringify({
+                                    guessType: "number",
+                                    chosenNumber: value,
+                                    targetPlayerIndex: pendingTarget,
+                                    targetPosition: pendingPosition,
+                                })
+                            );
+                        });
+                        guessList.appendChild(item);
+                    });
                 }
-                values.forEach((value) => {
-                    const item = document.createElement("button");
-                    item.type = "button";
-                    item.className = "guess-item";
-                    item.textContent = String(value);
-                    item.addEventListener("click", () => {
-                        stompClient.send(
-                            "/app/resolve",
-                            {},
-                            JSON.stringify({
-                                guessType: "number",
-                                chosenNumber: value,
-                                targetPlayerIndex: pendingTarget,
-                                targetPosition: pendingPosition,
-                            })
-                        );
-                    });
-                    guessList.appendChild(item);
-                });
             }
         }
 
@@ -1647,7 +1963,7 @@
                 const posB = swapHighlightPositionBState !== null && swapHighlightPositionBState !== undefined
                     ? getPositionLabel(swapHighlightPositionBState)
                     : "?";
-                swapModalMessage.textContent = `「${nameA}さんのカード${posA}」と「${nameB}さんのカード${posB}」が入れ替わりました。`;
+                swapModalMessage.textContent = `「${nameA}さんのコード${posA}」と「${nameB}さんのコード${posB}」が入れ替わりました。`;
                 swapModal.classList.add("is-visible");
                 swapModal.setAttribute("aria-hidden", "false");
             }
@@ -1658,9 +1974,171 @@
             }
         }
 
+        if (radarNumber != null) {
+            const names = radarPlayers.length
+                ? radarPlayers.map((name) => name && name.trim() ? name : "未参加").join(", ")
+                : "なし";
+            const nextRadarKey = `${radarNumber}:${names}`;
+            if (notice) {
+                notice.textContent = `なんでもレーダー: ${radarNumber} を持っているプレイヤーは「 ${names}」です。(10秒後に、自動的に非表示になります)`;
+            }
+            if (nextRadarKey !== radarKey) {
+                radarKey = nextRadarKey;
+                if (radarTimeoutId) {
+                    clearTimeout(radarTimeoutId);
+                    radarTimeoutId = null;
+                }
+                handContainers.forEach((container, index) => {
+                    if (!container) {
+                        return;
+                    }
+                    const name = state.players && state.players[index] ? state.players[index].trim() : "";
+                    const fallbackName = name ? name : `プレイヤー${index + 1}`;
+                    const hasRadar = radarPlayers.includes(fallbackName);
+                    let bubble = container.querySelector(".radar-bubble");
+                    if (!bubble) {
+                        bubble = document.createElement("span");
+                        bubble.className = "radar-bubble";
+                        bubble.textContent = "はい";
+                        const nameSlot = nameSlots[index];
+                        if (nameSlot) {
+                            nameSlot.appendChild(bubble);
+                        } else {
+                            container.appendChild(bubble);
+                        }
+                    }
+                    bubble.style.display = hasRadar ? "inline-flex" : "none";
+                });
+                radarTimeoutId = setTimeout(() => {
+                    handContainers.forEach((container) => {
+                        if (!container) {
+                            return;
+                        }
+                        const bubble = container.querySelector(".radar-bubble");
+                        if (bubble) {
+                            bubble.style.display = "none";
+                        }
+                    });
+                    if (stompClient && isConnected) {
+                        stompClient.send(
+                            "/app/equipment",
+                            {},
+                            JSON.stringify({ equipmentNumber: 8, action: "clearRadar" })
+                        );
+                    }
+                    radarTimeoutId = null;
+                    radarKey = null;
+                }, 10000);
+            }
+        } else {
+            if (radarTimeoutId) {
+                clearTimeout(radarTimeoutId);
+                radarTimeoutId = null;
+            }
+            radarKey = null;
+            handContainers.forEach((container) => {
+                if (!container) {
+                    return;
+                }
+                const bubble = container.querySelector(".radar-bubble");
+                if (bubble) {
+                    bubble.style.display = "none";
+                }
+            });
+        }
+
         if (state.lastAction) {
             const by = state.lastUpdatedBy ? ` (${state.lastUpdatedBy})` : "";
             lastAction.textContent = `${state.lastAction}${by}`;
+        }
+
+        if (radarModal) {
+            radarModal.classList.remove("is-visible");
+            radarModal.setAttribute("aria-hidden", "true");
+        }
+
+        if (prevState) {
+            const actionChanged = state.lastAction && state.lastAction !== prevState.lastAction;
+            const startedNow = !prevState.gameStarted && state.gameStarted;
+            const endedNow = !prevState.missionEnded && state.missionEnded;
+            if (startedNow) {
+                playSound("start");
+            }
+            if (endedNow) {
+                playSound(state.missionSuccess ? "clear" : "boom");
+            }
+            if (actionChanged && !endedNow) {
+                if (state.lastAction === "正解") {
+                    playSound("correct");
+                } else if (state.lastAction === "不正解") {
+                    if (prevState.mistakesRemaining === 2 && state.mistakesRemaining === 1) {
+                        playSound("last1");
+                    } else {
+                        playSound("incorrect");
+                    }
+                } else if (state.lastAction === "初期トークン配置") {
+                    playSound("token");
+                } else if (state.lastAction.startsWith("装備1：")) {
+                    playSound("token");
+                } else if (state.lastAction.startsWith("装備12：")) {
+                    playSound("token");
+                } else if (state.lastAction.includes("トークン設置")) {
+                    playSound("token");
+                } else if (state.lastAction.startsWith("装備6：")) {
+                    playSound("recover");
+                } else if (state.lastAction.startsWith("装備7：")) {
+                    playSound("battery");
+                } else if (state.lastAction.startsWith("装備8：なんでもレーダー")) {
+                    playSound("radar");
+                } else if (state.lastAction.startsWith("装備9：")) {
+                    playSound("ice");
+                } else if (state.lastAction.startsWith("装備2：交換完了")) {
+                    playSound("exchange");
+                }
+            }
+            const prevTokenCount = countTokenHints(prevState);
+            const nextTokenCount = countTokenHints(state);
+            if (state.preTokenPhase && !prevState.preTokenPhase && nextTokenCount > 0) {
+                playSound("token");
+            } else if (state.preTokenPhase && prevState.preTokenPhase && nextTokenCount > prevTokenCount) {
+                playSound("token");
+            }
+            if (Array.isArray(prevState.revealed) && Array.isArray(state.revealed)) {
+                let revealedAdded = false;
+                for (let p = 0; p < state.revealed.length; p += 1) {
+                    const prevRow = prevState.revealed[p] || [];
+                    const nextRow = state.revealed[p] || [];
+                    for (let i = 0; i < nextRow.length; i += 1) {
+                        if (nextRow[i] && !prevRow[i]) {
+                            revealedAdded = true;
+                            break;
+                        }
+                    }
+                    if (revealedAdded) {
+                        break;
+                    }
+                }
+                if (revealedAdded) {
+                    playSound("reveal");
+                }
+            }
+            const prevIsMyTurn = prevState.gameStarted === true
+                && !prevState.missionEnded
+                && !prevState.preTokenPhase
+                && playerIndex >= 0
+                && playerIndex === prevState.turnIndex;
+            const nextIsMyTurn = state.gameStarted === true
+                && !state.missionEnded
+                && !state.preTokenPhase
+                && playerIndex >= 0
+                && playerIndex === state.turnIndex;
+            if (!prevIsMyTurn && nextIsMyTurn) {
+                if (state.lastAction === "装備11：手番スキップ") {
+                    playSound("skip");
+                } else {
+                    playSound("yourturn");
+                }
+            }
         }
     };
 
@@ -1739,6 +2217,7 @@
                 return;
             }
             equipmentData = await response.json();
+            applyDetectorTooltip();
         } catch (error) {
             equipmentData = {};
         }
@@ -1753,8 +2232,7 @@
             return;
         }
         const info = equipmentData[number] || {};
-        tooltipTitle.textContent = `装備カード ${number}`;
-        tooltipNumber.textContent = number;
+        tooltipTitle.textContent = number === "0" ? "個人装備" : `装備カード ${number}`;
         tooltipName.textContent = info.name || "-";
         tooltipEffect.textContent = info.effect || "-";
         tooltipTiming.textContent = info.timing || "-";
@@ -1813,6 +2291,38 @@
         });
     };
 
+    const applyDetectorTooltip = () => {
+        const info = equipmentData["0"];
+        if (!info) {
+            return;
+        }
+        detectorTooltipTitles.forEach((el) => {
+            if (el) {
+                el.textContent = "個人装備";
+            }
+        });
+        detectorTooltipNumbers.forEach((el) => {
+            if (el) {
+                el.textContent = "0";
+            }
+        });
+        detectorTooltipNames.forEach((el) => {
+            if (el) {
+                el.textContent = info.name || "フツーノ探知機";
+            }
+        });
+        detectorTooltipEffects.forEach((el) => {
+            if (el) {
+                el.textContent = info.effect || "-";
+            }
+        });
+        detectorTooltipTimings.forEach((el) => {
+            if (el) {
+                el.textContent = info.timing || "-";
+            }
+        });
+    };
+
     const openEquipmentModal = (number) => {
         if (!equipmentModal || !equipmentModalMessage) {
             return;
@@ -1847,113 +2357,7 @@
         pendingEquipmentNumber = null;
     };
 
-    const executeEquipmentDummy = (number) => {
-        clearSelection();
-        activeEquipmentNumber = number;
-        if (String(number) === "3") {
-            console.log("[equip3] start", {
-                activeEquipmentNumber,
-                targetMode,
-                playerIndex,
-                pendingActive: lastState?.pendingTargetIndex != null,
-            });
-        }
-        let message = "";
-        switch (String(number)) {
-            case "1":
-                message = "装備1を使用中：自分の隣接する異なるワイヤを2本選んでください。";
-                break;
-            case "2":
-                message = "装備2のダミーアクションを実行しました。";
-                break;
-            case "3":
-                message = "装備3を使用中：同じ相手のカードを3枚選んでください。";
-                break;
-            case "4":
-                message = "装備4を使用中：自分の非赤/非黄色のワイヤを1つ選択してください。";
-                break;
-            case "5":
-                message = "装備5のダミーアクションを実行しました。";
-                break;
-            case "6":
-                message = "装備6を使用しました。";
-                break;
-            case "7":
-                message = "装備7のダミーアクションを実行しました。";
-                break;
-            case "8":
-                message = "装備8のダミーアクションを実行しました。";
-                break;
-            case "9":
-                message = "装備9のダミーアクションを実行しました。";
-                break;
-            case "10":
-                message = "装備10のダミーアクションを実行しました。";
-                break;
-            case "11":
-                message = "装備11を使用中：次の手番プレイヤーを選んでください。";
-                break;
-            case "12":
-                message = "装備12を使用中：自分の隣接する同じワイヤを2本選んでください。";
-                break;
-            default:
-                message = "装備のダミーアクションを実行しました。";
-                break;
-        }
-        if (String(number) !== "4" && String(number) !== "1" && String(number) !== "12" && String(number) !== "11" && String(number) !== "3") {
-            activeEquipmentNumber = null;
-        }
-        if (String(number) !== "1" && String(number) !== "4" && String(number) !== "12" && String(number) !== "6" && String(number) !== "11" && String(number) !== "3") {
-            equipmentButtons.forEach((button) => {
-                if (!button || button.dataset.equipmentNumber !== String(number)) {
-                    return;
-                }
-                button.disabled = true;
-                button.classList.add("equipment-used");
-            });
-            clientUsedEquipmentNumbers.add(Number(number));
-        }
-        if (String(number) === "1" || String(number) === "4" || String(number) === "12") {
-            if (stompClient && isConnected) {
-                stompClient.send(
-                    "/app/equipment",
-                    {},
-                    JSON.stringify({ equipmentNumber: Number(number), action: "begin" })
-                );
-            }
-        }
-        if (String(number) === "6") {
-            if (stompClient && isConnected) {
-                stompClient.send(
-                    "/app/equipment",
-                    {},
-                    JSON.stringify({ equipmentNumber: 6 })
-                );
-            }
-        }
-        if (String(number) === "11") {
-            activeEquipmentNumber = "11";
-        }
-        if (String(number) === "3") {
-            activeEquipmentNumber = "3";
-            targetMode = "equip3";
-            detectorSelections = [];
-            equip3TargetIndex = null;
-            if (stompClient && isConnected) {
-                stompClient.send(
-                    "/app/equipment",
-                    {},
-                    JSON.stringify({ equipmentNumber: 3, action: "begin" })
-                );
-            }
-        }
-        if (notice) {
-            notice.textContent = message;
-        }
-        if (lastState) {
-            renderState(lastState);
-        }
-    };
+
 
     const startGame = async () => {
         startButton.disabled = true;
@@ -2123,6 +2527,13 @@
         excludeEquipmentChecks.forEach((checkbox) => {
             checkbox.disabled = disabled;
         });
+        const blocks = document.querySelectorAll(".option-yellow, .option-red");
+        blocks.forEach((block) => {
+            if (!block) {
+                return;
+            }
+            block.classList.toggle("is-disabled", disabled);
+        });
     };
 
     const loadSession = async () => {
@@ -2177,6 +2588,17 @@
     initTheme();
     startButton.addEventListener("click", startGame);
     endButton.addEventListener("click", endGame);
+    if (logoutButton) {
+        logoutButton.addEventListener("click", async () => {
+            try {
+                await fetch("/bomb-busters-simutate/logout", { method: "POST" });
+            } catch (error) {
+                // ignore
+            } finally {
+                window.location.href = "/bomb-busters-simutate";
+            }
+        });
+    }
     if (equipmentModalCancel) {
         equipmentModalCancel.addEventListener("click", closeEquipmentModal);
     }
@@ -2185,6 +2607,11 @@
             if (!pendingEquipmentNumber) {
                 closeEquipmentModal();
                 return;
+            }
+            const pendingKey = String(pendingEquipmentNumber);
+            const equipSoundExcluded = new Set(["2", "6", "7", "8", "9"]);
+            if (!equipSoundExcluded.has(pendingKey)) {
+                playSound("equip");
             }
             // force close immediately
             if (equipmentModal) {
@@ -2202,110 +2629,280 @@
                 }
                 return;
             }
-            // equipment 2 has a special interactive flow
-            if (String(pendingEquipmentNumber) === "2") {
-                // start equipment selection on client side: choose a target player
-                equipmentSelectionMode = 2;
-                closeEquipmentModal();
-                if (notice) {
-                    notice.textContent = "相手のプレイヤーを1名選んでください。";
-                }
-                if (lastState) {
-                    renderState(lastState);
-                }
-                if (equipmentTargetModal) {
-                    equipmentTargetModal.classList.add("is-visible");
-                    equipmentTargetModal.setAttribute("aria-hidden", "false");
-                    equipmentTargetModal.style.display = "flex";
-                }
-                return;
-            }
-            if (String(pendingEquipmentNumber) === "11") {
-                equipmentSelectionMode = 11;
-                activeEquipmentNumber = "11";
-                closeEquipmentModal();
-                if (notice) {
-                    notice.textContent = "装備11を使用中：次の手番プレイヤーを選んでください。";
-                }
-                if (lastState) {
-                    renderState(lastState);
-                }
-                if (equipmentTargetModal) {
-                    if (equipmentTargetMessage) {
-                        equipmentTargetMessage.textContent = "次の手番プレイヤーを選んでください。";
+            switch (pendingKey) {
+                case "1": {
+                    activeEquipmentNumber = "1";
+                    closeEquipmentModal();
+                    if (stompClient && isConnected) {
+                        stompClient.send(
+                            "/app/equipment",
+                            {},
+                            JSON.stringify({ equipmentNumber: 1, action: "begin" })
+                        );
                     }
-                    equipmentTargetModal.classList.add("is-visible");
-                    equipmentTargetModal.setAttribute("aria-hidden", "false");
-                    equipmentTargetModal.style.display = "flex";
-                }
-                return;
-            }
-            if (String(pendingEquipmentNumber) === "5") {
-                equipmentSelectionMode = 5;
-                activeEquipmentNumber = "5";
-                closeEquipmentModal();
-                if (stompClient && isConnected) {
-                    stompClient.send(
-                        "/app/equipment",
-                        {},
-                        JSON.stringify({ equipmentNumber: 5, action: "begin" })
-                    );
-                }
-                if (notice) {
-                    notice.textContent = "装備5を使用中：相手のプレイヤーを選んでください。";
-                }
-                if (lastState) {
-                    renderState(lastState);
-                }
-                if (equipmentTargetModal) {
-                    if (equipmentTargetMessage) {
-                        equipmentTargetMessage.textContent = "判定対象のプレイヤーを選んでください。";
+                    if (notice) {
+                        notice.textContent = "装備1を使用中：自分の隣接する異なるコードを2本選んでください。";
                     }
-                    equipmentTargetModal.classList.add("is-visible");
-                    equipmentTargetModal.setAttribute("aria-hidden", "false");
-                    equipmentTargetModal.style.display = "flex";
-                }
-                return;
-            }
-            if (String(pendingEquipmentNumber) === "7") {
-                equipmentSelectionMode = 7;
-                activeEquipmentNumber = "7";
-                closeEquipmentModal();
-                if (notice) {
-                    notice.textContent = "装備7を使用中：再使用可能にする探知機の持ち主を選んでください。";
-                }
-                if (lastState) {
-                    renderState(lastState);
-                }
-                if (equipmentTargetModal) {
-                    if (equipmentTargetMessage) {
-                        equipmentTargetMessage.textContent = "再使用可能にする探知機の持ち主を選んでください。";
+                    if (lastState) {
+                        renderState(lastState);
                     }
-                    equipmentTargetModal.classList.add("is-visible");
-                    equipmentTargetModal.setAttribute("aria-hidden", "false");
-                    equipmentTargetModal.style.display = "flex";
+                    return;
                 }
-                return;
-            }
-            if (String(pendingEquipmentNumber) === "detector") {
-                closeEquipmentModal();
-                if (targetMode !== "detector") {
-                    clearSelection();
-                    targetMode = "detector";
+                case "2": {
+                    equipmentSelectionMode = 2;
+                    closeEquipmentModal();
+                    if (notice) {
+                        notice.textContent = "相手のプレイヤーを1名選んでください。";
+                    }
+                    if (lastState) {
+                        renderState(lastState);
+                    }
+                    if (equipmentTargetModal) {
+                        equipmentTargetModal.classList.add("is-visible");
+                        equipmentTargetModal.setAttribute("aria-hidden", "false");
+                        equipmentTargetModal.style.display = "flex";
+                    }
+                    return;
+                }
+                case "3": {
+                    activeEquipmentNumber = "3";
+                    targetMode = "equip3";
                     detectorSelections = [];
-                } else {
-                    clearSelection();
+                    equip3TargetIndex = null;
+                    closeEquipmentModal();
+                    if (stompClient && isConnected) {
+                        stompClient.send(
+                            "/app/equipment",
+                            {},
+                            JSON.stringify({ equipmentNumber: 3, action: "begin" })
+                        );
+                    }
+                    if (notice) {
+                        notice.textContent = "装備3を使用中：同じ相手のコードを3本選んでください。";
+                    }
+                    if (lastState) {
+                        renderState(lastState);
+                    }
+                    return;
                 }
-                if (notice) {
-                    notice.textContent = "フツーノ探知機を使用します。任意のカードを2枚選んでください。";
+                case "4": {
+                    activeEquipmentNumber = "4";
+                    closeEquipmentModal();
+                    if (stompClient && isConnected) {
+                        stompClient.send(
+                            "/app/equipment",
+                            {},
+                            JSON.stringify({ equipmentNumber: 4, action: "begin" })
+                        );
+                    }
+                    if (notice) {
+                        notice.textContent = "装備4を使用中：自分の非赤/非黄色のコードを1つ選択してください。";
+                    }
+                    if (lastState) {
+                        renderState(lastState);
+                    }
+                    return;
                 }
-                if (lastState) {
-                    renderState(lastState);
+                case "5": {
+                    equipmentSelectionMode = 5;
+                    activeEquipmentNumber = "5";
+                    closeEquipmentModal();
+                    if (stompClient && isConnected) {
+                        stompClient.send(
+                            "/app/equipment",
+                            {},
+                            JSON.stringify({ equipmentNumber: 5, action: "begin" })
+                        );
+                    }
+                    if (notice) {
+                        notice.textContent = "装備5を使用中：相手のプレイヤーを選んでください。";
+                    }
+                    if (lastState) {
+                        renderState(lastState);
+                    }
+                    if (equipmentTargetModal) {
+                        if (equipmentTargetMessage) {
+                            equipmentTargetMessage.textContent = "判定対象のプレイヤーを選んでください。";
+                        }
+                        equipmentTargetModal.classList.add("is-visible");
+                        equipmentTargetModal.setAttribute("aria-hidden", "false");
+                        equipmentTargetModal.style.display = "flex";
+                    }
+                    return;
                 }
-                return;
+                case "6": {
+                    closeEquipmentModal();
+                    if (stompClient && isConnected) {
+                        stompClient.send(
+                            "/app/equipment",
+                            {},
+                            JSON.stringify({ equipmentNumber: 6 })
+                        );
+                    }
+                    if (notice) {
+                        notice.textContent = "装備6を使用しました。";
+                    }
+                    if (lastState) {
+                        renderState(lastState);
+                    }
+                    return;
+                }
+                case "7": {
+                    const hasDetectorTarget = Array.isArray(lastState?.detectorUsed)
+                        && lastState.detectorUsed.some((used, index) => used && index !== playerIndex);
+                    if (!hasDetectorTarget) {
+                        closeEquipmentModal();
+                        if (notice) {
+                            notice.textContent = "使用済みの探知機がありません。";
+                        }
+                        return;
+                    }
+                    equipmentSelectionMode = 7;
+                    activeEquipmentNumber = "7";
+                    equip7Selections = [];
+                    closeEquipmentModal();
+                    if (notice) {
+                        notice.textContent = "装備7を使用中：再使用可能にする探知機の持ち主を選んでください。";
+                    }
+                    if (lastState) {
+                        renderState(lastState);
+                    }
+                    if (equipmentTargetModal) {
+                        if (equipmentTargetMessage) {
+                            equipmentTargetMessage.textContent = "再使用可能にする探知機の持ち主を選んでください。";
+                        }
+                        equipmentTargetModal.classList.add("is-visible");
+                        equipmentTargetModal.setAttribute("aria-hidden", "false");
+                        equipmentTargetModal.style.display = "flex";
+                    }
+                    return;
+                }
+                case "8": {
+                    closeEquipmentModal();
+                    if (notice) {
+                        notice.textContent = "装備8を使用中：宣言する数字を選んでください。";
+                    }
+                    if (guessTitle) {
+                        guessTitle.textContent = "宣言する数字を選択してください";
+                    }
+                    if (guessPanel) {
+                        guessPanel.style.display = "flex";
+                        guessPanel.style.order = "";
+                    }
+                    if (guessList) {
+                        guessList.innerHTML = "";
+                        for (let value = 1; value <= 12; value += 1) {
+                            const item = document.createElement("button");
+                            item.type = "button";
+                            item.className = "guess-item";
+                            item.textContent = String(value);
+                            item.addEventListener("click", () => {
+                                stompClient.send(
+                                    "/app/equipment",
+                                    {},
+                                    JSON.stringify({ equipmentNumber: 8, action: "begin", targetPlayerIndex: value })
+                                );
+                            });
+                            guessList.appendChild(item);
+                        }
+                    }
+                    return;
+                }
+                case "9": {
+                    closeEquipmentModal();
+                    activeEquipmentNumber = "9";
+                    if (stompClient && isConnected) {
+                        stompClient.send(
+                            "/app/equipment",
+                            {},
+                            JSON.stringify({ equipmentNumber: 9, action: "begin" })
+                        );
+                    }
+                    if (notice) {
+                        notice.textContent = "装備9を使用中：この手番の失敗は無効化されます。";
+                    }
+                    if (lastState) {
+                        renderState(lastState);
+                    }
+                    return;
+                }
+                case "10": {
+                    activeEquipmentNumber = "10";
+                    closeEquipmentModal();
+                    if (stompClient && isConnected) {
+                        stompClient.send(
+                            "/app/equipment",
+                            {},
+                            JSON.stringify({ equipmentNumber: 10, action: "begin" })
+                        );
+                    }
+                    if (notice) {
+                        notice.textContent = "装備10を使用中：相手のコードを1本選んでください。";
+                    }
+                    if (lastState) {
+                        renderState(lastState);
+                    }
+                    return;
+                }
+                case "11": {
+                    equipmentSelectionMode = 11;
+                    activeEquipmentNumber = "11";
+                    closeEquipmentModal();
+                    if (notice) {
+                        notice.textContent = "装備11を使用中：次の手番プレイヤーを選んでください。";
+                    }
+                    if (lastState) {
+                        renderState(lastState);
+                    }
+                    if (equipmentTargetModal) {
+                        if (equipmentTargetMessage) {
+                            equipmentTargetMessage.textContent = "次の手番プレイヤーを選んでください。";
+                        }
+                        equipmentTargetModal.classList.add("is-visible");
+                        equipmentTargetModal.setAttribute("aria-hidden", "false");
+                        equipmentTargetModal.style.display = "flex";
+                    }
+                    return;
+                }
+                case "12": {
+                    activeEquipmentNumber = "12";
+                    closeEquipmentModal();
+                    if (stompClient && isConnected) {
+                        stompClient.send(
+                            "/app/equipment",
+                            {},
+                            JSON.stringify({ equipmentNumber: 12, action: "begin" })
+                        );
+                    }
+                    if (notice) {
+                        notice.textContent = "装備12を使用中：自分の隣接する同じコードを2本選んでください。";
+                    }
+                    if (lastState) {
+                        renderState(lastState);
+                    }
+                    return;
+                }
+                case "detector": {
+                    closeEquipmentModal();
+                    if (targetMode !== "detector") {
+                        clearSelection();
+                        targetMode = "detector";
+                        detectorSelections = [];
+                    } else {
+                        clearSelection();
+                    }
+                    if (notice) {
+                        notice.textContent = "フツーノ探知機を使用します。任意のコードを2本選んでください。";
+                    }
+                    if (lastState) {
+                        renderState(lastState);
+                    }
+                    return;
+                }
+                default:
+                    closeEquipmentModal();
+                    return;
             }
-            executeEquipmentDummy(pendingEquipmentNumber);
-            closeEquipmentModal();
         });
     }
     if (equipmentModal) {
@@ -2318,22 +2915,28 @@
     if (equipmentTargetModal) {
         equipmentTargetModal.addEventListener("click", (event) => {
             if (event.target === equipmentTargetModal) {
-                equipmentSelectionMode = null;
-                activeEquipmentNumber = null;
-                clearSelection();
-                if (equipmentTargetModal.contains(document.activeElement)) {
-                    document.activeElement.blur();
-                }
-                equipmentTargetModal.classList.remove("is-visible");
-                equipmentTargetModal.setAttribute("aria-hidden", "true");
-                equipmentTargetModal.style.display = "";
+                event.preventDefault();
             }
         });
     }
     if (equipmentTargetCancel) {
-        equipmentTargetCancel.addEventListener("click", () => {
+        equipmentTargetCancel.remove();
+    }
+    if (equipmentTargetConfirm) {
+        equipmentTargetConfirm.addEventListener("click", () => {
+            if (equipmentSelectionMode !== 7) {
+                return;
+            }
+            if (equip7Selections.length > 0 && stompClient && isConnected) {
+                stompClient.send(
+                    "/app/equipment",
+                    {},
+                    JSON.stringify({ equipmentNumber: 7, targetPlayerIndexes: equip7Selections })
+                );
+            }
             equipmentSelectionMode = null;
             activeEquipmentNumber = null;
+            equip7Selections = [];
             clearSelection();
             if (equipmentTargetModal) {
                 if (equipmentTargetModal.contains(document.activeElement)) {
@@ -2343,6 +2946,11 @@
                 equipmentTargetModal.setAttribute("aria-hidden", "true");
                 equipmentTargetModal.style.display = "";
             }
+        });
+    }
+    if (radarModalConfirm) {
+        radarModalConfirm.addEventListener("click", () => {
+            // modal is not used; keep listener as no-op
         });
     }
     if (actionTarget) {
@@ -2358,6 +2966,14 @@
             if (lastState) {
                 renderState(lastState);
             }
+        });
+    }
+    if (actionSkip) {
+        actionSkip.addEventListener("click", () => {
+            if (!stompClient || !isConnected) {
+                return;
+            }
+            stompClient.send("/app/skip", {}, "{}");
         });
     }
 
@@ -2397,7 +3013,7 @@
             clearSelection();
             actionMode = "reveal4";
             if (notice) {
-                notice.textContent = "同じ数字4枚を選択してください。";
+                notice.textContent = "同じ数字4本を選択してください。";
             }
             if (lastState) {
                 renderState(lastState);
@@ -2412,7 +3028,7 @@
             clearSelection();
             actionMode = "reveal2";
             if (notice) {
-                notice.textContent = "同じ数字2枚を選択してください。";
+                notice.textContent = "同じ数字2本を選択してください。";
             }
             if (lastState) {
                 renderState(lastState);

@@ -93,6 +93,17 @@ public class BombBustersController {
         return ResponseEntity.ok(state);
     }
 
+    @PostMapping(path = "/bomb-busters-simutate/logout", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> logout(HttpSession session) {
+        String sessionId = session.getId();
+        BombBustersState state = gameService.leavePlayer(sessionId);
+        session.invalidate();
+        messagingTemplate.convertAndSend("/topic/state", state);
+        Map<String, Object> body = new HashMap<>();
+        body.put("ok", true);
+        return ResponseEntity.ok(body);
+    }
+
     public static class PlayerNameRequest {
         private String name;
 
