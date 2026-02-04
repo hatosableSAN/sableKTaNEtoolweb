@@ -587,6 +587,29 @@
         const usedEquipmentNumbers = Array.isArray(state.usedEquipmentNumbers) ? state.usedEquipmentNumbers : [];
         const equipmentLocked = state.equipmentInUseNumber != null && state.equipmentInUseBy != null;
         const isSelfAllRevealed = isAllRevealed(state, playerIndex);
+        const unlockedEquipmentNumbers = new Set();
+        if (Array.isArray(state.hands) && Array.isArray(state.revealed)) {
+            const revealedCounts = {};
+            state.hands.forEach((hand, pIdx) => {
+                const revealRow = state.revealed[pIdx] || [];
+                hand.forEach((value, pos) => {
+                    if (!revealRow[pos]) {
+                        return;
+                    }
+                    const frac = Math.round((value - Math.floor(value)) * 10);
+                    if (frac !== 0) {
+                        return;
+                    }
+                    const base = Math.floor(value);
+                    revealedCounts[base] = (revealedCounts[base] || 0) + 1;
+                });
+            });
+            Object.keys(revealedCounts).forEach((baseStr) => {
+                if (revealedCounts[baseStr] >= 2) {
+                    unlockedEquipmentNumbers.add(Number(baseStr));
+                }
+            });
+        }
         if (Array.isArray(state.equipmentNumbers)) {
             const maxSlots = Math.max(
                 equipmentButtons.length,
@@ -618,7 +641,8 @@
                         const used =
                             usedEquipmentNumbers.includes(value) ||
                             clientUsedEquipmentNumbers.has(value);
-                        button.disabled = used || state.preTokenPhase || equipmentLocked || isSelfAllRevealed;
+                        const unlocked = unlockedEquipmentNumbers.has(value);
+                        button.disabled = used || !unlocked || state.preTokenPhase || equipmentLocked || isSelfAllRevealed;
                         button.classList.toggle("equipment-used", used);
                     } else {
                         button.style.display = "none";
