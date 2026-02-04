@@ -89,6 +89,26 @@ body {
     font-size: 11px;
 }
 
+.logout-button {
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.25);
+    color: var(--text);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+body[data-theme="light"] .logout-button {
+    border: 1px solid #cfcfcf;
+    background: #ffffff;
+    color: #222;
+}
+
 .theme-toggle {
     display: inline-flex;
     align-items: center;
@@ -328,24 +348,22 @@ body[data-theme="light"] .hero::after {
     position: absolute;
     bottom: calc(100% + 8px);
     right: 0;
-    padding: 8px 10px;
-    border-radius: 10px;
-    background: var(--tooltip-bg);
-    border: 1px solid var(--tooltip-border);
-    color: var(--text);
-    font-size: 12px;
-    white-space: normal;
-    width: 220px;
+    top: auto;
+    left: auto;
+    width: 230px;
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
     transform: translateY(6px);
     transition: opacity 0.2s ease, transform 0.2s ease;
     z-index: 6;
+    text-align: left;
 }
 
 .hand-detector:hover .detector-tooltip,
 .hand-detector:focus .detector-tooltip {
     opacity: 1;
+    visibility: visible;
     transform: translateY(0);
 }
 
@@ -570,6 +588,10 @@ body[data-theme="light"] .tooltip-label {
     margin-top: 4px;
 }
 
+.tooltip-number-row {
+    display: none;
+}
+
 .tooltip-label {
     color: var(--muted);
     text-transform: uppercase;
@@ -587,6 +609,25 @@ body[data-theme="light"] .tooltip-label {
     font-size: 16px;
     font-weight: 700;
     color: var(--text);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.radar-bubble {
+    display: none;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    background: #ffe27a;
+    color: #1a1a1a;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+body[data-theme="light"] .radar-bubble {
+    background: #ffd44d;
+    color: #1a1a1a;
 }
 
 .hand-list {
@@ -627,7 +668,7 @@ body[data-theme="light"] .tooltip-label {
 }
 
 body[data-theme="light"] .hand-list li {
-    background: #efefef;
+    background: rgba(178, 178, 178, 0.24);
 }
 
 .hand-list .hand-empty {
@@ -641,36 +682,42 @@ body[data-theme="light"] .hand-list li {
 
 .hand-card.selectable {
     cursor: pointer;
-    outline: 1px dashed rgba(255, 255, 255, 0.35);
+    border: none;
+    border: 1px dashed rgba(255, 255, 255, 0.35);
+    background-clip: padding-box;
 }
 
 body[data-theme="light"] .hand-card.selectable {
-    outline: 1px dashed rgba(0, 0, 0, 0.35);
+    border: 1px dashed rgba(0, 0, 0, 0.35);
 }
 
 .hand-card.selected {
-    outline: 2px solid var(--accent-red);
+    border: 1px solid var(--accent-red);
     background: rgba(226, 75, 75, 0.15);
 }
 
 .hand-card.equip-selected {
-    outline: 2px solid rgba(122, 217, 255, 0.9);
+    border: none;
+    border: 1px solid rgba(122, 217, 255, 0.9);
+    background-clip: padding-box;
     background: rgba(122, 217, 255, 0.18);
 }
 
 body[data-theme="light"] .hand-card.equip-selected {
-    outline: 2px solid rgba(25, 110, 170, 0.8);
-    background: rgba(122, 217, 255, 0.25);
+    border: 1px solid rgba(25, 110, 170, 0.8);
+    background: rgba(122, 217, 255, 0.32);
 }
 
 .hand-card.eligible-card {
-    outline: 2px solid rgba(120, 210, 245, 0.8);
-    background: rgba(120, 210, 245, 0.12);
+    border: none;
+    border: 1px solid rgba(120, 210, 245, 0.8) !important;
+    background-clip: padding-box;
+    background: rgba(120, 210, 245, 0.12)!important;
 }
 
 .hand-card.pending-target {
-    outline: 2px solid rgba(255, 211, 61, 0.8);
-    background: rgba(255, 211, 61, 0.12);
+    border: 1px solid rgba(255, 211, 61, 0.8)!important;
+    background: rgba(255, 211, 61, 0.32)!important;
 }
 
 .hand-card.revealed-card {
@@ -828,17 +875,20 @@ body[data-theme="light"] .hand-yellow {
     gap: 8px;
     padding: 16px;
     border-radius: 18px;
-    background: linear-gradient(135deg, rgba(18, 48, 40, 0.68), rgba(9, 24, 20, 0.85));
-    border: 1px solid rgba(120, 210, 170, 0.25);
-    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(135deg, rgba(16, 44, 56, 0.72), rgba(8, 20, 28, 0.9));
+    border: 1px solid rgba(130, 190, 225, 0.28);
 }
 
 body[data-theme="light"] .deck-panel {
-    background: var(--deck-bg);
-    border: 1px solid var(--panel-border);
+    background: #f2f6fb;
+    border: 1px solid rgba(120, 140, 160, 0.28);
 }
 
 .deck-panel-inline {
+    grid-column: 1 / -1;
+}
+
+.guess-panel-inline {
     grid-column: 1 / -1;
 }
 
@@ -846,7 +896,7 @@ body[data-theme="light"] .deck-panel {
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    color: #a8e6c9;
+    color: #9dd7f4;
 }
 
 body[data-theme="light"] .deck-label {
@@ -925,6 +975,11 @@ body[data-theme="light"] .deck-complete {
     border-radius: 14px;
     background: rgba(22, 37, 59, 0.45);
     border: 2px solid rgba(255, 255, 255, 0.12);
+}
+
+.option-block.is-disabled {
+    opacity: 0.55;
+    filter: grayscale(0.35);
 }
 
 body[data-theme="light"] .option-block {
@@ -1231,9 +1286,23 @@ body[data-theme="light"] .guess-title {
     cursor: pointer;
 }
 
+.guess-item.selected {
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-offset: 2px;
+}
+
 body[data-theme="light"] .guess-item {
     background: #f2f2f2;
     border: 1px solid #d8d8d8;
+}
+
+body[data-theme="light"] .guess-item.selected {
+    border-color: rgba(60, 60, 60, 0.65);
+}
+
+.target-button.is-active {
+    border-color: #ffe27a;
+    box-shadow: 0 0 0 2px rgba(255, 226, 122, 0.35);
 }
 
 .modal-overlay {
