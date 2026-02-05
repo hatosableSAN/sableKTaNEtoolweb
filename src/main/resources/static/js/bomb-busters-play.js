@@ -2256,7 +2256,9 @@
         }
 
         if (prevState) {
+            const isForcedEnd = state.lastAction === "ゲーム終了" && !state.missionEnded;
             if (
+                !isForcedEnd &&
                 state.version != null &&
                 state.version !== lastRevealLoggedVersion &&
                 Array.isArray(prevState.revealed) &&
@@ -2266,17 +2268,21 @@
                 state.revealed.forEach((row, pIdx) => {
                     const prevRow = prevState.revealed[pIdx] || [];
                     const hand = state.hands[pIdx] || [];
+                    const newlyRevealed = [];
                     row.forEach((isRevealed, posIdx) => {
                         if (!isRevealed || prevRow[posIdx]) {
                             return;
                         }
+                        const posLabel = getPositionLabel(posIdx);
+                        const value = hand[posIdx];
+                        newlyRevealed.push(`${formatCardValue(value)}`);
+                    });
+                    if (newlyRevealed.length > 0) {
                         const playerName = state.players && state.players[pIdx]
                             ? state.players[pIdx].trim()
                             : `プレイヤー${pIdx + 1}`;
-                        const posLabel = getPositionLabel(posIdx);
-                        const value = hand[posIdx];
-                        appendLog(`切断(${playerName}:コード${posLabel}=${formatCardValue(value)})`);
-                    });
+                        appendLog(`切断(${playerName}:${newlyRevealed.join(", ")})`);
+                    }
                 });
                 lastRevealLoggedVersion = state.version;
             }
