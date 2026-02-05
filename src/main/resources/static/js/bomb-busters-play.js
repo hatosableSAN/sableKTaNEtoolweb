@@ -14,6 +14,9 @@
     const equipmentTargetConfirm = document.getElementById("equipment-target-confirm");
     const themeToggle = document.getElementById("theme-toggle");
     const logoutButton = document.getElementById("logout-button");
+    const releaseNotesButton = document.getElementById("release-notes-button");
+    const releaseNotesModal = document.getElementById("release-notes-modal");
+    const releaseNotesClose = document.getElementById("release-notes-close");
     const guessPanel = document.getElementById("guess-panel");
     const guessTitle = document.getElementById("guess-title");
     const guessList = document.getElementById("guess-list");
@@ -111,6 +114,10 @@
     const deckPanel = document.getElementById("deck-panel");
     const midPanel = document.getElementById("mid-panel");
     const mistValue = document.getElementById("mist-value");
+    const logButton = document.getElementById("log-button");
+    const logPanel = document.getElementById("log-panel");
+    const logList = document.getElementById("log-list");
+    const logClose = document.getElementById("log-close");
     const nameSlots = [
         document.getElementById("player-name-1"),
         document.getElementById("player-name-2"),
@@ -147,6 +154,9 @@
     let lastRedHintVersion = null;
     let lastEquip7Version = null;
     let lastState = null;
+    let lastLoggedVersion = null;
+    let lastDeclaredLoggedVersion = null;
+    let lastRevealLoggedVersion = null;
     const soundFiles = {
         correct: "/sfx/correct.mp3",
         incorrect: "/sfx/incorrect.mp3",
@@ -164,6 +174,7 @@
         recover: "/sfx/recover.mp3",
         yourturn: "/sfx/yourturn.mp3",
         skip: "/sfx/skip.mp3",
+        login: "/sfx/login.mp3",
     };
     const sounds = {};
     const playSound = (key) => {
@@ -225,6 +236,62 @@
     const updateConnectionLabel = (text, ok) => {
         connectionLabel.textContent = text;
         connectionLabel.style.color = ok ? "#ffb300" : "#b3c0d9";
+    };
+
+    const formatTime = (date) =>
+        date.toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+
+    const appendLog = (text) => {
+        if (!logList) {
+            return;
+        }
+        const item = document.createElement("li");
+        item.className = "log-item";
+        const time = document.createElement("span");
+        time.className = "log-time";
+        time.textContent = formatTime(new Date());
+        const body = document.createElement("span");
+        body.textContent = text;
+        item.appendChild(time);
+        item.appendChild(body);
+        logList.appendChild(item);
+        const maxItems = 80;
+        while (logList.children.length > maxItems) {
+            logList.removeChild(logList.firstChild);
+        }
+        logList.scrollTop = logList.scrollHeight;
+    };
+
+    const formatCardValue = (raw) => {
+        const value = Number(raw);
+        if (Number.isNaN(value)) {
+            return "-";
+        }
+        const base = Math.floor(value);
+        const frac = Math.round((value - base) * 10);
+        if (frac === 1) {
+            return `${base}(黄)`;
+        }
+        if (frac === 5) {
+            return `${base}(赤)`;
+        }
+        return String(base);
+    };
+
+    const scrollHandListToItem = (item) => {
+        if (!item) {
+            return;
+        }
+        const list = item.closest(".hand-list");
+        if (!list) {
+            return;
+        }
+        const listRect = list.getBoundingClientRect();
+        const itemRect = item.getBoundingClientRect();
+        const currentLeft = list.scrollLeft;
+        const itemCenter = itemRect.left - listRect.left + currentLeft + itemRect.width / 2;
+        const targetLeft = Math.max(0, itemCenter - listRect.width / 2);
+        list.scrollTo({ left: targetLeft, behavior: "smooth" });
     };
 
 
@@ -716,7 +783,7 @@
                     } else {
                         item.classList.add("deck-solid");
                     }
-                    if ((frac === 0 && revealedBases.has(base)) || (frac !== 0 && revealedExact.has(rounded.toFixed(1)))) {
+                    if (frac === 0 && revealedBases.has(base)) {
                         item.classList.add("deck-complete");
                     }
                     item.textContent = Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
@@ -908,8 +975,8 @@
             if (!btn) {
                 return;
             }
-        const canUseDetector = canAct && index === playerIndex && !equipmentLocked && !isSelfAllRevealed;
-            btn.style.display = canUseDetector ? "" : "none";
+            const canUseDetector = canAct && index === playerIndex && !equipmentLocked && !isSelfAllRevealed;
+            btn.style.display = "";
             if (targetMode === "detector" && canUseDetector) {
                 btn.classList.add("is-active");
             } else {
@@ -948,11 +1015,11 @@
             } else if (inTokenPhase) {
                 notice.textContent = "🧩 初期トークン配置: 隊長から順に配置中です。";
             } else if (started && pendingOpponentRevealFrom === playerIndex) {
-                notice.textContent = "✅️ 相手があなたのコードを当てました！選ばれたコードを公開してください。";
+                notice.textContent = "✅️ 相手があなたのコードを当てました！選ばれたコードを切断してください。";
             } else if (started && pendingOpponentRevealFrom !== null) {
-                notice.textContent = "✅️ 正解です！相手の公開待ちです。";
+                notice.textContent = "✅️ 正解です！相手の切断待ちです。";
             } else if (started && pendingSelfFrom === playerIndex) {
-                notice.textContent = "✅️ 正解です！自分のコードを1本公開してください。";
+                notice.textContent = "✅️ 正解です！自分のコードを1本切断してください。";
             } else if (started && isMyTurn && targetMode === "detector") {
                 notice.textContent = "🔍 個人装備: フツーノ探知機を使用します。任意のコードを2本選んでください（黄色は宣言不可）。";
             } else if (started && pendingWrongTokenFrom != null && playerIndex === pendingWrongTokenFrom) {
@@ -1339,6 +1406,7 @@
 
                     if (targetMode === "detector" && isDetectorSelected(index, posIndex)) {
                         item.classList.add("selected");
+                        item.classList.add("pending-target");
                     }
 
                     if (equip1Available && index === playerIndex) {
@@ -1659,21 +1727,23 @@
                                     return;
                                 }
                                 if (targetMode === "detector") {
-                                    if (isDetectorSelected(index, posIndex)) {
-                                        detectorSelections = detectorSelections.filter(
-                                            (entry) => !(entry.playerIndex === index && entry.position === posIndex)
-                                        );
-                                        item.classList.remove("selected");
-                                        return;
-                                    }
-                                    if (detectorSelections.length >= 2) {
-                                        return;
-                                    }
-                                    detectorSelections.push({ playerIndex: index, position: posIndex });
-                                    item.classList.add("selected");
-                                    if (detectorSelections.length === 2) {
-                                        const first = detectorSelections[0];
-                                        const second = detectorSelections[1];
+                                if (isDetectorSelected(index, posIndex)) {
+                                    detectorSelections = detectorSelections.filter(
+                                        (entry) => !(entry.playerIndex === index && entry.position === posIndex)
+                                    );
+                                    item.classList.remove("selected");
+                                    item.classList.remove("pending-target");
+                                    return;
+                                }
+                                if (detectorSelections.length >= 2) {
+                                    return;
+                                }
+                                detectorSelections.push({ playerIndex: index, position: posIndex });
+                                item.classList.add("selected");
+                                item.classList.add("pending-target");
+                                if (detectorSelections.length === 2) {
+                                    const first = detectorSelections[0];
+                                    const second = detectorSelections[1];
                                         stompClient.send(
                                             "/app/target",
                                             {},
@@ -1829,6 +1899,10 @@
 
                     slot.appendChild(item);
                 });
+                const pendingItem = slot.querySelector(".pending-target");
+                if (pendingItem) {
+                    scrollHandListToItem(pendingItem);
+                }
             });
         }
         if (!isMyTurn) {
@@ -2071,9 +2145,109 @@
             });
         }
 
+        const declaredMode = state.lastDeclaredMode;
+        const declaredBy = state.lastDeclaredBy;
+        const declaredYellow = state.lastDeclaredYellow === true;
+        const declaredBase = state.lastDeclaredBase;
+        const declaredYellow2 = state.lastDeclaredYellow2 === true;
+        const declaredBase2 = state.lastDeclaredBase2;
+        const detectorLike =
+            declaredMode === "detector" || declaredMode === "equip3" || declaredMode === "equip5" || declaredMode === "equip10";
+        const showDetectorBubble =
+            detectorLike &&
+            state.lastGuessCorrect === false &&
+            typeof declaredBy === "number" &&
+            declaredBy === state.turnIndex;
+        const firstLabel = declaredYellow
+            ? "黄色"
+            : declaredBase !== null && declaredBase !== undefined
+                ? String(declaredBase)
+                : "";
+        const secondLabel = declaredYellow2
+            ? "黄色"
+            : declaredBase2 !== null && declaredBase2 !== undefined
+                ? String(declaredBase2)
+                : "";
+        const detectorLabel =
+            declaredMode === "equip10" && secondLabel
+                ? `${firstLabel}/${secondLabel}`
+                : firstLabel;
+        handContainers.forEach((container, index) => {
+            if (!container) {
+                return;
+            }
+            let bubble = container.querySelector(".detector-bubble");
+            const shouldShow = showDetectorBubble && index === declaredBy && detectorLabel;
+            if (!shouldShow) {
+                if (bubble) {
+                    bubble.style.display = "none";
+                }
+                return;
+            }
+            if (!bubble) {
+                bubble = document.createElement("span");
+                bubble.className = "radar-bubble detector-bubble";
+                const nameSlot = nameSlots[index];
+                if (nameSlot) {
+                    nameSlot.appendChild(bubble);
+                } else {
+                    container.appendChild(bubble);
+                }
+            }
+            bubble.textContent = detectorLabel;
+            bubble.style.display = "inline-flex";
+        });
+
         if (state.lastAction) {
-            const by = state.lastUpdatedBy ? ` (${state.lastUpdatedBy})` : "";
-            lastAction.textContent = `${state.lastAction}${by}`;
+            if (
+                state.version != null &&
+                state.version !== lastDeclaredLoggedVersion &&
+                typeof state.lastDeclaredBy === "number"
+            ) {
+                const declName = state.players && state.players[state.lastDeclaredBy]
+                    ? state.players[state.lastDeclaredBy].trim()
+                    : `プレイヤー${state.lastDeclaredBy + 1}`;
+                const declFirst = state.lastDeclaredYellow
+                    ? "黄色"
+                    : state.lastDeclaredBase !== null && state.lastDeclaredBase !== undefined
+                        ? String(state.lastDeclaredBase)
+                        : "";
+                const declSecond = state.lastDeclaredYellow2
+                    ? "黄色"
+                    : state.lastDeclaredBase2 !== null && state.lastDeclaredBase2 !== undefined
+                        ? String(state.lastDeclaredBase2)
+                        : "";
+                const declValue =
+                    state.lastDeclaredMode === "equip10" && declSecond
+                        ? `${declFirst}/${declSecond}`
+                        : declFirst;
+                if (declValue) {
+                    appendLog(`宣言(${declName}:${declValue})`);
+                    lastDeclaredLoggedVersion = state.version;
+                }
+            }
+            let actionText = state.lastAction;
+            if (
+                state.lastAction === "指名" &&
+                typeof state.pendingTargetIndex === "number" &&
+                typeof state.pendingPosition === "number"
+            ) {
+                const fromName = state.lastUpdatedBy || "プレイヤー";
+                const targetName = state.players && state.players[state.pendingTargetIndex]
+                    ? state.players[state.pendingTargetIndex].trim()
+                    : `プレイヤー${state.pendingTargetIndex + 1}`;
+                const posLabel = getPositionLabel(state.pendingPosition);
+                actionText = `指名 (${fromName}→${targetName}:コード${posLabel})`;
+            } else if (state.lastUpdatedBy) {
+                actionText = `${state.lastAction} (${state.lastUpdatedBy})`;
+            }
+            if (lastAction) {
+                lastAction.textContent = actionText;
+            }
+            if (state.version != null && state.version !== lastLoggedVersion) {
+                appendLog(actionText);
+                lastLoggedVersion = state.version;
+            }
         }
 
         if (radarModal) {
@@ -2082,6 +2256,41 @@
         }
 
         if (prevState) {
+            if (
+                state.version != null &&
+                state.version !== lastRevealLoggedVersion &&
+                Array.isArray(prevState.revealed) &&
+                Array.isArray(state.revealed) &&
+                Array.isArray(state.hands)
+            ) {
+                state.revealed.forEach((row, pIdx) => {
+                    const prevRow = prevState.revealed[pIdx] || [];
+                    const hand = state.hands[pIdx] || [];
+                    row.forEach((isRevealed, posIdx) => {
+                        if (!isRevealed || prevRow[posIdx]) {
+                            return;
+                        }
+                        const playerName = state.players && state.players[pIdx]
+                            ? state.players[pIdx].trim()
+                            : `プレイヤー${pIdx + 1}`;
+                        const posLabel = getPositionLabel(posIdx);
+                        const value = hand[posIdx];
+                        appendLog(`切断(${playerName}:コード${posLabel}=${formatCardValue(value)})`);
+                    });
+                });
+                lastRevealLoggedVersion = state.version;
+            }
+            if (playerName && playerIndex >= 0 && Array.isArray(prevState.players) && Array.isArray(state.players)) {
+                const prevSet = new Set(
+                    prevState.players.map((name) => (name || "").trim()).filter((name) => name)
+                );
+                const joinedOthers = state.players
+                    .map((name) => (name || "").trim())
+                    .filter((name) => name && !prevSet.has(name) && name !== playerName);
+                if (joinedOthers.length > 0) {
+                    playSound("login");
+                }
+            }
             const actionChanged = state.lastAction && state.lastAction !== prevState.lastAction;
             const startedNow = !prevState.gameStarted && state.gameStarted;
             const endedNow = !prevState.missionEnded && state.missionEnded;
@@ -2612,6 +2821,37 @@
     initTheme();
     startButton.addEventListener("click", startGame);
     endButton.addEventListener("click", endGame);
+    if (releaseNotesButton && releaseNotesModal) {
+        const closeReleaseNotes = () => {
+            releaseNotesModal.classList.remove("is-visible");
+            releaseNotesModal.setAttribute("aria-hidden", "true");
+        };
+        const openReleaseNotes = () => {
+            releaseNotesModal.classList.add("is-visible");
+            releaseNotesModal.setAttribute("aria-hidden", "false");
+        };
+        releaseNotesButton.addEventListener("click", openReleaseNotes);
+        if (releaseNotesClose) {
+            releaseNotesClose.addEventListener("click", closeReleaseNotes);
+        }
+        releaseNotesModal.addEventListener("click", (event) => {
+            if (event.target === releaseNotesModal) {
+                closeReleaseNotes();
+            }
+        });
+    }
+    if (logButton && logPanel) {
+        const closeLog = () => {
+            logPanel.classList.add("hidden");
+        };
+        const toggleLog = () => {
+            logPanel.classList.toggle("hidden");
+        };
+        logButton.addEventListener("click", toggleLog);
+        if (logClose) {
+            logClose.addEventListener("click", closeLog);
+        }
+    }
     if (logoutButton) {
         logoutButton.addEventListener("click", async () => {
             try {

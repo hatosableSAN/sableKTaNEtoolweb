@@ -27,6 +27,12 @@ public class BombBustersGameService {
     private Integer lastGuessTarget = null;
     private Integer lastGuessPosition = null;
     private Boolean lastGuessCorrect = null;
+    private Integer lastDeclaredBy = null;
+    private Integer lastDeclaredBase = null;
+    private boolean lastDeclaredYellow = false;
+    private String lastDeclaredMode = null;
+    private Integer lastDeclaredBase2 = null;
+    private boolean lastDeclaredYellow2 = false;
     private Integer pendingFromIndex = null;
     private Integer pendingTargetIndex = null;
     private Integer pendingPosition = null;
@@ -104,6 +110,12 @@ public class BombBustersGameService {
                 lastGuessTarget,
                 lastGuessPosition,
                 lastGuessCorrect,
+                lastDeclaredBy,
+                lastDeclaredBase,
+                lastDeclaredYellow,
+                lastDeclaredMode,
+                lastDeclaredBase2,
+                lastDeclaredYellow2,
                 pendingFromIndex,
                 pendingTargetIndex,
                 pendingPosition,
@@ -775,6 +787,19 @@ public class BombBustersGameService {
         }
     }
 
+    private void revealAllHands() {
+        for (int p = 0; p < revealed.size(); p++) {
+            List<Boolean> revealRow = revealed.get(p);
+            List<Double> hintRow = wrongHints.get(p);
+            for (int i = 0; i < revealRow.size(); i++) {
+                if (!Boolean.TRUE.equals(revealRow.get(i))) {
+                    revealRow.set(i, true);
+                    hintRow.set(i, null);
+                }
+            }
+        }
+    }
+
     private int countInHand(int playerIndex, int base) {
         int count = 0;
         for (double value : hands.get(playerIndex)) {
@@ -1304,13 +1329,27 @@ public class BombBustersGameService {
                     }
                 }
             } else {
-                if (actualRed) {
-                    wrongHints.get(pendingTargetIndex).set(pendingPosition, tokenHintValue(actual));
-                } else if ((equip10Mode ? (isYellowGuess || isYellowGuess2) : isYellowGuess) && !actualYellow) {
-                wrongHints.get(pendingTargetIndex).set(pendingPosition, Double.NaN);
-            } else {
-                wrongHints.get(pendingTargetIndex).set(pendingPosition, tokenHintValue(actual));
-            }
+                if (equip10Mode) {
+                    if (actualRed) {
+                        wrongHints.get(pendingTargetIndex).set(pendingPosition, tokenHintValue(actual));
+                    } else if ((isYellowGuess || isYellowGuess2) && !actualYellow) {
+                        wrongHints.get(pendingTargetIndex).set(pendingPosition, Double.NaN);
+                    } else {
+                        wrongHints.get(pendingTargetIndex).set(pendingPosition, tokenHintValue(actual));
+                    }
+                } else {
+                    if (actualRed) {
+                        pendingWrongTokenFrom = null;
+                        pendingWrongTokenPosition = null;
+                        pendingWrongTokenPosition2 = null;
+                        pendingWrongTokenPosition3 = null;
+                    } else {
+                        pendingWrongTokenFrom = pendingTargetIndex;
+                        pendingWrongTokenPosition = pendingPosition;
+                        pendingWrongTokenPosition2 = null;
+                        pendingWrongTokenPosition3 = null;
+                    }
+                }
                 if (!iceActive) {
                     if (actualRed) {
                         mistakesRemaining = 0;
@@ -1320,6 +1359,22 @@ public class BombBustersGameService {
                 }
             }
             lastAction = "不正解";
+        }
+        lastDeclaredBy = slot;
+        lastDeclaredYellow = isYellowGuess;
+        lastDeclaredBase = isYellowGuess || chosenNumber == null ? null : (int) Math.floor(chosenNumber);
+        lastDeclaredYellow2 = isYellowGuess2;
+        lastDeclaredBase2 = isYellowGuess2 || chosenNumber2 == null ? null : (int) Math.floor(chosenNumber2);
+        if (detectorMode) {
+            lastDeclaredMode = "detector";
+        } else if (equip3Mode) {
+            lastDeclaredMode = "equip3";
+        } else if (equip10Mode) {
+            lastDeclaredMode = "equip10";
+        } else if (equip5Mode) {
+            lastDeclaredMode = "equip5";
+        } else {
+            lastDeclaredMode = "single";
         }
         lastGuessTarget = guessTarget;
         lastGuessPosition = guessPosition;
@@ -1354,7 +1409,7 @@ public class BombBustersGameService {
             pendingSelfRevealFrom = null;
             pendingSelfRevealBase = null;
             pendingSelfRevealYellow = false;
-            if (!(detectorMode && actual2 != null) && !equip5Mode) {
+            if (!(detectorMode && actual2 != null) && !equip5Mode && pendingWrongTokenFrom == null) {
                 turnIndex = nextActiveIndex(turnIndex);
                 iceActiveBy = null;
             }
@@ -1403,10 +1458,12 @@ public class BombBustersGameService {
             pendingWrongTokenPosition = null;
             pendingWrongTokenPosition2 = null;
             pendingWrongTokenPosition3 = null;
+            revealAllHands();
         } else if (allRevealed()) {
             missionEnded = true;
             missionSuccess = true;
             lastAction = "ミッション成功";
+            revealAllHands();
         }
         version += 1;
         return getState();
@@ -1447,7 +1504,7 @@ public class BombBustersGameService {
         }
         revealed.get(slot).set(pos, true);
         wrongHints.get(slot).set(pos, null);
-        lastAction = "自己公開";
+        lastAction = "自己切断";
         lastUpdatedBy = slotNames[slot] == null ? "プレイヤー" : slotNames[slot];
         pendingSelfRevealFrom = null;
         pendingSelfRevealBase = null;
@@ -1460,6 +1517,7 @@ public class BombBustersGameService {
             missionEnded = true;
             missionSuccess = true;
             lastAction = "ミッション成功";
+            revealAllHands();
         }
         version += 1;
         return getState();
@@ -1508,10 +1566,12 @@ public class BombBustersGameService {
             missionEnded = true;
             missionSuccess = false;
             lastAction = "ミッション失敗";
+            revealAllHands();
         } else if (allRevealed()) {
             missionEnded = true;
             missionSuccess = true;
             lastAction = "ミッション成功";
+            revealAllHands();
         }
         version += 1;
         return getState();
@@ -1543,6 +1603,9 @@ public class BombBustersGameService {
                 return getState();
             }
             if (eq == 3) {
+                if (slot.intValue() != turnIndex) {
+                    return getState();
+                }
                 if (usedEquipmentNumbers.contains(eq)) {
                     return getState();
                 }
@@ -2024,7 +2087,7 @@ public class BombBustersGameService {
         }
         revealed.get(slot).set(pos, true);
         wrongHints.get(slot).set(pos, null);
-        lastAction = "相手公開";
+        lastAction = "相手切断";
         lastUpdatedBy = slotNames[slot] == null ? "プレイヤー" : slotNames[slot];
         pendingOpponentRevealFrom = null;
         pendingOpponentRevealPosition = null;
@@ -2045,6 +2108,7 @@ public class BombBustersGameService {
             missionEnded = true;
             missionSuccess = true;
             lastAction = "ミッション成功";
+            revealAllHands();
         }
         version += 1;
         return getState();
@@ -2064,7 +2128,7 @@ public class BombBustersGameService {
                 return getState();
             }
             revealAllUnrevealed(slot);
-            lastAction = "赤のみ公開";
+            lastAction = "赤のみ切断";
         } else if ("reveal4".equalsIgnoreCase(action) || "reveal2".equalsIgnoreCase(action)) {
             List<Integer> positions = request.getPositions();
             int required = "reveal4".equalsIgnoreCase(action) ? 4 : 2;
@@ -2136,7 +2200,7 @@ public class BombBustersGameService {
                 revealRow.set(pos, true);
                 wrongHints.get(slot).set(pos, null);
             }
-            lastAction = required == 4 ? "4本公開" : "2本公開";
+            lastAction = required == 4 ? "4本切断" : "2本切断";
         } else {
             return getState();
         }
@@ -2150,6 +2214,7 @@ public class BombBustersGameService {
             missionEnded = true;
             missionSuccess = true;
             lastAction = "ミッション成功";
+            revealAllHands();
         }
         version += 1;
         return getState();

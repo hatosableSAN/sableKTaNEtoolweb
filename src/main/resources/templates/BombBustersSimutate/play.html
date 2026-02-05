@@ -11,6 +11,10 @@
     <div class="page">
         <header class="hero">
             <div class="hero-top">
+                <div class="hero-version-block">
+                    <span class="hero-version">v1.0.1</span>
+                    <button type="button" class="hero-version-button" id="release-notes-button">詳細</button>
+                </div>
                 <label class="theme-toggle" for="theme-toggle">
                     <span class="toggle-label">ライト</span>
                     <input type="checkbox" id="theme-toggle" aria-label="ライトモード切り替え">
@@ -25,16 +29,42 @@
             <div class="hero-content">
                 <p class="eyebrow">Bomb Busters Simutate</p>
                 <h1>『ボムバスターズ』シミュレーター</h1>
-                <p class="hero-sub">ルール：</p>
-                <p class="hero-sub">自分の手番になったら、以下のアクションのうち1つを実行する。</p>
-                <p class="hero-sub">① 相手のコードを1本選んで、その数字を当てる。正解した場合、そのコードを切断(公開)し、自分は宣言した数字と同じコード1本を切断する。不正解の場合、相手のコードは切断されず、起爆ダイヤルが1減少する。相手は正しい数字のトークンを乗せる。</p>
-                <p class="hero-sub" style="font-size: 60%;">※自分のコードに無い数字は、宣言できない。黄色は黄色同士で切断する。赤色のコードを切断しようとした場合、即座に爆発する。</p>
-                <p class="hero-sub">② 自分のコード内の同じ数字のコード4本(黄色4本も可能)を切断する。</p>
-                <p class="hero-sub">③ 自分のコード内の同じ数字のコード2本(黄色2本も可能)を切断する。ただし、その数字がすでに2本公開されていなければいけない。</p>
-                <p class="hero-sub">④ 自分の未公開のコードが赤色のみである場合、それら全てを公開する。</p>
-                <br>
-                <p class="hero-sub">装備コードは、デフォルトで「フツーノ探知機」を1個所持している。</p>
-                <p class="hero-sub">その他の装備コードは、対応する数字のコードを2本以上切断すれば、使用できるようになる。使用した装備コードは破棄する。</p>
+                                <div class="rule-grid">
+                    <section class="rule-card">
+                        <h3>ゲームの準備</h3>
+                        <ul class="rule-list">
+                            <li>各プレイヤーは、個人装備「フツーノ探知機」を1個所持して開始する。</li>
+                            <li>各プレイヤーに全コードが均等に配られる。整数のコードは1種4本、それ以外のコードは1種1本のみである。</li>
+                        </ul>
+                    </section>
+                    <section class="rule-card">
+                        <h3>自分の手番</h3>
+                        <p>以下のアクションから1つを選んで実行する。</p>
+                        <ul class="rule-list">
+                            <li>① 相手のコードを1本選んで数字を宣言する。</li>
+                            <p style="padding-left:1em;">正解：相手のコードを切断（公開）し、自分も同じ数字のコード1本を切断する。</li>
+                            <p style="padding-left:1em;">不正解：起爆ダイヤルが1減少し、相手は正しい数字のトークンを置く。</li>
+                            <li>② 自分の手札にある、同じ数字のコード4本（黄色4本も可）を切断する。</li>
+                            <li>③ （その数字が既に2本切断済みであれば、）自分の手札にある、同じ数字のコード2本（黄色2本も可）を切断する。</li>
+                            <li>④ 自分の未切断コードが赤のみなら、それらをすべて切断する。</li>
+                            <li style="font-size: 70%;">※ 自分のコードにない数字は宣言できない。黄色は黄色同士で切断する。</li>
+                            <li>⑤ （自分の手札にある全ての手札が切断されていれば、）手番をスキップする。</li>
+                        </ul>
+                    </section>
+                    <section class="rule-card">
+                        <h3>ゲーム終了</h3>
+                        <ul class="rule-list">
+                            <li>全てのコードが切断されると、ミッション成功。</li>
+                            <li>起爆ダイヤルが0になったり、赤色のコードを切らざるをえない状況になった場合、ミッション失敗。</li>
+                        </ul>
+                        <br>
+                        <h3>その他</h3>
+                        <ul class="rule-list">
+                            <li>個人装備以外の装備カードは、対応する数字のコードを2本以上切断すれば、使用できるようになる。</li>
+                            <li>同じ数字のコードが4本切断された際（黄色/赤は除く）、「山札に含まれる数字」内の数字が緑色に光る。</li>
+                        </ul>
+                    </section>
+                </div>
             </div>
         </header>
 
@@ -46,17 +76,23 @@
                         <span id="player-label">未設定</span>
                     </div>
                     <div>
-                        <span class="label">接続</span>
+                        <span class="label">ステータス</span>
                         <span id="connection-label">未接続</span>
                     </div>
                     <div>
-                        <span class="label">最終操作</span>
-                        <span id="last-action">-</span>
-                    </div>
-                    <div>
                         <span class="label">ゲーム</span>
-                        <span id="game-status">準備中</span>
+                        <span class="status-inline">
+                            <span id="game-status">準備中</span>
+                            <button type="button" class="status-button" id="log-button">ログ</button>
+                        </span>
                     </div>
+                </div>
+                <div class="log-panel hidden" id="log-panel">
+                    <div class="log-header">
+                        <span>ログ</span>
+                        <button type="button" class="log-close" id="log-close">閉じる</button>
+                    </div>
+                    <ul class="log-list" id="log-list"></ul>
                 </div>
                 <div class="game-actions">
                     <button type="button" id="start-button">ゲームスタート</button>
@@ -65,11 +101,11 @@
                 </div>
                 <div class="notice" id="notice"></div>
                 <div class="action-panel" id="action-panel">
-                    <button type="button" class="action-button" id="action-reveal4">同数4本公開</button>
-                    <button type="button" class="action-button" id="action-reveal2">同数2本公開</button>
-                    <button type="button" class="action-button" id="action-reveal-reds">赤のみ公開</button>
-                    <button type="button" class="action-button" id="action-target">相手を選んで公開</button>
-                    <button type="button" class="action-button" id="action-skip">手番スキップ</button>
+                    <button type="button" class="action-button" id="action-target">1.相手を選んで切断</button>
+                    <button type="button" class="action-button" id="action-reveal4">2.同数4本切断</button>
+                    <button type="button" class="action-button" id="action-reveal2">3.同数2本切断</button>
+                    <button type="button" class="action-button" id="action-reveal-reds">4.赤のみ切断</button>
+                    <button type="button" class="action-button" id="action-skip">5.手番スキップ</button>
                 </div>
                 <div class="options-panel" id="options-panel">
                     <div class="option-block option-yellow">
@@ -103,7 +139,7 @@
                                 <label>数字コード最大値<input type="number" id="card-max" value="12" min="6" max="12"></label>
                             </div>
                             <div class="option-equip">
-                                <span class="option-sub">除外する装備コード</span>
+                                <span class="option-sub">除外する装備カード</span>
                                 <div class="option-checks" id="exclude-equipments">
                                     <label><input type="checkbox" name="exclude-equipment" value="1">1</label>
                                     <label><input type="checkbox" name="exclude-equipment" value="2">2</label>
@@ -164,7 +200,7 @@
                                 <span class="mist-value" id="mist-value">4</span>
                             </div>
                             <div class="equipment-panel">
-                                <span class="mid-label">装備コード</span>
+                                <span class="mid-label">装備カード</span>
                                 <div class="equipment-buttons">
                                     <button type="button" class="equipment-button" id="equipment-1">
                                         <span class="equipment-label">-</span>
@@ -238,7 +274,7 @@
                 </div>
                 <div class="modal-overlay" id="equipment-modal" aria-hidden="true">
                     <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="equipment-modal-title">
-                        <h2 class="modal-title" id="equipment-modal-title">装備コード</h2>
+                        <h2 class="modal-title" id="equipment-modal-title">装備カード</h2>
                         <p class="modal-message" id="equipment-modal-message">-</p>
                         <div class="modal-actions">
                             <button type="button" class="modal-button modal-cancel" id="equipment-modal-cancel">いいえ</button>
@@ -262,6 +298,27 @@
                         <p class="modal-message" id="radar-modal-message">-</p>
                         <div class="modal-actions">
                             <button type="button" class="modal-button modal-confirm" id="radar-modal-confirm">OK</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-overlay" id="release-notes-modal" aria-hidden="true">
+                    <div class="modal-card release-notes-card" role="dialog" aria-modal="true" aria-labelledby="release-notes-title">
+                        <h2 class="modal-title" id="release-notes-title">リリースノート v1.0.1</h2>
+                        <div class="modal-message release-notes-body">
+                            <ul class="release-notes-list">
+                                <li>スマホ縦画面でのレイアウトとパネル折り返しを改善</li>
+                                <li>手札/装備/デッキの横スクロールと表示安定性を向上</li>
+                                <li>探知機の表示・ハイライト・宣言バブル表示を改善</li>
+                                <li>ログ機能を追加（時刻付き・公開内容も表示）</li>
+                                <li>ログアウト/接続周りのUIを微調整</li>
+                                <li>装備3の使用タイミングを自分の手番に限定</li>
+                                <li>装備10の宣言内容もバブルに表示</li>
+                                <li>その他細かな修正</li>
+                            </ul>
+                        </div>
+                        <div class="modal-actions">
+                            <button type="button" class="modal-button modal-confirm" id="release-notes-close">閉じる</button>
                         </div>
                     </div>
                 </div>

@@ -196,7 +196,7 @@
  <section>
    <h3 class="title"><a name="DMG">Dynamic Mission Generator</a></h3>
    <div class="box">
-     <p>コマンドで、簡単に好みの構成の爆弾を呼び出せるMOD。使用するには、<a href="#Mod Selector">Mod Selector</a>の導入が必要。Mission Generatorと言いつつ、ここからミッションを作成して、Steamに公開することなどはできない。<a href="https://steamcommunity.com/sharedfiles/filedetails/?id=1633427044">導入はこちら。</a>
+     <p>コマンドで、簡単に好みの構成の爆弾を呼び出せるMOD。使用するには、<a href="#Mod Selector">Mod Selector</a>の導入が必要。Mission Generatorと言いつつ、ここからミッションを作成して、Steamに切断することなどはできない。<a href="https://steamcommunity.com/sharedfiles/filedetails/?id=1633427044">導入はこちら。</a>
     </p>
    </div>
  </section>

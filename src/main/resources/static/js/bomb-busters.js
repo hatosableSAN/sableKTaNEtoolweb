@@ -20,6 +20,10 @@
     let isConnected = false;
     let playerName = "";
     let dragState = null;
+    let lastPlayers = null;
+    const loginAudio = new Audio("/sfx/login.mp3");
+    loginAudio.preload = "auto";
+    loginAudio.volume = 0.6;
 
     const updateConnectionLabel = (text, ok) => {
         connectionLabel.textContent = text;
@@ -48,6 +52,27 @@
     const renderState = (state) => {
         if (!state || !state.cards) {
             return;
+        }
+        if (Array.isArray(state.players)) {
+            const currentPlayers = state.players.map((name) => (name || "").trim());
+            if (playerName && Array.isArray(lastPlayers)) {
+                const prevSet = new Set(lastPlayers.filter((name) => name));
+                const joinedOthers = currentPlayers.filter(
+                    (name) => name && !prevSet.has(name) && name !== playerName
+                );
+                if (joinedOthers.length > 0) {
+                    try {
+                        loginAudio.currentTime = 0;
+                        const result = loginAudio.play();
+                        if (result && typeof result.catch === "function") {
+                            result.catch(() => {});
+                        }
+                    } catch (error) {
+                        // ignore play errors
+                    }
+                }
+            }
+            lastPlayers = currentPlayers;
         }
         if (Array.isArray(state.players)) {
             state.players.forEach((name, index) => {

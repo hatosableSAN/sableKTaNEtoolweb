@@ -21,6 +21,12 @@ public class BombBustersState {
     private Integer lastGuessTarget;
     private Integer lastGuessPosition;
     private Boolean lastGuessCorrect;
+    private Integer lastDeclaredBy;
+    private Integer lastDeclaredBase;
+    private boolean lastDeclaredYellow;
+    private String lastDeclaredMode;
+    private Integer lastDeclaredBase2;
+    private boolean lastDeclaredYellow2;
     private Integer pendingFromIndex;
     private Integer pendingTargetIndex;
     private Integer pendingPosition;
@@ -77,7 +83,10 @@ public class BombBustersState {
                             BombBustersStartOptions options, List<Double> deckNumbers, List<Integer> equipmentNumbers,
                             List<Integer> usedEquipmentNumbers, int mistakesRemaining,
                             int parentIndex, int turnIndex, Integer lastGuessTarget, Integer lastGuessPosition,
-                            Boolean lastGuessCorrect, Integer pendingFromIndex, Integer pendingTargetIndex,
+                            Boolean lastGuessCorrect, Integer lastDeclaredBy, Integer lastDeclaredBase,
+                            boolean lastDeclaredYellow, String lastDeclaredMode,
+                            Integer lastDeclaredBase2, boolean lastDeclaredYellow2,
+                            Integer pendingFromIndex, Integer pendingTargetIndex,
                             Integer pendingPosition, Integer pendingTargetIndex2, Integer pendingPosition2, Integer pendingPosition3,
                             String pendingTargetMode,
                             Integer pendingOpponentRevealFrom, Integer pendingOpponentRevealPosition, Integer pendingOpponentRevealPosition2,
@@ -115,6 +124,12 @@ public class BombBustersState {
         this.lastGuessTarget = lastGuessTarget;
         this.lastGuessPosition = lastGuessPosition;
         this.lastGuessCorrect = lastGuessCorrect;
+        this.lastDeclaredBy = lastDeclaredBy;
+        this.lastDeclaredBase = lastDeclaredBase;
+        this.lastDeclaredYellow = lastDeclaredYellow;
+        this.lastDeclaredMode = lastDeclaredMode;
+        this.lastDeclaredBase2 = lastDeclaredBase2;
+        this.lastDeclaredYellow2 = lastDeclaredYellow2;
         this.pendingFromIndex = pendingFromIndex;
         this.pendingTargetIndex = pendingTargetIndex;
         this.pendingPosition = pendingPosition;
@@ -434,6 +449,54 @@ public class BombBustersState {
 
     public void setLastGuessCorrect(Boolean lastGuessCorrect) {
         this.lastGuessCorrect = lastGuessCorrect;
+    }
+
+    public Integer getLastDeclaredBy() {
+        return lastDeclaredBy;
+    }
+
+    public void setLastDeclaredBy(Integer lastDeclaredBy) {
+        this.lastDeclaredBy = lastDeclaredBy;
+    }
+
+    public Integer getLastDeclaredBase() {
+        return lastDeclaredBase;
+    }
+
+    public void setLastDeclaredBase(Integer lastDeclaredBase) {
+        this.lastDeclaredBase = lastDeclaredBase;
+    }
+
+    public boolean isLastDeclaredYellow() {
+        return lastDeclaredYellow;
+    }
+
+    public void setLastDeclaredYellow(boolean lastDeclaredYellow) {
+        this.lastDeclaredYellow = lastDeclaredYellow;
+    }
+
+    public String getLastDeclaredMode() {
+        return lastDeclaredMode;
+    }
+
+    public void setLastDeclaredMode(String lastDeclaredMode) {
+        this.lastDeclaredMode = lastDeclaredMode;
+    }
+
+    public Integer getLastDeclaredBase2() {
+        return lastDeclaredBase2;
+    }
+
+    public void setLastDeclaredBase2(Integer lastDeclaredBase2) {
+        this.lastDeclaredBase2 = lastDeclaredBase2;
+    }
+
+    public boolean isLastDeclaredYellow2() {
+        return lastDeclaredYellow2;
+    }
+
+    public void setLastDeclaredYellow2(boolean lastDeclaredYellow2) {
+        this.lastDeclaredYellow2 = lastDeclaredYellow2;
     }
 
     public Integer getPendingFromIndex() {
