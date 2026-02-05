@@ -157,6 +157,7 @@
     let lastLoggedVersion = null;
     let lastDeclaredLoggedVersion = null;
     let lastRevealLoggedVersion = null;
+    let lastEndLogVersion = null;
     const soundFiles = {
         correct: "/sfx/correct.mp3",
         incorrect: "/sfx/incorrect.mp3",
@@ -2256,9 +2257,28 @@
         }
 
         if (prevState) {
-            const isForcedEnd = state.lastAction === "ゲーム終了" && !state.missionEnded;
+            const isForcedEnd = state.lastAction === "ゲーム終了" && prevState.gameStarted === true;
+            const isFailedEnd = !prevState.missionEnded && state.missionEnded && state.missionSuccess === false;
+            if ((isForcedEnd || isFailedEnd) && state.version != null && state.version !== lastEndLogVersion) {
+                const by = state.lastUpdatedBy || "プレイヤー";
+                const header = isForcedEnd ? `ゲーム強制終了 (${by})` : `ミッション失敗 (${by})`;
+                const handParts = Array.isArray(state.hands)
+                    ? state.hands.map((hand, idx) => {
+                        const name = state.players && state.players[idx]
+                            ? state.players[idx].trim()
+                            : `プレイヤー${idx + 1}`;
+                        const values = Array.isArray(hand)
+                            ? hand.map((v) => formatCardValue(v)).join(",")
+                            : "";
+                        return `${name}さんの手札:${values}`;
+                    })
+                    : [];
+                appendLog([header, ...handParts].join(" | "));
+                lastEndLogVersion = state.version;
+            }
             if (
                 !isForcedEnd &&
+                !isFailedEnd &&
                 state.version != null &&
                 state.version !== lastRevealLoggedVersion &&
                 Array.isArray(prevState.revealed) &&
