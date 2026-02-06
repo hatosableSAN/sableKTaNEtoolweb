@@ -87,7 +87,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="log-panel hidden" id="log-panel">
+                <div class="log-panel" id="log-panel">
                     <div class="log-header">
                         <span>ログ</span>
                         <button type="button" class="log-close" id="log-close">閉じる</button>
@@ -229,6 +229,17 @@
                             </div>
                             <div class="deck-panel game-only" id="deck-panel">
                                 <span class="deck-label">山札に含まれる数字</span>
+                                <div class="deck-meta" id="deck-meta">
+                                    <span class="deck-meta-item deck-meta-yellow" id="deck-yellow-meta">黄: -/-</span>
+                                    <span class="deck-meta-item deck-meta-red" id="deck-red-meta">赤: -/-</span>
+                                </div>
+                                <div class="deck-radar" id="deck-radar" aria-live="polite">
+                                    なんでもレーダー: <span class="deck-radar-number" id="deck-radar-number">-</span>
+                                </div>
+                                <div class="deck-special" id="deck-special">
+                                    <div class="deck-special-row deck-special-yellow" id="deck-yellow-detail">黄: -/-</div>
+                                    <div class="deck-special-row deck-special-red" id="deck-red-detail">赤: -/-</div>
+                                </div>
                                 <ul class="deck-list" id="deck-list"></ul>
                             </div>
                         </div>
@@ -279,6 +290,16 @@
                         <div class="modal-actions">
                             <button type="button" class="modal-button modal-cancel" id="equipment-modal-cancel">いいえ</button>
                             <button type="button" class="modal-button modal-confirm" id="equipment-modal-confirm">はい</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-overlay" id="target-confirm-modal" aria-hidden="true">
+                    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="target-confirm-title">
+                        <h2 class="modal-title" id="target-confirm-title">確認</h2>
+                        <p class="modal-message" id="target-confirm-message">このカードでいいですか？</p>
+                        <div class="modal-actions">
+                            <button type="button" class="modal-button modal-cancel" id="target-confirm-cancel">いいえ</button>
+                            <button type="button" class="modal-button modal-confirm" id="target-confirm-confirm">はい</button>
                         </div>
                     </div>
                 </div>

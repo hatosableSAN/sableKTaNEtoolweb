@@ -13,6 +13,10 @@ public class BombBustersState {
     private boolean gameStarted;
     private BombBustersStartOptions options;
     private List<Double> deckNumbers;
+    private List<Integer> yellowPoolNumbers;
+    private List<Integer> yellowDrawNumbers;
+    private List<Integer> redPoolNumbers;
+    private List<Integer> redDrawNumbers;
     private List<Integer> equipmentNumbers;
     private List<Integer> usedEquipmentNumbers;
     private int mistakesRemaining;
@@ -80,7 +84,10 @@ public class BombBustersState {
 
     public BombBustersState(List<CardState> cards, List<String> players, List<List<Double>> hands, List<List<Boolean>> revealed,
                             List<List<Double>> wrongHints, List<List<Integer>> differentLabels, List<List<Integer>> equalLabels, boolean gameStarted,
-                            BombBustersStartOptions options, List<Double> deckNumbers, List<Integer> equipmentNumbers,
+                            BombBustersStartOptions options, List<Double> deckNumbers,
+                            List<Integer> yellowPoolNumbers, List<Integer> yellowDrawNumbers,
+                            List<Integer> redPoolNumbers, List<Integer> redDrawNumbers,
+                            List<Integer> equipmentNumbers,
                             List<Integer> usedEquipmentNumbers, int mistakesRemaining,
                             int parentIndex, int turnIndex, Integer lastGuessTarget, Integer lastGuessPosition,
                             Boolean lastGuessCorrect, Integer lastDeclaredBy, Integer lastDeclaredBase,
@@ -116,6 +123,10 @@ public class BombBustersState {
         this.gameStarted = gameStarted;
         this.options = options;
         this.deckNumbers = deckNumbers;
+        this.yellowPoolNumbers = yellowPoolNumbers;
+        this.yellowDrawNumbers = yellowDrawNumbers;
+        this.redPoolNumbers = redPoolNumbers;
+        this.redDrawNumbers = redDrawNumbers;
         this.equipmentNumbers = equipmentNumbers;
         this.usedEquipmentNumbers = usedEquipmentNumbers;
         this.mistakesRemaining = mistakesRemaining;
@@ -257,6 +268,38 @@ public class BombBustersState {
 
     public void setDeckNumbers(List<Double> deckNumbers) {
         this.deckNumbers = deckNumbers;
+    }
+
+    public List<Integer> getYellowPoolNumbers() {
+        return yellowPoolNumbers;
+    }
+
+    public void setYellowPoolNumbers(List<Integer> yellowPoolNumbers) {
+        this.yellowPoolNumbers = yellowPoolNumbers;
+    }
+
+    public List<Integer> getYellowDrawNumbers() {
+        return yellowDrawNumbers;
+    }
+
+    public void setYellowDrawNumbers(List<Integer> yellowDrawNumbers) {
+        this.yellowDrawNumbers = yellowDrawNumbers;
+    }
+
+    public List<Integer> getRedPoolNumbers() {
+        return redPoolNumbers;
+    }
+
+    public void setRedPoolNumbers(List<Integer> redPoolNumbers) {
+        this.redPoolNumbers = redPoolNumbers;
+    }
+
+    public List<Integer> getRedDrawNumbers() {
+        return redDrawNumbers;
+    }
+
+    public void setRedDrawNumbers(List<Integer> redDrawNumbers) {
+        this.redDrawNumbers = redDrawNumbers;
     }
 
     public List<Integer> getEquipmentNumbers() {

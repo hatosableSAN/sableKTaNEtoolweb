@@ -81,6 +81,10 @@ public class BombBustersGameService {
     private Integer radarNumber = null;
     private List<String> radarPlayers = new ArrayList<>();
     private Integer iceActiveBy = null;
+    private List<Integer> currentYellowPoolNumbers = new ArrayList<>();
+    private List<Integer> currentYellowDrawNumbers = new ArrayList<>();
+    private List<Integer> currentRedPoolNumbers = new ArrayList<>();
+    private List<Integer> currentRedDrawNumbers = new ArrayList<>();
 
     private long version = 0;
     private String lastAction = "待機中";
@@ -102,6 +106,10 @@ public class BombBustersGameService {
                 gameStarted,
                 cloneOptions(currentOptions),
                 snapshotDeckNumbers(),
+                snapshotYellowPoolNumbers(),
+                snapshotYellowDrawNumbers(),
+                snapshotRedPoolNumbers(),
+                snapshotRedDrawNumbers(),
                 snapshotEquipmentNumbers(),
                 snapshotUsedEquipmentNumbers(),
                 mistakesRemaining,
@@ -348,6 +356,10 @@ public class BombBustersGameService {
         }
         gameStarted = false;
         currentDeckNumbers = new ArrayList<>();
+        currentYellowPoolNumbers = new ArrayList<>();
+        currentYellowDrawNumbers = new ArrayList<>();
+        currentRedPoolNumbers = new ArrayList<>();
+        currentRedDrawNumbers = new ArrayList<>();
         equipmentNumbers = new ArrayList<>();
         usedEquipmentNumbers.clear();
         mistakesRemaining = 4;
@@ -440,8 +452,17 @@ public class BombBustersGameService {
             }
         }
         if (options != null) {
-            addSpecialNumbers(deck, options.getYellow(), 0.1);
-            addSpecialNumbers(deck, options.getRed(), 0.5);
+            SpecialNumbersResult yellow = addSpecialNumbers(deck, options.getYellow(), 0.1);
+            SpecialNumbersResult red = addSpecialNumbers(deck, options.getRed(), 0.5);
+            currentYellowPoolNumbers = yellow.poolNumbers;
+            currentYellowDrawNumbers = yellow.drawNumbers;
+            currentRedPoolNumbers = red.poolNumbers;
+            currentRedDrawNumbers = red.drawNumbers;
+        } else {
+            currentYellowPoolNumbers = new ArrayList<>();
+            currentYellowDrawNumbers = new ArrayList<>();
+            currentRedPoolNumbers = new ArrayList<>();
+            currentRedDrawNumbers = new ArrayList<>();
         }
         currentDeckNumbers = buildDeckNumbers(deck);
         Collections.shuffle(deck);
@@ -563,22 +584,42 @@ public class BombBustersGameService {
         return Collections.unmodifiableList(snapshot);
     }
 
-    private void addSpecialNumbers(List<Double> deck, BombBustersStartOptions.RangeOption option, double delta) {
+    private static class SpecialNumbersResult {
+        private final List<Integer> poolNumbers;
+        private final List<Integer> drawNumbers;
+
+        private SpecialNumbersResult(List<Integer> poolNumbers, List<Integer> drawNumbers) {
+            this.poolNumbers = poolNumbers;
+            this.drawNumbers = drawNumbers;
+        }
+    }
+
+    private SpecialNumbersResult addSpecialNumbers(List<Double> deck, BombBustersStartOptions.RangeOption option, double delta) {
         if (option == null) {
-            return;
+            return new SpecialNumbersResult(new ArrayList<>(), new ArrayList<>());
         }
         int min = clamp(option.getMin(), 1, 11);
         int max = clamp(option.getMax(), min, 11);
         int pool = clamp(option.getPool(), 0, max - min + 1);
+        int draw = clamp(option.getDraw(), 0, pool);
         List<Integer> candidates = new ArrayList<>();
         for (int value = min; value <= max; value++) {
             candidates.add(value);
         }
         Collections.shuffle(candidates);
         List<Integer> poolNumbers = new ArrayList<>(candidates.subList(0, pool));
-        for (int value : poolNumbers) {
-            deck.add(value + delta);
+        List<Integer> drawNumbers = new ArrayList<>();
+        if (draw > 0) {
+            Collections.shuffle(poolNumbers);
+            for (int i = 0; i < draw && i < poolNumbers.size(); i++) {
+                int value = poolNumbers.get(i);
+                drawNumbers.add(value);
+                deck.add(value + delta);
+            }
         }
+        Collections.sort(poolNumbers);
+        Collections.sort(drawNumbers);
+        return new SpecialNumbersResult(poolNumbers, drawNumbers);
     }
 
     private int clamp(int value, int min, int max) {
@@ -688,6 +729,22 @@ public class BombBustersGameService {
 
     private List<Integer> snapshotUsedEquipmentNumbers() {
         return Collections.unmodifiableList(new ArrayList<>(usedEquipmentNumbers));
+    }
+
+    private List<Integer> snapshotYellowPoolNumbers() {
+        return Collections.unmodifiableList(new ArrayList<>(currentYellowPoolNumbers));
+    }
+
+    private List<Integer> snapshotYellowDrawNumbers() {
+        return Collections.unmodifiableList(new ArrayList<>(currentYellowDrawNumbers));
+    }
+
+    private List<Integer> snapshotRedPoolNumbers() {
+        return Collections.unmodifiableList(new ArrayList<>(currentRedPoolNumbers));
+    }
+
+    private List<Integer> snapshotRedDrawNumbers() {
+        return Collections.unmodifiableList(new ArrayList<>(currentRedDrawNumbers));
     }
 
     private List<Integer> getActivePlayerIndices() {

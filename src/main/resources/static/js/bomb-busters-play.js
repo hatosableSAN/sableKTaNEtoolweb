@@ -111,7 +111,19 @@
     const equipmentModalMessage = document.getElementById("equipment-modal-message");
     const equipmentModalConfirm = document.getElementById("equipment-modal-confirm");
     const equipmentModalCancel = document.getElementById("equipment-modal-cancel");
+    const targetConfirmModal = document.getElementById("target-confirm-modal");
+    const targetConfirmMessage = document.getElementById("target-confirm-message");
+    const targetConfirmCancel = document.getElementById("target-confirm-cancel");
+    const targetConfirmConfirm = document.getElementById("target-confirm-confirm");
+    const deckRadar = document.getElementById("deck-radar");
+    const deckRadarNumber = document.getElementById("deck-radar-number");
     const deckPanel = document.getElementById("deck-panel");
+    const deckMeta = document.getElementById("deck-meta");
+    const deckYellowMeta = document.getElementById("deck-yellow-meta");
+    const deckRedMeta = document.getElementById("deck-red-meta");
+    const deckSpecial = document.getElementById("deck-special");
+    const deckYellowDetail = document.getElementById("deck-yellow-detail");
+    const deckRedDetail = document.getElementById("deck-red-detail");
     const midPanel = document.getElementById("mid-panel");
     const mistValue = document.getElementById("mist-value");
     const logButton = document.getElementById("log-button");
@@ -154,6 +166,8 @@
     let lastRedHintVersion = null;
     let lastEquip7Version = null;
     let lastState = null;
+    let turnCounter = 0;
+    let lastTurnIndexForCount = null;
     let lastLoggedVersion = null;
     let lastDeclaredLoggedVersion = null;
     let lastRevealLoggedVersion = null;
@@ -204,6 +218,7 @@
     let pendingEquipmentNumber = null;
     let activeEquipmentNumber = null;
     const clientUsedEquipmentNumbers = new Set();
+    let pendingTargetConfirmPayload = null;
 
     const applyTheme = (mode) => {
         if (mode === "light") {
@@ -239,8 +254,13 @@
         connectionLabel.style.color = ok ? "#ffb300" : "#b3c0d9";
     };
 
-    const formatTime = (date) =>
-        date.toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    const getLogStamp = () => {
+        const turnLabel = turnCounter > 0 ? `T${turnCounter}` : "T-";
+        if (!lastState || typeof lastState.turnIndex !== "number") {
+            return turnLabel;
+        }
+        return `${turnLabel} P${lastState.turnIndex + 1}`;
+    };
 
     const appendLog = (text) => {
         if (!logList) {
@@ -250,7 +270,7 @@
         item.className = "log-item";
         const time = document.createElement("span");
         time.className = "log-time";
-        time.textContent = formatTime(new Date());
+        time.textContent = getLogStamp();
         const body = document.createElement("span");
         body.textContent = text;
         item.appendChild(time);
@@ -608,6 +628,26 @@
         const prevState = lastState;
         lastState = state;
         const started = state.gameStarted === true;
+        const inMainTurn = started && !state.preTokenPhase && !state.missionEnded;
+        if (!started) {
+            turnCounter = 0;
+            lastTurnIndexForCount = null;
+        } else if (inMainTurn) {
+            if (
+                !prevState ||
+                !prevState.gameStarted ||
+                prevState.preTokenPhase ||
+                prevState.missionEnded
+            ) {
+                if (turnCounter === 0) {
+                    turnCounter = 1;
+                }
+                lastTurnIndexForCount = state.turnIndex;
+            } else if (prevState.turnIndex !== state.turnIndex) {
+                turnCounter += 1;
+                lastTurnIndexForCount = state.turnIndex;
+            }
+        }
         gameStatus.textContent = started ? "進行中" : "準備中";
         if (!started || state.missionEnded) {
             activeEquipmentNumber = null;
@@ -648,6 +688,40 @@
         }
         if (state.options) {
             applyOptions(state.options);
+        }
+        if (deckYellowMeta || deckRedMeta) {
+            const formatPoolDraw = (range) => {
+                if (!range) {
+                    return "-/-";
+                }
+                const pool = typeof range.pool === "number" ? range.pool : null;
+                const draw = typeof range.draw === "number" ? range.draw : null;
+                if (pool === null || draw === null) {
+                    return "-/-";
+                }
+                return `${draw}/${pool}`;
+            };
+            const yellowText = formatPoolDraw(state.options?.yellow);
+            const redText = formatPoolDraw(state.options?.red);
+            if (deckYellowMeta) {
+                deckYellowMeta.textContent = `黄: ${yellowText}`;
+            }
+            if (deckRedMeta) {
+                deckRedMeta.textContent = `赤: ${redText}`;
+            }
+            if (deckMeta) {
+                deckMeta.style.display = "";
+            }
+        }
+        if (deckSpecial && deckYellowDetail && deckRedDetail) {
+            const countList = (list) => Array.isArray(list) ? list.length : 0;
+            if (state.gameStarted) {
+                deckYellowDetail.textContent = `黄: ${countList(state.yellowDrawNumbers)}/${countList(state.yellowPoolNumbers)}`;
+                deckRedDetail.textContent = `赤: ${countList(state.redDrawNumbers)}/${countList(state.redPoolNumbers)}`;
+                deckSpecial.classList.add("is-visible");
+            } else {
+                deckSpecial.classList.remove("is-visible");
+            }
         }
         if (typeof state.mistakesRemaining === "number" && mistValue) {
             mistValue.textContent = String(state.mistakesRemaining);
@@ -1289,6 +1363,10 @@
                 const alreadyUsed = !!detectorUsed[index];
                 const enabled = canAct && index === playerIndex && !alreadyUsed && !isSelfAllRevealed;
                 detectorButton.disabled = !enabled;
+                const detectorIcon = detectorButton.querySelector(".detector-icon");
+                if (detectorIcon) {
+                    detectorIcon.src = alreadyUsed ? "/img/image0x.png" : "/img/image0.png";
+                }
                 if (targetMode === "detector" && enabled) {
                     detectorButton.classList.add("is-active");
                 } else {
@@ -1759,16 +1837,20 @@
                                         clearSelection();
                                     }
                                 } else {
-                                    stompClient.send(
-                                        "/app/target",
-                                        {},
-                                        JSON.stringify({
-                                            targetPlayerIndex: index,
-                                            targetPosition: posIndex,
-                                            mode: "single",
-                                        })
-                                    );
-                                    clearSelection();
+                                    const name = state.players && state.players[index]
+                                        ? state.players[index].trim()
+                                        : `プレイヤー${index + 1}`;
+                                    const posLabel = getPositionLabel(posIndex);
+                                    const message = `「${name}」のコード${posLabel}でいいですか？`;
+                                    const payload = {
+                                        targetPlayerIndex: index,
+                                        targetPosition: posIndex,
+                                        mode: "single",
+                                    };
+                                    if (!openTargetConfirm(payload, message)) {
+                                        stompClient.send("/app/target", {}, JSON.stringify(payload));
+                                        clearSelection();
+                                    }
                                 }
                             });
                         }
@@ -2081,6 +2163,11 @@
             if (notice) {
                 notice.textContent = `なんでもレーダー: ${radarNumber} を持っているプレイヤーは「 ${names}」です。(10秒後に、自動的に非表示になります)`;
             }
+            if (deckRadar && deckRadarNumber) {
+                deckRadarNumber.textContent = String(radarNumber);
+                deckRadarNumber.classList.add("is-blink");
+                deckRadar.classList.add("is-visible");
+            }
             if (nextRadarKey !== radarKey) {
                 radarKey = nextRadarKey;
                 if (radarTimeoutId) {
@@ -2125,6 +2212,10 @@
                             JSON.stringify({ equipmentNumber: 8, action: "clearRadar" })
                         );
                     }
+                    if (deckRadar && deckRadarNumber) {
+                        deckRadar.classList.remove("is-visible");
+                        deckRadarNumber.classList.remove("is-blink");
+                    }
                     radarTimeoutId = null;
                     radarKey = null;
                 }, 10000);
@@ -2135,6 +2226,10 @@
                 radarTimeoutId = null;
             }
             radarKey = null;
+            if (deckRadar && deckRadarNumber) {
+                deckRadar.classList.remove("is-visible");
+                deckRadarNumber.classList.remove("is-blink");
+            }
             handContainers.forEach((container) => {
                 if (!container) {
                     return;
@@ -2528,6 +2623,29 @@
         tooltip.setAttribute("aria-hidden", "true");
     };
 
+    const openTargetConfirm = (payload, message) => {
+        if (!targetConfirmModal || !targetConfirmMessage) {
+            return false;
+        }
+        pendingTargetConfirmPayload = payload;
+        targetConfirmMessage.textContent = message || "このカードでいいですか？";
+        targetConfirmModal.classList.add("is-visible");
+        targetConfirmModal.setAttribute("aria-hidden", "false");
+        return true;
+    };
+
+    const closeTargetConfirm = () => {
+        if (!targetConfirmModal) {
+            return;
+        }
+        if (targetConfirmModal.contains(document.activeElement)) {
+            document.activeElement.blur();
+        }
+        targetConfirmModal.classList.remove("is-visible");
+        targetConfirmModal.setAttribute("aria-hidden", "true");
+        pendingTargetConfirmPayload = null;
+    };
+
     const bindEquipmentHover = () => {
         equipmentButtons.forEach((button) => {
             if (!button) {
@@ -2868,10 +2986,10 @@
     }
     if (logButton && logPanel) {
         const closeLog = () => {
-            logPanel.classList.add("hidden");
+            logPanel.classList.remove("is-open");
         };
         const toggleLog = () => {
-            logPanel.classList.toggle("hidden");
+            logPanel.classList.toggle("is-open");
         };
         logButton.addEventListener("click", toggleLog);
         if (logClose) {
@@ -2899,6 +3017,10 @@
                 return;
             }
             const pendingKey = String(pendingEquipmentNumber);
+            const pendingNumber = Number(pendingKey);
+            if (Number.isInteger(pendingNumber) && pendingNumber >= 1 && pendingNumber <= 12) {
+                clientUsedEquipmentNumbers.add(pendingNumber);
+            }
             const equipSoundExcluded = new Set(["2", "6", "7", "8", "9"]);
             if (!equipSoundExcluded.has(pendingKey)) {
                 playSound("equip");
@@ -3200,6 +3322,27 @@
             if (event.target === equipmentModal) {
                 closeEquipmentModal();
             }
+        });
+    }
+    if (targetConfirmModal) {
+        targetConfirmModal.addEventListener("click", (event) => {
+            if (event.target === targetConfirmModal) {
+                closeTargetConfirm();
+            }
+        });
+    }
+    if (targetConfirmCancel) {
+        targetConfirmCancel.addEventListener("click", closeTargetConfirm);
+    }
+    if (targetConfirmConfirm) {
+        targetConfirmConfirm.addEventListener("click", () => {
+            if (!pendingTargetConfirmPayload || !stompClient || !isConnected) {
+                closeTargetConfirm();
+                return;
+            }
+            stompClient.send("/app/target", {}, JSON.stringify(pendingTargetConfirmPayload));
+            closeTargetConfirm();
+            clearSelection();
         });
     }
     if (equipmentTargetModal) {

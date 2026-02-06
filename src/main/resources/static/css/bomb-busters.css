@@ -148,6 +148,22 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    position: fixed;
+    right: 0;
+    top: 120px;
+    width: min(320px, 92vw);
+    z-index: 30;
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.28s ease, opacity 0.28s ease;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
+.log-panel.is-open {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .log-header {
@@ -194,7 +210,8 @@ body {
 .log-time {
     color: var(--muted);
     font-variant-numeric: tabular-nums;
-    min-width: 70px;
+    min-width: 64px;
+    text-transform: uppercase;
 }
 
 .release-notes-card {
@@ -567,8 +584,8 @@ body[data-theme="light"] .rule-card h3 {
     background: rgba(10, 26, 22, 0.15);
     color: rgba(255, 255, 255, 0.35);
     box-shadow: none;
-    opacity: 0.65;
-    filter: grayscale(0.6);
+    opacity: 1;
+    filter: none;
 }
 
 .sr-only {
@@ -1046,6 +1063,12 @@ body[data-theme="light"] .hand-card.preview-reveal  {
     top: 24px;
 }
 
+@keyframes radarBlink {
+    0% { box-shadow: 0 0 0 rgba(255, 215, 115, 0); opacity: 1; transform: scale(1); }
+    50% { box-shadow: 0 0 18px rgba(255, 215, 115, 0.75); opacity: 0.7; transform: scale(1.05); }
+    100% { box-shadow: 0 0 0 rgba(255, 215, 115, 0); opacity: 1; transform: scale(1); }
+}
+
 
 @keyframes guessSuccess {
     0% { transform: scale(1); box-shadow: 0 0 0 rgba(127, 231, 181, 0.0); }
@@ -1114,25 +1137,53 @@ body[data-theme="light"] .deck-label {
     color: var(--deck-label);
 }
 
+.deck-meta {
+    display: flex;
+    gap: 10px;
+    font-size: 12px;
+    color: #b8d6ea;
+}
+
+body[data-theme="light"] .deck-meta {
+    color: #6a7a8b;
+}
+
+.deck-meta-item {
+    padding: 2px 6px;
+    border-radius: 999px;
+    background: rgba(10, 20, 28, 0.35);
+    border: 1px solid rgba(120, 160, 190, 0.35);
+}
+
+body[data-theme="light"] .deck-meta-item {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(120, 140, 160, 0.35);
+}
+
+.deck-meta-yellow {
+    color: #ffd33d;
+}
+
+body[data-theme="light"] .deck-meta-yellow {
+    color: #c9a321;
+}
+
+.deck-meta-red {
+    color: #ff6b6b;
+}
+
 .deck-list {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 8px;
     font-size: 14px;
     font-weight: 700;
     color: var(--text);
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+    overflow: visible;
     min-width: 0;
-}
-
-.deck-list::-webkit-scrollbar {
-    height: 0;
 }
 
 .deck-list li {
@@ -1182,6 +1233,82 @@ body[data-theme="light"] .deck-solid {
 
 body[data-theme="light"] .deck-complete {
     background: rgba(212, 255, 84, 0.661)!important;
+}
+
+.deck-radar {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #d7ecff;
+    font-weight: 700;
+}
+
+.deck-radar.is-visible {
+    display: flex;
+}
+
+.deck-radar-number {
+    min-width: 28px;
+    text-align: center;
+    padding: 4px 8px;
+    border-radius: 10px;
+    background: rgba(255, 215, 115, 0.2);
+    color: #ffd77a;
+    border: 1px solid rgba(255, 215, 115, 0.65);
+    font-variant-numeric: tabular-nums;
+}
+
+.deck-radar-number.is-blink {
+    animation: radarBlink 1s ease-in-out infinite;
+}
+
+body[data-theme="light"] .deck-radar {
+    color: #3f4e5e;
+}
+
+body[data-theme="light"] .deck-radar-number {
+    background: rgba(255, 220, 120, 0.35);
+    color: #a07200;
+    border-color: rgba(255, 188, 70, 0.7);
+}
+
+.deck-special {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12px;
+    color: #c6d6e6;
+}
+
+.deck-special.is-visible {
+    display: flex;
+}
+
+.deck-special-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.deck-special-yellow {
+    color: #ffd77a;
+}
+
+.deck-special-red {
+    color: #ff8a8a;
+}
+
+body[data-theme="light"] .deck-special {
+    color: #566472;
+}
+
+body[data-theme="light"] .deck-special-yellow {
+    color: #a07200;
+}
+
+body[data-theme="light"] .deck-special-red {
+    color: #c25252;
 }
 
 .options-panel {
@@ -1666,6 +1793,12 @@ body[data-theme="light"] .modal-button {
     .hands-grid {
         grid-template-columns: 1fr;
         min-height: 0;
+    }
+
+    .log-panel {
+        top: 90px;
+        width: min(300px, 92vw);
+        max-height: 220px;
     }
 
     .hands-grid > .hand-slot {
