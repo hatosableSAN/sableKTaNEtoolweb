@@ -137,6 +137,29 @@ body {
     border-color: rgba(255, 255, 255, 0.45);
 }
 
+.log-fab {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 140px;
+    border-radius: 28px 0 0 28px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background: linear-gradient(160deg, #ffb84d 0%, #ff7a45 55%, #e24a2b 100%);
+    color: #2b1507;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 40;
+    box-shadow: 0 10px 28px rgba(226, 74, 43, 0.35);
+}
+
+.log-fab:hover {
+    border-color: rgba(0, 0, 0, 0.35);
+    filter: brightness(1.05);
+}
+
 .log-panel {
     margin-top: 12px;
     border-radius: 12px;
@@ -1291,20 +1314,12 @@ body[data-theme="light"] .deck-radar-number {
     flex-wrap: wrap;
 }
 
-.deck-special-yellow {
-    color: #ffd77a;
-}
-
 .deck-special-red {
     color: #ff8a8a;
 }
 
 body[data-theme="light"] .deck-special {
     color: #566472;
-}
-
-body[data-theme="light"] .deck-special-yellow {
-    color: #a07200;
 }
 
 body[data-theme="light"] .deck-special-red {
