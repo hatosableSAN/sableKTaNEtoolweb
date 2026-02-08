@@ -166,7 +166,7 @@
     let lastRedHintVersion = null;
     let lastEquip7Version = null;
     let lastState = null;
-    let turnCounter = 0;
+    let turnStepCounter = 0;
     let lastTurnIndexForCount = null;
     let lastLoggedVersion = null;
     let lastDeclaredLoggedVersion = null;
@@ -219,6 +219,7 @@
     let activeEquipmentNumber = null;
     const clientUsedEquipmentNumbers = new Set();
     let pendingTargetConfirmPayload = null;
+    let pendingTargetConfirmEndpoint = null;
 
     const applyTheme = (mode) => {
         if (mode === "light") {
@@ -255,11 +256,20 @@
     };
 
     const getLogStamp = () => {
-        const turnLabel = turnCounter > 0 ? `T${turnCounter}` : "T-";
         if (!lastState || typeof lastState.turnIndex !== "number") {
-            return turnLabel;
+            return "-";
         }
-        return `${turnLabel} P${lastState.turnIndex + 1}`;
+        if (turnStepCounter <= 0) {
+            return "-";
+        }
+        const playerCount = Array.isArray(lastState.players) && lastState.players.length > 0
+            ? lastState.players.length
+            : 4;
+        const turnNumber = Math.ceil(turnStepCounter / Math.max(1, playerCount));
+        const name = lastState.players && lastState.players[lastState.turnIndex]
+            ? lastState.players[lastState.turnIndex].trim()
+            : `プレイヤー${lastState.turnIndex + 1}`;
+        return `Turn${turnNumber} ${name}さん`;
     };
 
     const appendLog = (text) => {
@@ -630,7 +640,7 @@
         const started = state.gameStarted === true;
         const inMainTurn = started && !state.preTokenPhase && !state.missionEnded;
         if (!started) {
-            turnCounter = 0;
+            turnStepCounter = 0;
             lastTurnIndexForCount = null;
         } else if (inMainTurn) {
             if (
@@ -639,12 +649,12 @@
                 prevState.preTokenPhase ||
                 prevState.missionEnded
             ) {
-                if (turnCounter === 0) {
-                    turnCounter = 1;
+                if (turnStepCounter === 0) {
+                    turnStepCounter = 1;
                 }
                 lastTurnIndexForCount = state.turnIndex;
             } else if (prevState.turnIndex !== state.turnIndex) {
-                turnCounter += 1;
+                turnStepCounter += 1;
                 lastTurnIndexForCount = state.turnIndex;
             }
         }
@@ -836,6 +846,7 @@
                 }
             });
         }
+        const yellowPoolSet = new Set(Array.isArray(state.yellowPoolNumbers) ? state.yellowPoolNumbers : []);
         if (Array.isArray(state.deckNumbers) && deckList) {
             deckList.innerHTML = "";
             if (state.deckNumbers.length === 0) {
@@ -857,6 +868,9 @@
                         item.classList.add(redDashed ? "deck-dashed" : "deck-solid");
                     } else {
                         item.classList.add("deck-solid");
+                    }
+                    if (frac === 0 && yellowPoolSet.has(base)) {
+                        item.classList.add("deck-yellow-pool");
                     }
                     if (frac === 0 && revealedBases.has(base)) {
                         item.classList.add("deck-complete");
@@ -1170,10 +1184,12 @@
                 equipmentInUseNumber != null &&
                 equipmentInUseBy != null &&
                 equipmentInUseBy !== playerIndex &&
-                isMyTurn &&
                 !pendingActive
             ) {
-                notice.textContent = "⏳ 他のプレイヤーが装備を使用しています。";
+                const userName = state.players && state.players[equipmentInUseBy]
+                    ? state.players[equipmentInUseBy].trim()
+                    : `プレイヤー${equipmentInUseBy + 1}`;
+                notice.textContent = `⏳ ${userName}さんが装備を使用しました。処理完了までお待ちください。`;
             } else if (started && isMyTurn) {
                 notice.textContent = "🕒 あなたの番です。相手のコードを1本選んでください。";
             } else if (started) {
@@ -1198,6 +1214,9 @@
                 let targetCount = 0;
                 state.players.forEach((name, index) => {
                     if (equipmentSelectionMode === 7 && !detectorUsed[index]) {
+                        return;
+                    }
+                    if (equipmentSelectionMode === 5 && index === playerIndex) {
                         return;
                     }
                     if (equipmentSelectionMode === 11 && index === playerIndex) {
@@ -1678,11 +1697,12 @@
                         if (!isRevealed && !hasHint && frac !== 1 && frac !== 5) {
                             item.classList.add("selectable");
                             item.addEventListener("click", () => {
-                                stompClient.send(
-                                    "/app/token",
-                                    {},
-                                    JSON.stringify({ position: posIndex })
-                                );
+                                const posLabel = getPositionLabel(posIndex);
+                                const message = `トークンをコード${posLabel}に置きますか？`;
+                                const payload = { position: posIndex };
+                                if (!openTargetConfirm(payload, message, "/app/token")) {
+                                    stompClient.send("/app/token", {}, JSON.stringify(payload));
+                                }
                             });
                         }
                     }
@@ -2290,7 +2310,7 @@
                     container.appendChild(bubble);
                 }
             }
-            bubble.textContent = detectorLabel;
+            bubble.textContent = `失敗: ${detectorLabel}を宣言`;
             bubble.style.display = "inline-flex";
         });
 
@@ -2318,7 +2338,7 @@
                         ? `${declFirst}/${declSecond}`
                         : declFirst;
                 if (declValue) {
-                    appendLog(`宣言(${declName}:${declValue})`);
+                    appendLog(`宣言: ${declValue}`);
                     lastDeclaredLoggedVersion = state.version;
                 }
             }
@@ -2328,14 +2348,11 @@
                 typeof state.pendingTargetIndex === "number" &&
                 typeof state.pendingPosition === "number"
             ) {
-                const fromName = state.lastUpdatedBy || "プレイヤー";
                 const targetName = state.players && state.players[state.pendingTargetIndex]
                     ? state.players[state.pendingTargetIndex].trim()
                     : `プレイヤー${state.pendingTargetIndex + 1}`;
                 const posLabel = getPositionLabel(state.pendingPosition);
-                actionText = `指名 (${fromName}→${targetName}:コード${posLabel})`;
-            } else if (state.lastUpdatedBy) {
-                actionText = `${state.lastAction} (${state.lastUpdatedBy})`;
+                actionText = `指名: ${targetName} コード${posLabel}`;
             }
             if (lastAction) {
                 lastAction.textContent = actionText;
@@ -2355,8 +2372,7 @@
             const isForcedEnd = state.lastAction === "ゲーム終了" && prevState.gameStarted === true;
             const isFailedEnd = !prevState.missionEnded && state.missionEnded && state.missionSuccess === false;
             if ((isForcedEnd || isFailedEnd) && state.version != null && state.version !== lastEndLogVersion) {
-                const by = state.lastUpdatedBy || "プレイヤー";
-                const header = isForcedEnd ? `ゲーム強制終了 (${by})` : `ミッション失敗 (${by})`;
+                const header = isForcedEnd ? "ゲーム強制終了" : "ミッション失敗";
                 const handParts = Array.isArray(state.hands)
                     ? state.hands.map((hand, idx) => {
                         const name = state.players && state.players[idx]
@@ -2393,10 +2409,7 @@
                         newlyRevealed.push(`${formatCardValue(value)}`);
                     });
                     if (newlyRevealed.length > 0) {
-                        const playerName = state.players && state.players[pIdx]
-                            ? state.players[pIdx].trim()
-                            : `プレイヤー${pIdx + 1}`;
-                        appendLog(`切断(${playerName}:${newlyRevealed.join(", ")})`);
+                        appendLog(`切断: ${newlyRevealed.join(", ")}`);
                     }
                 });
                 lastRevealLoggedVersion = state.version;
@@ -2623,11 +2636,12 @@
         tooltip.setAttribute("aria-hidden", "true");
     };
 
-    const openTargetConfirm = (payload, message) => {
+    const openTargetConfirm = (payload, message, endpoint = "/app/target") => {
         if (!targetConfirmModal || !targetConfirmMessage) {
             return false;
         }
         pendingTargetConfirmPayload = payload;
+        pendingTargetConfirmEndpoint = endpoint;
         targetConfirmMessage.textContent = message || "このカードでいいですか？";
         targetConfirmModal.classList.add("is-visible");
         targetConfirmModal.setAttribute("aria-hidden", "false");
@@ -2644,6 +2658,7 @@
         targetConfirmModal.classList.remove("is-visible");
         targetConfirmModal.setAttribute("aria-hidden", "true");
         pendingTargetConfirmPayload = null;
+        pendingTargetConfirmEndpoint = null;
     };
 
     const bindEquipmentHover = () => {
@@ -3340,7 +3355,8 @@
                 closeTargetConfirm();
                 return;
             }
-            stompClient.send("/app/target", {}, JSON.stringify(pendingTargetConfirmPayload));
+            const endpoint = pendingTargetConfirmEndpoint || "/app/target";
+            stompClient.send(endpoint, {}, JSON.stringify(pendingTargetConfirmPayload));
             closeTargetConfirm();
             clearSelection();
         });

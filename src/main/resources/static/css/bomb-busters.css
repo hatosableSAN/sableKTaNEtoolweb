@@ -1227,14 +1227,24 @@ body[data-theme="light"] .deck-meta-yellow {
 }
 
 .deck-yellow {
-    color: #ffd33d;
-    border-color: rgba(255, 211, 61, 0.8)!important;
+    color: #c79a21;
+    border-color: rgba(199, 154, 33, 0.85)!important;
     
 }
 
 body[data-theme="light"] .deck-yellow {
-    color: #c9a321;
-    border-color: rgba(201, 163, 33, 0.85)!important;
+    color: #8c6a12;
+    border-color: rgba(140, 106, 18, 0.85)!important;
+}
+
+.deck-yellow-pool {
+    color: inherit;
+    background: transparent;
+}
+
+body[data-theme="light"] .deck-yellow-pool {
+    color: inherit;
+    background: transparent;
 }
 
 .deck-red {

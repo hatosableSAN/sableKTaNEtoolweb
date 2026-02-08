@@ -283,8 +283,8 @@
                         <h2 class="modal-title" id="equipment-modal-title">装備カード</h2>
                         <p class="modal-message" id="equipment-modal-message">-</p>
                         <div class="modal-actions">
-                            <button type="button" class="modal-button modal-cancel" id="equipment-modal-cancel">いいえ</button>
                             <button type="button" class="modal-button modal-confirm" id="equipment-modal-confirm">はい</button>
+                            <button type="button" class="modal-button modal-cancel" id="equipment-modal-cancel">いいえ</button>
                         </div>
                     </div>
                 </div>
@@ -293,8 +293,8 @@
                         <h2 class="modal-title" id="target-confirm-title">確認</h2>
                         <p class="modal-message" id="target-confirm-message">このカードでいいですか？</p>
                         <div class="modal-actions">
-                            <button type="button" class="modal-button modal-cancel" id="target-confirm-cancel">いいえ</button>
                             <button type="button" class="modal-button modal-confirm" id="target-confirm-confirm">はい</button>
+                            <button type="button" class="modal-button modal-cancel" id="target-confirm-cancel">いいえ</button>
                         </div>
                     </div>
                 </div>
@@ -330,6 +330,19 @@
                                 <li>ログアウト/接続周りのUIを微調整</li>
                                 <li>装備3の使用タイミングを自分の手番に限定</li>
                                 <li>装備10の宣言内容もバブルに表示</li>
+                                <li>ログ表示を右側スライド式に変更・ログボタンを画面右端の半円ボタンに変更</li>
+                                <li>ログの表示形式を「TurnX 名前さん」に変更（時刻/括弧付き表記を削除）</li>
+                                <li>トークン設置前に確認モーダルを追加</li>
+                                <li>装備カード確認で「はい」を押した時点で装備が使用済み扱いに</li>
+                                <li>装備5の対象から自分を除外</li>
+                                <li>装備7の選択挙動を元に戻す（1回選ぶと解除不可）</li>
+                                <li>探知機が使用済みのときアイコンを image0x に変更</li>
+                                <li>探知機無効時でもツールチップが薄くならないように修正</li>
+                                <li>山札に含まれる数字を折り返し表示にし、黄色/赤の抽出本数を表示</li>
+                                <li>黄/赤のプール・抽出本数の扱いを修正（抽出本数をデッキ生成に反映）</li>
+                                <li>なんでもレーダーの結果を山札パネル内で10秒点滅表示</li>
+                                <li>失敗時の宣言バブル文言を「失敗: 〇〇を宣言」に変更</li>
+                                <li>デッキの黄色表示をゴールド寄りに調整</li>
                                 <li>その他細かな修正</li>
                             </ul>
                         </div>
