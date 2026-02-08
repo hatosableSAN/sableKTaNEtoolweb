@@ -220,6 +220,7 @@
     const clientUsedEquipmentNumbers = new Set();
     let pendingTargetConfirmPayload = null;
     let pendingTargetConfirmEndpoint = null;
+    let pendingTargetConfirmOptions = null;
 
     const applyTheme = (mode) => {
         if (mode === "light") {
@@ -1541,11 +1542,14 @@
                                     }
                                     return;
                                 }
-                                stompClient.send(
-                                    "/app/equipment",
-                                    {},
-                                    JSON.stringify({ equipmentNumber: 1, positionA: firstPos, positionB: posIndex })
-                                );
+                                const labelA = getPositionLabel(firstPos);
+                                const labelB = getPositionLabel(posIndex);
+                                const payload = { equipmentNumber: 1, positionA: firstPos, positionB: posIndex };
+                                const message = `装備1: コード${labelA}&${labelB}でいいですか？`;
+                                if (openTargetConfirm(payload, message, "/app/equipment", { clearSelection: true, clearEquipment: true })) {
+                                    return;
+                                }
+                                stompClient.send("/app/equipment", {}, JSON.stringify(payload));
                                 clearSelection();
                                 activeEquipmentNumber = null;
                             }
@@ -1588,11 +1592,14 @@
                                     }
                                     return;
                                 }
-                                stompClient.send(
-                                    "/app/equipment",
-                                    {},
-                                    JSON.stringify({ equipmentNumber: 12, positionA: firstPos, positionB: posIndex })
-                                );
+                                const labelA = getPositionLabel(firstPos);
+                                const labelB = getPositionLabel(posIndex);
+                                const payload = { equipmentNumber: 12, positionA: firstPos, positionB: posIndex };
+                                const message = `装備12: コード${labelA}&${labelB}でいいですか？`;
+                                if (openTargetConfirm(payload, message, "/app/equipment", { clearSelection: true, clearEquipment: true })) {
+                                    return;
+                                }
+                                stompClient.send("/app/equipment", {}, JSON.stringify(payload));
                                 clearSelection();
                                 activeEquipmentNumber = null;
                             }
@@ -1650,17 +1657,24 @@
                                 item.classList.add("selected");
                                 item.classList.add("equip-selected");
                                 if (detectorSelections.length === 3 && equip3TargetIndex !== null) {
-                                    stompClient.send(
-                                        "/app/target",
-                                        {},
-                                        JSON.stringify({
-                                            targetPlayerIndex: equip3TargetIndex,
-                                            targetPosition: detectorSelections[0].position,
-                                            targetPosition2: detectorSelections[1].position,
-                                            targetPosition3: detectorSelections[2].position,
-                                            mode: "equip3",
-                                        })
-                                    );
+                                    const name = state.players && state.players[equip3TargetIndex]
+                                        ? state.players[equip3TargetIndex].trim()
+                                        : `プレイヤー${equip3TargetIndex + 1}`;
+                                    const labelA = getPositionLabel(detectorSelections[0].position);
+                                    const labelB = getPositionLabel(detectorSelections[1].position);
+                                    const labelC = getPositionLabel(detectorSelections[2].position);
+                                    const payload = {
+                                        targetPlayerIndex: equip3TargetIndex,
+                                        targetPosition: detectorSelections[0].position,
+                                        targetPosition2: detectorSelections[1].position,
+                                        targetPosition3: detectorSelections[2].position,
+                                        mode: "equip3",
+                                    };
+                                    const message = `装備3: ${name}さんのコード${labelA}&${labelB}&${labelC}でいいですか？`;
+                                    if (openTargetConfirm(payload, message, "/app/target", { clearSelection: true, clearEquipment: true })) {
+                                        return;
+                                    }
+                                    stompClient.send("/app/target", {}, JSON.stringify(payload));
                                     clearSelection();
                                     activeEquipmentNumber = null;
                                 }
@@ -1843,20 +1857,29 @@
                                 if (detectorSelections.length === 2) {
                                     const first = detectorSelections[0];
                                     const second = detectorSelections[1];
-                                        stompClient.send(
-                                            "/app/target",
-                                            {},
-                                            JSON.stringify({
-                                                targetPlayerIndex: first.playerIndex,
-                                                targetPosition: first.position,
-                                                targetPlayerIndex2: second.playerIndex,
-                                                targetPosition2: second.position,
-                                                mode: "detector",
-                                            })
-                                        );
-                                        clearSelection();
+                                    const nameA = state.players && state.players[first.playerIndex]
+                                        ? state.players[first.playerIndex].trim()
+                                        : `プレイヤー${first.playerIndex + 1}`;
+                                    const nameB = state.players && state.players[second.playerIndex]
+                                        ? state.players[second.playerIndex].trim()
+                                        : `プレイヤー${second.playerIndex + 1}`;
+                                    const labelA = getPositionLabel(first.position);
+                                    const labelB = getPositionLabel(second.position);
+                                    const payload = {
+                                        targetPlayerIndex: first.playerIndex,
+                                        targetPosition: first.position,
+                                        targetPlayerIndex2: second.playerIndex,
+                                        targetPosition2: second.position,
+                                        mode: "detector",
+                                    };
+                                    const message = `探知機: ${nameA}コード${labelA} と ${nameB}コード${labelB}でいいですか？`;
+                                    if (openTargetConfirm(payload, message, "/app/target", { clearSelection: true })) {
+                                        return;
                                     }
-                                } else {
+                                    stompClient.send("/app/target", {}, JSON.stringify(payload));
+                                    clearSelection();
+                                }
+                            } else {
                                     const name = state.players && state.players[index]
                                         ? state.players[index].trim()
                                         : `プレイヤー${index + 1}`;
@@ -2636,12 +2659,13 @@
         tooltip.setAttribute("aria-hidden", "true");
     };
 
-    const openTargetConfirm = (payload, message, endpoint = "/app/target") => {
+    const openTargetConfirm = (payload, message, endpoint = "/app/target", options = null) => {
         if (!targetConfirmModal || !targetConfirmMessage) {
             return false;
         }
         pendingTargetConfirmPayload = payload;
         pendingTargetConfirmEndpoint = endpoint;
+        pendingTargetConfirmOptions = options || null;
         targetConfirmMessage.textContent = message || "このカードでいいですか？";
         targetConfirmModal.classList.add("is-visible");
         targetConfirmModal.setAttribute("aria-hidden", "false");
@@ -2659,6 +2683,7 @@
         targetConfirmModal.setAttribute("aria-hidden", "true");
         pendingTargetConfirmPayload = null;
         pendingTargetConfirmEndpoint = null;
+        pendingTargetConfirmOptions = null;
     };
 
     const bindEquipmentHover = () => {
@@ -3357,8 +3382,17 @@
             }
             const endpoint = pendingTargetConfirmEndpoint || "/app/target";
             stompClient.send(endpoint, {}, JSON.stringify(pendingTargetConfirmPayload));
+            if (pendingTargetConfirmOptions) {
+                if (pendingTargetConfirmOptions.clearSelection) {
+                    clearSelection();
+                }
+                if (pendingTargetConfirmOptions.clearEquipment) {
+                    activeEquipmentNumber = null;
+                }
+            } else {
+                clearSelection();
+            }
             closeTargetConfirm();
-            clearSelection();
         });
     }
     if (equipmentTargetModal) {
