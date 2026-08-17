@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>KTANE YAML 設定ファイル作成</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600&family=Noto+Serif+JP:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/ktane-yaml.css}">
+</head>
+<body><main>
+  <header class="masthead"><div class="eyebrow">ARCHIPELAGO CONFIGURATION DOCUMENT</div><h1>Keep Talking and Nobody Explodes<br><span>設定ファイル作成</span></h1><p>画面の指示に従って項目を設定し、プレイ用のYAMLファイルを作成します。</p></header>
+  <nav class="steps"><button id="step1tab" class="active" type="button"><b>01</b><span>ゲームオプション</span></button><i></i><button id="step2tab" type="button" disabled><b>02</b><span>アイテムオプション</span></button></nav>
+  <form id="gameForm" class="paper">
+    <header class="section-heading"><small>SECTION 01</small><h2>ゲームオプション</h2><p>ゲーム進行とルールに関する設定です。</p></header>
+    <div class="two-col"><label><b>プレイヤー名</b><small>ゲーム内で使われる名前（16文字以内）。{number} は連番に置換されます。</small><input id="playerName" value="Player{number}" maxlength="16" required></label><label><b>説明</b><small>複数のファイルを区別するための説明です。</small><input id="description" value="Default Keep Talking and Nobody Explodes Template"></label></div>
+    <label><b>進行バランス</b><small>進行アイテムを早めに配置して行き詰まりを減らします。0は無効、50は通常、99は極端です。</small><div class="range"><input id="progression" type="range" min="0" max="99" value="50"><output id="progressionValue">50</output></div></label>
+    <fieldset><legend>アクセシビリティ</legend><small>アイテムやロケーションへ到達できることを保証する規則を設定します。</small><div class="choices"><label><input type="radio" name="accessibility" value="full" checked>完全：すべてに到達・取得可能</label><label><input type="radio" name="accessibility" value="minimal">最小限：ゴールに必要なもののみ</label></div></fieldset>
+    <fieldset><legend>ランダムルールシードを使用</legend><small>モジュールのパズル解法にランダムなルールを使用します。</small><div class="choices"><label><input type="radio" name="randomRuleSeed" value="true" checked>使用する</label><label><input type="radio" name="randomRuleSeed" value="false">使用しない</label></div><label id="seedField" hidden><b>ルールシード</b><small>1で通常ルール。1〜10000の範囲で入力します。</small><input id="ruleSeed" type="number" min="1" max="10000" value="1"></label></fieldset>
+    <fieldset><legend>アドベンチャーモード</legend><small>使用するアドベンチャー／プレイスルーを選びます。</small><div class="choices"><label><input type="radio" name="adventure" value="vanilla_vanguard" checked>Vanilla Vanguard：標準モジュールのみ</label><label><input type="radio" name="adventure" value="praetorian_pact">Praetorian Pact：初期150個のMODモジュールを含む</label></div></fieldset>
+    <fieldset><legend>ハードロックモジュール</legend><small>完了できない爆弾をアクセス不可にします。ランダムルールシード無効時に強く推奨されます。</small><div class="choices"><label><input type="radio" name="hardlock" value="false" checked>無効</label><label><input type="radio" name="hardlock" value="true">有効</label></div></fieldset>
+    <fieldset><legend>OHKOモード</legend><small>1回のミスで終了します。ハードコアなプレイ向けです。</small><div class="choices"><label><input type="radio" name="ohko" value="false" checked>無効</label><label><input type="radio" name="ohko" value="true">有効</label></div></fieldset>
+    <fieldset><legend>Death Link</legend><small>死亡するとDeath Linkを有効にした全員が死亡し、その逆も同様です。</small><div class="choices"><label><input type="radio" name="deathLink" value="false" checked>無効</label><label><input type="radio" name="deathLink" value="true">有効</label></div></fieldset>
+    <fieldset><legend>Death Linkの動作</legend><small>Death Linkを送受信する際の動作を設定します。</small><div class="choices"><label><input type="radio" name="deathBehaviour" value="explosion" checked>爆発</label><label><input type="radio" name="deathBehaviour" value="strike">ストライク</label></div></fieldset>
+    <div class="actions"><span>1 / 2</span><button class="primary" type="submit">アイテム設定へ　→</button></div>
+  </form>
+  <section id="itemForm" class="paper" hidden>
+    <header class="section-heading"><small>SECTION 02</small><h2>アイテム＆ロケーション</h2><p>各欄は1行につき1項目を入力します。空欄なら初期値を使用します。</p></header>
+    <label><b>ローカルアイテム</b><small>これらのアイテムを元のワールド内に強制配置します。</small><textarea id="localItems"></textarea></label>
+    <label><b>非ローカルアイテム</b><small>これらのアイテムを元のワールド外に強制配置します。</small><textarea id="nonLocalItems"></textarea></label>
+    <label><b>開始時インベントリ</b><small>「Bomb: 1」の形式で開始時に所持するアイテムと個数を入力します。</small><textarea id="startInventory" placeholder="Bomb: 1"></textarea></label>
+    <label><b>開始時アイテムヒント</b><small>指定アイテムの場所を !hint コマンドにあらかじめ入力します。</small><textarea id="startHints"></textarea></label>
+    <label><b>開始時ロケーションヒント</b><small>指定ロケーションとそのアイテムを !hint コマンドにあらかじめ入力します。</small><textarea id="startLocationHints"></textarea></label>
+    <label><b>除外ロケーション</b><small>指定ロケーションに重要アイテムが配置されないようにします。</small><textarea id="excludeLocations"></textarea></label>
+    <label><b>優先ロケーション</b><small>指定ロケーションに重要でないアイテムが配置されないようにします。</small><textarea id="priorityLocations"></textarea></label>
+    <label><b>アイテムリンク</b><small>アイテムプールの一部を他プレイヤーと共有する高度な設定です。YAMLのリストを入力します。</small><textarea id="itemLinks" placeholder="- name: Shared Items"></textarea></label>
+    <label><b>Plandoアイテム</b><small>アイテムを計画配置する高度な設定です。YAMLのリストを入力します。</small><textarea id="plandoItems" placeholder="- item: Bomb"></textarea></label>
+    <details><summary>生成されるYAMLを確認</summary><pre id="preview"></pre></details>
+    <div class="actions"><button id="back" class="back" type="button">← ゲーム設定へ戻る</button><button id="download" class="primary" type="button">Player_ktane_defuser.yaml をダウンロード　↓</button></div>
+  </section>
+  <footer>KTANE YAML GENERATOR <span>Archipelago 0.6.7 / KTANE World 0.3.0</span></footer>
+</main><script th:src="@{/js/ktane-yaml.js}"></script></body></html>

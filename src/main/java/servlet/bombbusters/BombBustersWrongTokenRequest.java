@@ -1,6 +1,6 @@
-package servlet;
+package servlet.bombbusters;
 
-public class BombBustersSelfRevealRequest {
+public class BombBustersWrongTokenRequest {
     private int position;
 
     public int getPosition() {

@@ -1,4 +1,4 @@
-package servlet;
+package servlet.bombbusters;
 
 public class BombBustersStartOptions {
     private RangeOption yellow;

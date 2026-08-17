@@ -1,4 +1,4 @@
-package servlet;
+package servlet.bombbusters;
 
 public class BombBustersTargetRequest {
     private int targetPlayerIndex;

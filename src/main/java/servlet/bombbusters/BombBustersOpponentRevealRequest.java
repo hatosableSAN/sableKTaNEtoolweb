@@ -1,12 +1,12 @@
-package servlet;
+package servlet.bombbusters;
 
-public class BombBustersTokenRequest {
+public class BombBustersOpponentRevealRequest {
     private int position;
 
-    public BombBustersTokenRequest() {
+    public BombBustersOpponentRevealRequest() {
     }
 
-    public BombBustersTokenRequest(int position) {
+    public BombBustersOpponentRevealRequest(int position) {
         this.position = position;
     }
 

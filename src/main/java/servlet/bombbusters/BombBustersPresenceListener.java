@@ -1,4 +1,4 @@
-package servlet;
+package servlet.bombbusters;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

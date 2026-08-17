@@ -1,4 +1,4 @@
-package servlet;
+package servlet.bombbusters;
 
 import java.util.Map;
 

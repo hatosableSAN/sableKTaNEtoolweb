@@ -1,4 +1,4 @@
-package servlet;
+package servlet.bombbusters;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

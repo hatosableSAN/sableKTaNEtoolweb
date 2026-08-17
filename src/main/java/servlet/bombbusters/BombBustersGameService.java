@@ -1,4 +1,4 @@
-package servlet;
+package servlet.bombbusters;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -697,6 +697,25 @@ public class BombBustersGameService {
         for (Double value : deck) {
             if (!numbers.contains(value)) {
                 numbers.add(value);
+            }
+        }
+        // Deck panel displays pool-based special numbers, not only drawn ones.
+        for (Integer value : currentYellowPoolNumbers) {
+            if (value == null) {
+                continue;
+            }
+            double yellow = value + 0.1;
+            if (!numbers.contains(yellow)) {
+                numbers.add(yellow);
+            }
+        }
+        for (Integer value : currentRedPoolNumbers) {
+            if (value == null) {
+                continue;
+            }
+            double red = value + 0.5;
+            if (!numbers.contains(red)) {
+                numbers.add(red);
             }
         }
         Collections.sort(numbers);
