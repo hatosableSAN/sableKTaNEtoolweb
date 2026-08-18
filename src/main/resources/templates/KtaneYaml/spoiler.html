@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>KTANE Spoiler 可視化</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600&family=Noto+Serif+JP:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/ktane-yaml.css}"><link rel="stylesheet" th:href="@{/css/ktane-spoiler.css}">
+</head>
+<body><main>
+  <div class="page-nav"><a th:href="@{/KtaneYaml}">← YAML設定ファイル作成</a><a th:href="@{/index}">ツール一覧へ</a></div>
+  <header class="masthead"><div class="eyebrow">ARCHIPELAGO SPOILER DOCUMENT</div><h1>Keep Talking and Nobody Explodes<br><span>Spoiler可視化</span></h1><p>生成されたSpoiler.txtを読み込み、アイテム配置と進行順を確認します。</p></header>
+  <section class="paper upload-paper">
+    <header class="section-heading"><small>IMPORT</small><h2>Spoilerファイルを読み込む</h2><p>ファイルはサーバーへ送信されず、このブラウザ内だけで解析されます。</p></header>
+    <label id="dropZone" class="drop-zone"><input id="spoilerFile" type="file" accept=".txt,text/plain"><b>ここにSpoiler.txtをドロップ</b><span>またはクリックしてファイルを選択</span></label>
+    <p id="fileError" class="file-error" hidden></p>
+  </section>
+  <section id="visualization" class="paper visualization" hidden>
+    <header class="section-heading"><small>ANALYSIS</small><h2 id="resultTitle">Spoiler解析結果</h2><p id="resultSubtitle"></p></header>
+    <section class="metadata-section"><h3>生成設定</h3><dl id="metadata" class="metadata-list"></dl></section>
+    <div id="summary" class="summary-grid"></div>
+    <section class="viz-section"><h3>進行ガイド</h3><p class="viz-note">各段階で進行に必要となるアイテムと、その取得locationです。</p><div id="playthrough" class="playthrough"></div><div id="sphereDetail" class="sphere-detail"></div></section>
+    <section class="viz-section"><h3>location一覧</h3><div class="location-filters"><input id="locationSearch" type="search" placeholder="location名を検索"><select id="itemFilter"><option value="">すべてのアイテム</option></select><span id="locationCount"></span></div><div class="spoiler-table-wrap"><table class="spoiler-table"><thead><tr><th>location</th><th>アイテム</th></tr></thead><tbody id="locationRows"></tbody></table></div></section>
+  </section>
+  <footer>KTANE SPOILER VISUALIZER <span>Archipelago Spoiler.txt</span></footer>
+</main><script th:src="@{/js/ktane-spoiler.js}"></script></body></html>

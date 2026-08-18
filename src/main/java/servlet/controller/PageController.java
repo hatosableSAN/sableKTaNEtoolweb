@@ -45,4 +45,9 @@ public class PageController {
     public String ktaneYaml() {
         return "KtaneYaml/index";
     }
+
+    @GetMapping("/KtaneSpoiler")
+    public String ktaneSpoiler() {
+        return "KtaneYaml/spoiler";
+    }
 }

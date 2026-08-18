@@ -1,0 +1,747 @@
+﻿Archipelago Version 0.6.7  -  Seed: 16491884697866432575
+
+Filling Algorithm:               balanced
+Players:                         1
+Plando Options:                  connections, texts, bosses
+Game:                            Keep Talking and Nobody Explodes
+Location Count:                  571
+Progression Balancing:           50
+Accessibility:                   Full
+Local Items:                     
+Non-local Items:                 
+Start Inventory:                 
+Start Hints:                     
+Start Location Hints:            
+Excluded Locations:              
+Priority Locations:              
+Item Links:                      
+Plando Items:                    
+Use Random Rule Seed:            Yes
+Rule Seed Number:                2852
+Adventure Mode:                  Praetorian Pact
+Hardlock Modules:                No
+OHKO Mode:                       No
+Death Link:                      No
+Death Link Behaviour:            Explosion
+Final Challenge Composition:     [Chess, Blind Alley, Tic Tac Toe, Double-Oh, Radiator, 3D Maze, X-Ray, Switches, Mouse in the Maze, Morse-A-Maze, Friendship, Big Circle, Polyhedral Maze, Follow the Leader, Cheap Checkout]
+
+Locations:
+
+Section 1 Completed: Empty Manual Page
+Section 2 Completed: Bomb Fragment
+Section 3 Completed: Empty Manual Page
+Section 4 Completed: Bomb Fragment
+Section 5 Completed: Bomb Fragment
+Section 6 Completed: Empty Manual Page
+Section 7 Completed: Strike+
+1.1 First? - 1 Module Solved: Empty Manual Page
+1.1 First? - 2 Modules Solved: Empty Manual Page
+1.1 First? - 3 Modules Solved: Empty Manual Page
+1.1 First? - 4 Modules Solved: Bomb Fragment
+1.1 First? - 5 Modules Solved: Time+
+1.1 First? - 6 Modules Solved: Bomb Fragment
+1.1 First? - 7 Modules Solved: Empty Manual Page
+1.1 First? - 8 Modules Solved: Bomb Fragment
+1.1 First? - 9 Modules Solved: Empty Manual Page
+1.1 First? - 10 Modules Solved: Bomb Fragment
+1.1 First? - 11 Modules Solved: Empty Manual Page
+2.1 Double Down - 1 Module Solved: Bomb Fragment
+2.1 Double Down - 2 Modules Solved: Bomb Fragment
+2.1 Double Down - 3 Modules Solved: Bitmaps
+2.1 Double Down - 4 Modules Solved: Time+
+2.1 Double Down - 5 Modules Solved: Bomb Fragment
+2.1 Double Down - 6 Modules Solved: Bomb Fragment
+2.1 Double Down - 7 Modules Solved: Empty Manual Page
+2.1 Double Down - 8 Modules Solved: Bomb Fragment
+2.1 Double Down - 9 Modules Solved: Time+
+2.1 Double Down - 10 Modules Solved: Bomb Fragment
+2.1 Double Down - 11 Modules Solved: Bomb Fragment
+2.1 Double Down - 12 Modules Solved: Time++
+2.1 Double Down - 13 Modules Solved: Empty Manual Page
+2.1 Double Down - 14 Modules Solved: Bomb Fragment
+2.1 Double Down - 15 Modules Solved: Bomb Fragment
+2.1 Double Down - 16 Modules Solved: Bomb Fragment
+2.1 Double Down - 17 Modules Solved: Empty Manual Page
+2.1 Double Down - 18 Modules Solved: Empty Manual Page
+2.1 Double Down - 19 Modules Solved: Time++
+2.1 Double Down - 20 Modules Solved: Time+
+2.1 Double Down - 21 Modules Solved: Bomb Fragment
+2.1 Double Down - 22 Modules Solved: Empty Manual Page
+2.2 What Are Those? - 1 Module Solved: Empty Manual Page
+2.2 What Are Those? - 2 Modules Solved: Empty Manual Page
+2.2 What Are Those? - 3 Modules Solved: Follow the Leader
+2.2 What Are Those? - 4 Modules Solved: Time+
+2.2 What Are Those? - 5 Modules Solved: Empty Manual Page
+2.2 What Are Those? - 6 Modules Solved: Bomb Fragment
+2.2 What Are Those? - 7 Modules Solved: Empty Manual Page
+2.2 What Are Those? - 8 Modules Solved: Empty Manual Page
+2.3 Location of Success - 1 Module Solved: Bomb Fragment
+2.3 Location of Success - 2 Modules Solved: Bomb Fragment
+2.3 Location of Success - 3 Modules Solved: Empty Manual Page
+2.3 Location of Success - 4 Modules Solved: Time++
+2.3 Location of Success - 5 Modules Solved: Empty Manual Page
+2.3 Location of Success - 6 Modules Solved: Bomb Fragment
+2.3 Location of Success - 7 Modules Solved: Empty Manual Page
+2.3 Location of Success - 8 Modules Solved: Empty Manual Page
+2.4 Family Fun - 1 Module Solved: Empty Manual Page
+2.4 Family Fun - 2 Modules Solved: Empty Manual Page
+2.4 Family Fun - 3 Modules Solved: Empty Manual Page
+2.4 Family Fun - 4 Modules Solved: Empty Manual Page
+2.4 Family Fun - 5 Modules Solved: Empty Manual Page
+2.4 Family Fun - 6 Modules Solved: Empty Manual Page
+2.4 Family Fun - 7 Modules Solved: Empty Manual Page
+2.4 Family Fun - 8 Modules Solved: Bomb Fragment
+2.5 Keep Talking - 1 Module Solved: Empty Manual Page
+2.5 Keep Talking - 2 Modules Solved: Bomb Fragment
+2.5 Keep Talking - 3 Modules Solved: Time++
+2.5 Keep Talking - 4 Modules Solved: Bomb Fragment
+2.5 Keep Talking - 5 Modules Solved: Empty Manual Page
+2.5 Keep Talking - 6 Modules Solved: Empty Manual Page
+2.5 Keep Talking - 7 Modules Solved: Bomb Fragment
+2.5 Keep Talking - 8 Modules Solved: Bomb Fragment
+2.6 Nobody Explodes - 1 Module Solved: Time+
+2.6 Nobody Explodes - 2 Modules Solved: Empty Manual Page
+2.6 Nobody Explodes - 3 Modules Solved: Bomb Fragment
+2.6 Nobody Explodes - 4 Modules Solved: Empty Manual Page
+2.6 Nobody Explodes - 5 Modules Solved: Empty Manual Page
+2.6 Nobody Explodes - 6 Modules Solved: Empty Manual Page
+2.6 Nobody Explodes - 7 Modules Solved: Bomb Fragment
+2.6 Nobody Explodes - 8 Modules Solved: Empty Manual Page
+2.7 Be Squared - 1 Module Solved: Empty Manual Page
+2.7 Be Squared - 2 Modules Solved: Bomb Fragment
+2.7 Be Squared - 3 Modules Solved: Bomb Fragment
+2.7 Be Squared - 4 Modules Solved: Time++
+2.7 Be Squared - 5 Modules Solved: Empty Manual Page
+2.7 Be Squared - 6 Modules Solved: Empty Manual Page
+2.7 Be Squared - 7 Modules Solved: Bomb Fragment
+2.7 Be Squared - 8 Modules Solved: Empty Manual Page
+2.8 Quick Time Event I - 1 Module Solved: Empty Manual Page
+2.8 Quick Time Event I - 2 Modules Solved: 3D Maze
+2.8 Quick Time Event I - 3 Modules Solved: Bomb Fragment
+2.8 Quick Time Event I - 4 Modules Solved: Bomb Fragment
+2.8 Quick Time Event I - 5 Modules Solved: Empty Manual Page
+2.8 Quick Time Event I - 6 Modules Solved: Empty Manual Page
+2.8 Quick Time Event I - 7 Modules Solved: Double-Oh
+2.8 Quick Time Event I - 8 Modules Solved: Cheap Checkout
+2.8 Quick Time Event I - 9 Modules Solved: Empty Manual Page
+2.8 Quick Time Event I - 10 Modules Solved: Empty Manual Page
+2.8 Quick Time Event I - 11 Modules Solved: Empty Manual Page
+3.1 Lost - 1 Module Solved: Empty Manual Page
+3.1 Lost - 2 Modules Solved: Bomb Fragment
+3.1 Lost - 3 Modules Solved: Empty Manual Page
+3.1 Lost - 4 Modules Solved: Bomb Fragment
+3.1 Lost - 5 Modules Solved: Empty Manual Page
+3.1 Lost - 6 Modules Solved: Time+
+3.1 Lost - 7 Modules Solved: Empty Manual Page
+3.1 Lost - 8 Modules Solved: Bomb Fragment
+3.2 Dark Path - 1 Module Solved: Bomb Fragment
+3.2 Dark Path - 2 Modules Solved: Bomb Fragment
+3.2 Dark Path - 3 Modules Solved: Strike+
+3.2 Dark Path - 4 Modules Solved: Time+
+3.2 Dark Path - 5 Modules Solved: Empty Manual Page
+3.2 Dark Path - 6 Modules Solved: Bomb Fragment
+3.2 Dark Path - 7 Modules Solved: Big Circle
+3.2 Dark Path - 8 Modules Solved: Bomb Fragment
+3.3 Shock - 1 Module Solved: Empty Manual Page
+3.3 Shock - 2 Modules Solved: Empty Manual Page
+3.3 Shock - 3 Modules Solved: Time+
+3.3 Shock - 4 Modules Solved: Empty Manual Page
+3.3 Shock - 5 Modules Solved: Bomb Fragment
+3.3 Shock - 6 Modules Solved: Bomb Fragment
+3.3 Shock - 7 Modules Solved: Empty Manual Page
+3.3 Shock - 8 Modules Solved: Empty Manual Page
+3.4 Gin - 1 Module Solved: Bomb Fragment
+3.4 Gin - 2 Modules Solved: Empty Manual Page
+3.4 Gin - 3 Modules Solved: Empty Manual Page
+3.4 Gin - 4 Modules Solved: Empty Manual Page
+3.4 Gin - 5 Modules Solved: Bomb Fragment
+3.4 Gin - 6 Modules Solved: Empty Manual Page
+3.4 Gin - 7 Modules Solved: Time+
+3.4 Gin - 8 Modules Solved: Empty Manual Page
+3.5 Stateful - 1 Module Solved: Empty Manual Page
+3.5 Stateful - 2 Modules Solved: Empty Manual Page
+3.5 Stateful - 3 Modules Solved: Empty Manual Page
+3.5 Stateful - 4 Modules Solved: Empty Manual Page
+3.5 Stateful - 5 Modules Solved: Empty Manual Page
+3.5 Stateful - 6 Modules Solved: Bomb Fragment
+3.5 Stateful - 7 Modules Solved: Empty Manual Page
+3.5 Stateful - 8 Modules Solved: Empty Manual Page
+3.6 Vulture's Nest - 1 Module Solved: Empty Manual Page
+3.6 Vulture's Nest - 2 Modules Solved: Empty Manual Page
+3.6 Vulture's Nest - 3 Modules Solved: Bomb Fragment
+3.6 Vulture's Nest - 4 Modules Solved: Empty Manual Page
+3.6 Vulture's Nest - 5 Modules Solved: Time+
+3.6 Vulture's Nest - 6 Modules Solved: Empty Manual Page
+3.6 Vulture's Nest - 7 Modules Solved: Empty Manual Page
+3.6 Vulture's Nest - 8 Modules Solved: Empty Manual Page
+3.6 Vulture's Nest - 9 Modules Solved: Empty Manual Page
+3.6 Vulture's Nest - 10 Modules Solved: Bomb Fragment
+3.7 Colossal I - 1 Module Solved: Radiator
+3.7 Colossal I - 2 Modules Solved: Bomb Fragment
+3.7 Colossal I - 3 Modules Solved: Empty Manual Page
+3.7 Colossal I - 4 Modules Solved: Strike+
+3.7 Colossal I - 5 Modules Solved: Time+
+3.7 Colossal I - 6 Modules Solved: Empty Manual Page
+3.7 Colossal I - 7 Modules Solved: Strike+
+3.7 Colossal I - 8 Modules Solved: Blind Alley
+3.7 Colossal I - 9 Modules Solved: Empty Manual Page
+3.7 Colossal I - 10 Modules Solved: Empty Manual Page
+3.7 Colossal I - 11 Modules Solved: Time+
+3.7 Colossal I - 12 Modules Solved: Empty Manual Page
+3.7 Colossal I - 13 Modules Solved: Bomb Fragment
+3.7 Colossal I - 14 Modules Solved: Empty Manual Page
+3.7 Colossal I - 15 Modules Solved: Empty Manual Page
+3.7 Colossal I - 16 Modules Solved: Empty Manual Page
+3.7 Colossal I - 17 Modules Solved: Empty Manual Page
+3.7 Colossal I - 18 Modules Solved: Bomb Fragment
+3.7 Colossal I - 19 Modules Solved: Bomb Fragment
+3.7 Colossal I - 20 Modules Solved: Empty Manual Page
+3.7 Colossal I - 21 Modules Solved: Bomb Fragment
+3.7 Colossal I - 22 Modules Solved: Bomb Fragment
+3.7 Colossal I - 23 Modules Solved: Bomb Fragment
+3.8 Quick Time Event II - 1 Module Solved: Empty Manual Page
+3.8 Quick Time Event II - 2 Modules Solved: Empty Manual Page
+3.8 Quick Time Event II - 3 Modules Solved: Bomb Fragment
+3.8 Quick Time Event II - 4 Modules Solved: Empty Manual Page
+3.8 Quick Time Event II - 5 Modules Solved: Time+
+3.8 Quick Time Event II - 6 Modules Solved: Empty Manual Page
+3.8 Quick Time Event II - 7 Modules Solved: Empty Manual Page
+3.8 Quick Time Event II - 8 Modules Solved: Empty Manual Page
+3.8 Quick Time Event II - 9 Modules Solved: Bomb Fragment
+3.8 Quick Time Event II - 10 Modules Solved: Empty Manual Page
+3.8 Quick Time Event II - 11 Modules Solved: Bomb Fragment
+4.1 Let Me In! - 1 Module Solved: Strike+
+4.1 Let Me In! - 2 Modules Solved: Empty Manual Page
+4.1 Let Me In! - 3 Modules Solved: Empty Manual Page
+4.1 Let Me In! - 4 Modules Solved: Empty Manual Page
+4.1 Let Me In! - 5 Modules Solved: Empty Manual Page
+4.1 Let Me In! - 6 Modules Solved: Hexamaze
+4.1 Let Me In! - 7 Modules Solved: Empty Manual Page
+4.1 Let Me In! - 8 Modules Solved: Bomb Fragment
+4.2 In Your Head - 1 Module Solved: Bomb Fragment
+4.2 In Your Head - 2 Modules Solved: Time++
+4.2 In Your Head - 3 Modules Solved: Empty Manual Page
+4.2 In Your Head - 4 Modules Solved: Empty Manual Page
+4.2 In Your Head - 5 Modules Solved: Empty Manual Page
+4.2 In Your Head - 6 Modules Solved: Empty Manual Page
+4.2 In Your Head - 7 Modules Solved: Empty Manual Page
+4.2 In Your Head - 8 Modules Solved: Bomb Fragment
+4.3 Magical - 1 Module Solved: Empty Manual Page
+4.3 Magical - 2 Modules Solved: X-Ray
+4.3 Magical - 3 Modules Solved: Strike+
+4.3 Magical - 4 Modules Solved: Bomb Fragment
+4.3 Magical - 5 Modules Solved: Empty Manual Page
+4.3 Magical - 6 Modules Solved: Tic Tac Toe
+4.3 Magical - 7 Modules Solved: Empty Manual Page
+4.3 Magical - 8 Modules Solved: Time+
+4.4 Entrance - 1 Module Solved: Mouse in the Maze
+4.4 Entrance - 2 Modules Solved: Time+
+4.4 Entrance - 3 Modules Solved: Empty Manual Page
+4.4 Entrance - 4 Modules Solved: Empty Manual Page
+4.4 Entrance - 5 Modules Solved: Bomb Fragment
+4.4 Entrance - 6 Modules Solved: Empty Manual Page
+4.4 Entrance - 7 Modules Solved: Bomb Fragment
+4.4 Entrance - 8 Modules Solved: Empty Manual Page
+4.5 Back in the 30s - 1 Module Solved: Bomb Fragment
+4.5 Back in the 30s - 2 Modules Solved: Strike+
+4.5 Back in the 30s - 3 Modules Solved: Empty Manual Page
+4.5 Back in the 30s - 4 Modules Solved: Empty Manual Page
+4.5 Back in the 30s - 5 Modules Solved: Bomb Fragment
+4.5 Back in the 30s - 6 Modules Solved: Strike+
+4.5 Back in the 30s - 7 Modules Solved: Empty Manual Page
+4.5 Back in the 30s - 8 Modules Solved: Empty Manual Page
+4.6 Vision - 1 Module Solved: Empty Manual Page
+4.6 Vision - 2 Modules Solved: Bomb Fragment
+4.6 Vision - 3 Modules Solved: Empty Manual Page
+4.6 Vision - 4 Modules Solved: Empty Manual Page
+4.6 Vision - 5 Modules Solved: Empty Manual Page
+4.6 Vision - 6 Modules Solved: Empty Manual Page
+4.6 Vision - 7 Modules Solved: Empty Manual Page
+4.6 Vision - 8 Modules Solved: Empty Manual Page
+4.7 Colossal II - 1 Module Solved: Empty Manual Page
+4.7 Colossal II - 2 Modules Solved: Empty Manual Page
+4.7 Colossal II - 3 Modules Solved: Colored Squares
+4.7 Colossal II - 4 Modules Solved: Empty Manual Page
+4.7 Colossal II - 5 Modules Solved: Empty Manual Page
+4.7 Colossal II - 6 Modules Solved: Blind Maze
+4.7 Colossal II - 7 Modules Solved: Empty Manual Page
+4.7 Colossal II - 8 Modules Solved: Empty Manual Page
+4.7 Colossal II - 9 Modules Solved: Color Morse
+4.7 Colossal II - 10 Modules Solved: Empty Manual Page
+4.7 Colossal II - 11 Modules Solved: Morse-A-Maze
+4.7 Colossal II - 12 Modules Solved: Bomb Fragment
+4.7 Colossal II - 13 Modules Solved: Bomb Fragment
+4.7 Colossal II - 14 Modules Solved: Empty Manual Page
+4.7 Colossal II - 15 Modules Solved: Empty Manual Page
+4.7 Colossal II - 16 Modules Solved: Time+
+4.7 Colossal II - 17 Modules Solved: Empty Manual Page
+4.7 Colossal II - 18 Modules Solved: Bomb Fragment
+4.7 Colossal II - 19 Modules Solved: Empty Manual Page
+4.7 Colossal II - 20 Modules Solved: Bomb Fragment
+4.7 Colossal II - 21 Modules Solved: Bomb Fragment
+4.7 Colossal II - 22 Modules Solved: Empty Manual Page
+4.7 Colossal II - 23 Modules Solved: Time+
+4.7 Colossal II - 24 Modules Solved: Empty Manual Page
+4.7 Colossal II - 25 Modules Solved: Bomb Fragment
+4.7 Colossal II - 26 Modules Solved: Empty Manual Page
+4.7 Colossal II - 27 Modules Solved: Bomb Fragment
+4.7 Colossal II - 28 Modules Solved: Strike+
+4.7 Colossal II - 29 Modules Solved: Empty Manual Page
+4.7 Colossal II - 30 Modules Solved: Empty Manual Page
+4.7 Colossal II - 31 Modules Solved: Empty Manual Page
+4.8 Quick Time Event III - 1 Module Solved: Bomb Fragment
+4.8 Quick Time Event III - 2 Modules Solved: Bomb Fragment
+4.8 Quick Time Event III - 3 Modules Solved: Empty Manual Page
+4.8 Quick Time Event III - 4 Modules Solved: Empty Manual Page
+4.8 Quick Time Event III - 5 Modules Solved: Empty Manual Page
+4.8 Quick Time Event III - 6 Modules Solved: Bomb Fragment
+4.8 Quick Time Event III - 7 Modules Solved: Empty Manual Page
+4.8 Quick Time Event III - 8 Modules Solved: Empty Manual Page
+4.8 Quick Time Event III - 9 Modules Solved: Empty Manual Page
+4.8 Quick Time Event III - 10 Modules Solved: Empty Manual Page
+4.8 Quick Time Event III - 11 Modules Solved: Empty Manual Page
+5.1 Grayscale - 1 Module Solved: Empty Manual Page
+5.1 Grayscale - 2 Modules Solved: Bomb Fragment
+5.1 Grayscale - 3 Modules Solved: Empty Manual Page
+5.1 Grayscale - 4 Modules Solved: Empty Manual Page
+5.1 Grayscale - 5 Modules Solved: Bomb Fragment
+5.1 Grayscale - 6 Modules Solved: Time++
+5.1 Grayscale - 7 Modules Solved: Bomb Fragment
+5.1 Grayscale - 8 Modules Solved: Bomb Fragment
+5.1 Grayscale - 9 Modules Solved: Bomb Fragment
+5.2 Insanity - 1 Module Solved: Empty Manual Page
+5.2 Insanity - 2 Modules Solved: Empty Manual Page
+5.2 Insanity - 3 Modules Solved: Empty Manual Page
+5.2 Insanity - 4 Modules Solved: Bomb Fragment
+5.2 Insanity - 5 Modules Solved: Time+
+5.2 Insanity - 6 Modules Solved: Bomb Fragment
+5.2 Insanity - 7 Modules Solved: Time++
+5.2 Insanity - 8 Modules Solved: Empty Manual Page
+5.2 Insanity - 9 Modules Solved: Empty Manual Page
+5.3 Tales of Wonders - 1 Module Solved: Bomb Fragment
+5.3 Tales of Wonders - 2 Modules Solved: Time++
+5.3 Tales of Wonders - 3 Modules Solved: Bomb Fragment
+5.3 Tales of Wonders - 4 Modules Solved: Time+
+5.3 Tales of Wonders - 5 Modules Solved: Bomb Fragment
+5.3 Tales of Wonders - 6 Modules Solved: Bomb Fragment
+5.3 Tales of Wonders - 7 Modules Solved: Empty Manual Page
+5.3 Tales of Wonders - 8 Modules Solved: Empty Manual Page
+5.3 Tales of Wonders - 9 Modules Solved: Time+
+5.4 Disturbance - 1 Module Solved: Bomb Fragment
+5.4 Disturbance - 2 Modules Solved: Backgrounds
+5.4 Disturbance - 3 Modules Solved: Empty Manual Page
+5.4 Disturbance - 4 Modules Solved: Bomb Fragment
+5.4 Disturbance - 5 Modules Solved: Bomb Fragment
+5.4 Disturbance - 6 Modules Solved: Empty Manual Page
+5.4 Disturbance - 7 Modules Solved: Bomb Fragment
+5.4 Disturbance - 8 Modules Solved: Bomb Fragment
+5.4 Disturbance - 9 Modules Solved: Empty Manual Page
+5.5 Commonplace - 1 Module Solved: Empty Manual Page
+5.5 Commonplace - 2 Modules Solved: Empty Manual Page
+5.5 Commonplace - 3 Modules Solved: Bomb Fragment
+5.5 Commonplace - 4 Modules Solved: Bomb Fragment
+5.5 Commonplace - 5 Modules Solved: Bomb Fragment
+5.5 Commonplace - 6 Modules Solved: Empty Manual Page
+5.5 Commonplace - 7 Modules Solved: Empty Manual Page
+5.5 Commonplace - 8 Modules Solved: Bomb Fragment
+5.5 Commonplace - 9 Modules Solved: Time+
+5.6 Unspoken - 1 Module Solved: Bomb Fragment
+5.6 Unspoken - 2 Modules Solved: Time++
+5.6 Unspoken - 3 Modules Solved: Empty Manual Page
+5.6 Unspoken - 4 Modules Solved: Empty Manual Page
+5.6 Unspoken - 5 Modules Solved: Bomb Fragment
+5.6 Unspoken - 6 Modules Solved: Bomb Fragment
+5.6 Unspoken - 7 Modules Solved: Time+
+5.6 Unspoken - 8 Modules Solved: Empty Manual Page
+5.6 Unspoken - 9 Modules Solved: Empty Manual Page
+5.7 Colossal III - 1 Module Solved: Time+
+5.7 Colossal III - 2 Modules Solved: Empty Manual Page
+5.7 Colossal III - 3 Modules Solved: Bomb Fragment
+5.7 Colossal III - 4 Modules Solved: Fast Math
+5.7 Colossal III - 5 Modules Solved: Switches
+5.7 Colossal III - 6 Modules Solved: Empty Manual Page
+5.7 Colossal III - 7 Modules Solved: Bomb Fragment
+5.7 Colossal III - 8 Modules Solved: Time+
+5.7 Colossal III - 9 Modules Solved: Empty Manual Page
+5.7 Colossal III - 10 Modules Solved: Time++
+5.7 Colossal III - 11 Modules Solved: Empty Manual Page
+5.7 Colossal III - 12 Modules Solved: Empty Manual Page
+5.7 Colossal III - 13 Modules Solved: Time+
+5.7 Colossal III - 14 Modules Solved: Bomb Fragment
+5.7 Colossal III - 15 Modules Solved: Bomb Fragment
+5.7 Colossal III - 16 Modules Solved: Bomb Fragment
+5.7 Colossal III - 17 Modules Solved: Bomb Fragment
+5.7 Colossal III - 18 Modules Solved: Time++
+5.7 Colossal III - 19 Modules Solved: Empty Manual Page
+5.7 Colossal III - 20 Modules Solved: Bomb Fragment
+5.7 Colossal III - 21 Modules Solved: Bomb Fragment
+5.7 Colossal III - 22 Modules Solved: Empty Manual Page
+5.7 Colossal III - 23 Modules Solved: Empty Manual Page
+5.7 Colossal III - 24 Modules Solved: Empty Manual Page
+5.7 Colossal III - 25 Modules Solved: Strike+
+5.7 Colossal III - 26 Modules Solved: Empty Manual Page
+5.7 Colossal III - 27 Modules Solved: Time+
+5.7 Colossal III - 28 Modules Solved: Bomb Fragment
+5.7 Colossal III - 29 Modules Solved: Empty Manual Page
+5.7 Colossal III - 30 Modules Solved: Empty Manual Page
+5.7 Colossal III - 31 Modules Solved: Bomb Fragment
+5.7 Colossal III - 32 Modules Solved: Time+
+5.7 Colossal III - 33 Modules Solved: Wire Placement
+5.7 Colossal III - 34 Modules Solved: Bomb Fragment
+5.7 Colossal III - 35 Modules Solved: Empty Manual Page
+5.8 Quick Time Event IV - 1 Module Solved: Bomb Fragment
+5.8 Quick Time Event IV - 2 Modules Solved: Empty Manual Page
+5.8 Quick Time Event IV - 3 Modules Solved: Time+
+5.8 Quick Time Event IV - 4 Modules Solved: Bomb Fragment
+5.8 Quick Time Event IV - 5 Modules Solved: Empty Manual Page
+5.8 Quick Time Event IV - 6 Modules Solved: Bomb Fragment
+5.8 Quick Time Event IV - 7 Modules Solved: Empty Manual Page
+5.8 Quick Time Event IV - 8 Modules Solved: Bomb Fragment
+5.8 Quick Time Event IV - 9 Modules Solved: Bomb Fragment
+5.8 Quick Time Event IV - 10 Modules Solved: Bomb Fragment
+5.8 Quick Time Event IV - 11 Modules Solved: Bomb Fragment
+5.8 Quick Time Event IV - 12 Modules Solved: Time+
+5.8 Quick Time Event IV - 13 Modules Solved: Empty Manual Page
+5.8 Quick Time Event IV - 14 Modules Solved: Empty Manual Page
+5.8 Quick Time Event IV - 15 Modules Solved: Bomb Fragment
+6.1 Guidance - 1 Module Solved: FizzBuzz
+6.1 Guidance - 2 Modules Solved: Bomb Fragment
+6.1 Guidance - 3 Modules Solved: Bomb Fragment
+6.1 Guidance - 4 Modules Solved: Bomb Fragment
+6.1 Guidance - 5 Modules Solved: Bomb Fragment
+6.1 Guidance - 6 Modules Solved: Empty Manual Page
+6.1 Guidance - 7 Modules Solved: Empty Manual Page
+6.1 Guidance - 8 Modules Solved: Empty Manual Page
+6.1 Guidance - 9 Modules Solved: Empty Manual Page
+6.2 As Per Protocol - 1 Module Solved: Empty Manual Page
+6.2 As Per Protocol - 2 Modules Solved: Empty Manual Page
+6.2 As Per Protocol - 3 Modules Solved: Empty Manual Page
+6.2 As Per Protocol - 4 Modules Solved: Bomb Fragment
+6.2 As Per Protocol - 5 Modules Solved: Bomb Fragment
+6.2 As Per Protocol - 6 Modules Solved: Empty Manual Page
+6.2 As Per Protocol - 7 Modules Solved: Bomb Fragment
+6.2 As Per Protocol - 8 Modules Solved: Time++
+6.2 As Per Protocol - 9 Modules Solved: Empty Manual Page
+6.3 Knights - 1 Module Solved: Bomb Fragment
+6.3 Knights - 2 Modules Solved: Bomb Fragment
+6.3 Knights - 3 Modules Solved: Bomb Fragment
+6.3 Knights - 4 Modules Solved: Empty Manual Page
+6.3 Knights - 5 Modules Solved: Bomb Fragment
+6.3 Knights - 6 Modules Solved: Empty Manual Page
+6.3 Knights - 7 Modules Solved: Empty Manual Page
+6.3 Knights - 8 Modules Solved: Empty Manual Page
+6.3 Knights - 9 Modules Solved: Time+
+6.4 Pulsed - 1 Module Solved: Empty Manual Page
+6.4 Pulsed - 2 Modules Solved: Bomb Fragment
+6.4 Pulsed - 3 Modules Solved: Bomb Fragment
+6.4 Pulsed - 4 Modules Solved: Empty Manual Page
+6.4 Pulsed - 5 Modules Solved: Bomb Fragment
+6.4 Pulsed - 6 Modules Solved: Bomb Fragment
+6.4 Pulsed - 7 Modules Solved: Empty Manual Page
+6.4 Pulsed - 8 Modules Solved: Empty Manual Page
+6.4 Pulsed - 9 Modules Solved: Strike+
+6.5 Walk in the Woods - 1 Module Solved: Empty Manual Page
+6.5 Walk in the Woods - 2 Modules Solved: Bomb Fragment
+6.5 Walk in the Woods - 3 Modules Solved: Bomb Fragment
+6.5 Walk in the Woods - 4 Modules Solved: Bomb Fragment
+6.5 Walk in the Woods - 5 Modules Solved: Empty Manual Page
+6.5 Walk in the Woods - 6 Modules Solved: Empty Manual Page
+6.5 Walk in the Woods - 7 Modules Solved: Empty Manual Page
+6.5 Walk in the Woods - 8 Modules Solved: Empty Manual Page
+6.5 Walk in the Woods - 9 Modules Solved: Empty Manual Page
+6.6 Find Your Way - 1 Module Solved: Bomb Fragment
+6.6 Find Your Way - 2 Modules Solved: Time+
+6.6 Find Your Way - 3 Modules Solved: Bomb Fragment
+6.6 Find Your Way - 4 Modules Solved: Empty Manual Page
+6.6 Find Your Way - 5 Modules Solved: Bomb Fragment
+6.6 Find Your Way - 6 Modules Solved: Empty Manual Page
+6.6 Find Your Way - 7 Modules Solved: Empty Manual Page
+6.6 Find Your Way - 8 Modules Solved: Bomb Fragment
+6.6 Find Your Way - 9 Modules Solved: Empty Manual Page
+6.7 Forbidden - 1 Module Solved: Empty Manual Page
+6.7 Forbidden - 2 Modules Solved: Empty Manual Page
+6.7 Forbidden - 3 Modules Solved: Strike+
+6.7 Forbidden - 4 Modules Solved: Empty Manual Page
+6.7 Forbidden - 5 Modules Solved: Empty Manual Page
+6.7 Forbidden - 6 Modules Solved: Time+
+6.7 Forbidden - 7 Modules Solved: Bomb Fragment
+6.7 Forbidden - 8 Modules Solved: Bomb Fragment
+6.7 Forbidden - 9 Modules Solved: Bomb Fragment
+6.8 Quick Time Event V - 1 Module Solved: Bomb Fragment
+6.8 Quick Time Event V - 2 Modules Solved: Empty Manual Page
+6.8 Quick Time Event V - 3 Modules Solved: Bomb Fragment
+6.8 Quick Time Event V - 4 Modules Solved: Bomb Fragment
+6.8 Quick Time Event V - 5 Modules Solved: Strike+
+6.8 Quick Time Event V - 6 Modules Solved: Time+
+6.8 Quick Time Event V - 7 Modules Solved: Bomb Fragment
+6.8 Quick Time Event V - 8 Modules Solved: Friendship
+6.8 Quick Time Event V - 9 Modules Solved: Empty Manual Page
+6.8 Quick Time Event V - 10 Modules Solved: Bomb Fragment
+6.8 Quick Time Event V - 11 Modules Solved: Bomb Fragment
+6.8 Quick Time Event V - 12 Modules Solved: Time++
+6.8 Quick Time Event V - 13 Modules Solved: Bomb Fragment
+6.8 Quick Time Event V - 14 Modules Solved: Time++
+6.8 Quick Time Event V - 15 Modules Solved: Empty Manual Page
+7.1 Chromatic - 1 Module Solved: Empty Manual Page
+7.1 Chromatic - 2 Modules Solved: Empty Manual Page
+7.1 Chromatic - 3 Modules Solved: Time+
+7.1 Chromatic - 4 Modules Solved: Bomb Fragment
+7.1 Chromatic - 5 Modules Solved: Bomb Fragment
+7.1 Chromatic - 6 Modules Solved: Bomb Fragment
+7.1 Chromatic - 7 Modules Solved: Empty Manual Page
+7.1 Chromatic - 8 Modules Solved: Empty Manual Page
+7.1 Chromatic - 9 Modules Solved: Bomb Fragment
+7.1 Chromatic - 10 Modules Solved: Bomb Fragment
+7.1 Chromatic - 11 Modules Solved: Zoo
+7.2 Let's Cook! - 1 Module Solved: Bomb Fragment
+7.2 Let's Cook! - 2 Modules Solved: Bomb Fragment
+7.2 Let's Cook! - 3 Modules Solved: Bomb Fragment
+7.2 Let's Cook! - 4 Modules Solved: Empty Manual Page
+7.2 Let's Cook! - 5 Modules Solved: Bomb Fragment
+7.2 Let's Cook! - 6 Modules Solved: Empty Manual Page
+7.2 Let's Cook! - 7 Modules Solved: Bomb Fragment
+7.2 Let's Cook! - 8 Modules Solved: Bomb Fragment
+7.2 Let's Cook! - 9 Modules Solved: Bomb Fragment
+7.2 Let's Cook! - 10 Modules Solved: Empty Manual Page
+7.2 Let's Cook! - 11 Modules Solved: Bomb Fragment
+7.3 The Green Power - 1 Module Solved: Empty Manual Page
+7.3 The Green Power - 2 Modules Solved: Empty Manual Page
+7.3 The Green Power - 3 Modules Solved: Bomb Fragment
+7.3 The Green Power - 4 Modules Solved: Empty Manual Page
+7.3 The Green Power - 5 Modules Solved: Empty Manual Page
+7.3 The Green Power - 6 Modules Solved: Empty Manual Page
+7.3 The Green Power - 7 Modules Solved: Bomb Fragment
+7.3 The Green Power - 8 Modules Solved: Empty Manual Page
+7.3 The Green Power - 9 Modules Solved: Bomb Fragment
+7.3 The Green Power - 10 Modules Solved: Empty Manual Page
+7.3 The Green Power - 11 Modules Solved: Empty Manual Page
+7.4 Company - 1 Module Solved: Bomb Fragment
+7.4 Company - 2 Modules Solved: Empty Manual Page
+7.4 Company - 3 Modules Solved: Bomb Fragment
+7.4 Company - 4 Modules Solved: Empty Manual Page
+7.4 Company - 5 Modules Solved: Empty Manual Page
+7.4 Company - 6 Modules Solved: Empty Manual Page
+7.4 Company - 7 Modules Solved: Strike+
+7.4 Company - 8 Modules Solved: Bomb Fragment
+7.4 Company - 9 Modules Solved: Bomb Fragment
+7.4 Company - 10 Modules Solved: Bomb Fragment
+7.4 Company - 11 Modules Solved: Bomb Fragment
+7.5 A Good Trick - 1 Module Solved: Time+
+7.5 A Good Trick - 2 Modules Solved: Time+
+7.5 A Good Trick - 3 Modules Solved: Time+
+7.5 A Good Trick - 4 Modules Solved: Empty Manual Page
+7.5 A Good Trick - 5 Modules Solved: Bomb Fragment
+7.5 A Good Trick - 6 Modules Solved: Empty Manual Page
+7.5 A Good Trick - 7 Modules Solved: Bomb Fragment
+7.5 A Good Trick - 8 Modules Solved: Bomb Fragment
+7.5 A Good Trick - 9 Modules Solved: Time+
+7.5 A Good Trick - 10 Modules Solved: Bomb Fragment
+7.5 A Good Trick - 11 Modules Solved: Empty Manual Page
+7.6 Fight! - 1 Module Solved: Bomb Fragment
+7.6 Fight! - 2 Modules Solved: Empty Manual Page
+7.6 Fight! - 3 Modules Solved: Bomb Fragment
+7.6 Fight! - 4 Modules Solved: Empty Manual Page
+7.6 Fight! - 5 Modules Solved: Empty Manual Page
+7.6 Fight! - 6 Modules Solved: Bomb Fragment
+7.6 Fight! - 7 Modules Solved: Empty Manual Page
+7.6 Fight! - 8 Modules Solved: Bomb Fragment
+7.6 Fight! - 9 Modules Solved: Empty Manual Page
+7.6 Fight! - 10 Modules Solved: Empty Manual Page
+7.6 Fight! - 11 Modules Solved: Bomb Fragment
+7.7 Conic Conductor - 1 Module Solved: Empty Manual Page
+7.7 Conic Conductor - 2 Modules Solved: Bomb Fragment
+7.7 Conic Conductor - 3 Modules Solved: Empty Manual Page
+7.7 Conic Conductor - 4 Modules Solved: Empty Manual Page
+7.7 Conic Conductor - 5 Modules Solved: Bomb Fragment
+7.7 Conic Conductor - 6 Modules Solved: Bomb Fragment
+7.7 Conic Conductor - 7 Modules Solved: Empty Manual Page
+7.7 Conic Conductor - 8 Modules Solved: Empty Manual Page
+7.7 Conic Conductor - 9 Modules Solved: Empty Manual Page
+7.7 Conic Conductor - 10 Modules Solved: Bomb Fragment
+7.7 Conic Conductor - 11 Modules Solved: Empty Manual Page
+7.8 Gargantua - 1 Module Solved: Empty Manual Page
+7.8 Gargantua - 2 Modules Solved: Bomb Fragment
+7.8 Gargantua - 3 Modules Solved: Bomb Fragment
+7.8 Gargantua - 4 Modules Solved: Empty Manual Page
+7.8 Gargantua - 5 Modules Solved: Bomb Fragment
+7.8 Gargantua - 6 Modules Solved: Empty Manual Page
+7.8 Gargantua - 7 Modules Solved: Time+
+7.8 Gargantua - 8 Modules Solved: Chess
+7.8 Gargantua - 9 Modules Solved: Empty Manual Page
+7.8 Gargantua - 10 Modules Solved: Empty Manual Page
+7.8 Gargantua - 11 Modules Solved: Bomb Fragment
+7.8 Gargantua - 12 Modules Solved: Empty Manual Page
+7.8 Gargantua - 13 Modules Solved: Bomb Fragment
+7.8 Gargantua - 14 Modules Solved: Bomb Fragment
+7.8 Gargantua - 15 Modules Solved: Polyhedral Maze
+7.8 Gargantua - 16 Modules Solved: Empty Manual Page
+7.8 Gargantua - 17 Modules Solved: Bomb Fragment
+7.8 Gargantua - 18 Modules Solved: Empty Manual Page
+7.8 Gargantua - 19 Modules Solved: The Bulb
+7.8 Gargantua - 20 Modules Solved: Empty Manual Page
+7.8 Gargantua - 21 Modules Solved: Rock-Paper-Scissors-Lizard-Spock
+7.8 Gargantua - 22 Modules Solved: Simon Screams
+7.8 Gargantua - 23 Modules Solved: Empty Manual Page
+7.8 Gargantua - 24 Modules Solved: Strike+
+7.8 Gargantua - 25 Modules Solved: Empty Manual Page
+7.8 Gargantua - 26 Modules Solved: Empty Manual Page
+7.8 Gargantua - 27 Modules Solved: Bomb Fragment
+7.8 Gargantua - 28 Modules Solved: Bomb Fragment
+7.8 Gargantua - 29 Modules Solved: Empty Manual Page
+7.8 Gargantua - 30 Modules Solved: Bomb Fragment
+7.8 Gargantua - 31 Modules Solved: Bomb Fragment
+7.8 Gargantua - 32 Modules Solved: Bomb Fragment
+7.8 Gargantua - 33 Modules Solved: Empty Manual Page
+7.8 Gargantua - 34 Modules Solved: Empty Manual Page
+7.8 Gargantua - 35 Modules Solved: Empty Manual Page
+7.8 Gargantua - 36 Modules Solved: Empty Manual Page
+7.8 Gargantua - 37 Modules Solved: Bomb Fragment
+7.8 Gargantua - 38 Modules Solved: Empty Manual Page
+7.8 Gargantua - 39 Modules Solved: Bomb Fragment
+
+Playthrough:
+
+0: {
+
+}
+1: {
+  1.1 First? - 10 Modules Solved: Bomb Fragment
+  1.1 First? - 4 Modules Solved: Bomb Fragment
+  1.1 First? - 6 Modules Solved: Bomb Fragment
+  1.1 First? - 8 Modules Solved: Bomb Fragment
+}
+2: {
+  2.1 Double Down - 1 Module Solved: Bomb Fragment
+  2.1 Double Down - 10 Modules Solved: Bomb Fragment
+  2.1 Double Down - 11 Modules Solved: Bomb Fragment
+  2.1 Double Down - 12 Modules Solved: Time++
+  2.1 Double Down - 14 Modules Solved: Bomb Fragment
+  2.1 Double Down - 15 Modules Solved: Bomb Fragment
+  2.1 Double Down - 16 Modules Solved: Bomb Fragment
+  2.1 Double Down - 19 Modules Solved: Time++
+  2.1 Double Down - 2 Modules Solved: Bomb Fragment
+  2.1 Double Down - 21 Modules Solved: Bomb Fragment
+  2.1 Double Down - 3 Modules Solved: Bitmaps
+  2.1 Double Down - 5 Modules Solved: Bomb Fragment
+  2.1 Double Down - 6 Modules Solved: Bomb Fragment
+  2.1 Double Down - 8 Modules Solved: Bomb Fragment
+  2.2 What Are Those? - 3 Modules Solved: Follow the Leader
+  2.2 What Are Those? - 6 Modules Solved: Bomb Fragment
+  2.3 Location of Success - 1 Module Solved: Bomb Fragment
+  2.3 Location of Success - 2 Modules Solved: Bomb Fragment
+  2.3 Location of Success - 4 Modules Solved: Time++
+  2.3 Location of Success - 6 Modules Solved: Bomb Fragment
+  2.5 Keep Talking - 2 Modules Solved: Bomb Fragment
+  2.5 Keep Talking - 3 Modules Solved: Time++
+  2.5 Keep Talking - 4 Modules Solved: Bomb Fragment
+  2.6 Nobody Explodes - 3 Modules Solved: Bomb Fragment
+  2.7 Be Squared - 2 Modules Solved: Bomb Fragment
+  2.8 Quick Time Event I - 2 Modules Solved: 3D Maze
+  2.8 Quick Time Event I - 3 Modules Solved: Bomb Fragment
+  2.8 Quick Time Event I - 4 Modules Solved: Bomb Fragment
+  2.8 Quick Time Event I - 7 Modules Solved: Double-Oh
+}
+3: {
+  2.7 Be Squared - 3 Modules Solved: Bomb Fragment
+  2.7 Be Squared - 4 Modules Solved: Time++
+  3.1 Lost - 2 Modules Solved: Bomb Fragment
+  3.1 Lost - 4 Modules Solved: Bomb Fragment
+  3.2 Dark Path - 1 Module Solved: Bomb Fragment
+  3.2 Dark Path - 2 Modules Solved: Bomb Fragment
+  3.2 Dark Path - 6 Modules Solved: Bomb Fragment
+  3.2 Dark Path - 7 Modules Solved: Big Circle
+  3.3 Shock - 5 Modules Solved: Bomb Fragment
+  3.3 Shock - 6 Modules Solved: Bomb Fragment
+  3.4 Gin - 1 Module Solved: Bomb Fragment
+  3.4 Gin - 5 Modules Solved: Bomb Fragment
+  3.6 Vulture's Nest - 3 Modules Solved: Bomb Fragment
+  3.7 Colossal I - 1 Module Solved: Radiator
+  3.7 Colossal I - 13 Modules Solved: Bomb Fragment
+  3.7 Colossal I - 2 Modules Solved: Bomb Fragment
+  3.7 Colossal I - 8 Modules Solved: Blind Alley
+  3.8 Quick Time Event II - 3 Modules Solved: Bomb Fragment
+  4.1 Let Me In! - 6 Modules Solved: Hexamaze
+  4.2 In Your Head - 1 Module Solved: Bomb Fragment
+  4.2 In Your Head - 2 Modules Solved: Time++
+  4.3 Magical - 2 Modules Solved: X-Ray
+  4.3 Magical - 4 Modules Solved: Bomb Fragment
+  4.4 Entrance - 1 Module Solved: Mouse in the Maze
+  4.5 Back in the 30s - 1 Module Solved: Bomb Fragment
+  4.5 Back in the 30s - 5 Modules Solved: Bomb Fragment
+  4.6 Vision - 2 Modules Solved: Bomb Fragment
+  4.7 Colossal II - 11 Modules Solved: Morse-A-Maze
+  4.7 Colossal II - 12 Modules Solved: Bomb Fragment
+  4.7 Colossal II - 13 Modules Solved: Bomb Fragment
+  4.7 Colossal II - 9 Modules Solved: Color Morse
+  4.8 Quick Time Event III - 1 Module Solved: Bomb Fragment
+  4.8 Quick Time Event III - 2 Modules Solved: Bomb Fragment
+}
+4: {
+  3.1 Lost - 8 Modules Solved: Bomb Fragment
+  3.2 Dark Path - 8 Modules Solved: Bomb Fragment
+  4.4 Entrance - 5 Modules Solved: Bomb Fragment
+  4.7 Colossal II - 18 Modules Solved: Bomb Fragment
+  4.7 Colossal II - 20 Modules Solved: Bomb Fragment
+  4.8 Quick Time Event III - 6 Modules Solved: Bomb Fragment
+  5.1 Grayscale - 2 Modules Solved: Bomb Fragment
+  5.1 Grayscale - 5 Modules Solved: Bomb Fragment
+  5.1 Grayscale - 6 Modules Solved: Time++
+  5.1 Grayscale - 7 Modules Solved: Bomb Fragment
+  5.2 Insanity - 4 Modules Solved: Bomb Fragment
+  5.3 Tales of Wonders - 1 Module Solved: Bomb Fragment
+  5.3 Tales of Wonders - 3 Modules Solved: Bomb Fragment
+  5.3 Tales of Wonders - 5 Modules Solved: Bomb Fragment
+  5.3 Tales of Wonders - 6 Modules Solved: Bomb Fragment
+  5.4 Disturbance - 1 Module Solved: Bomb Fragment
+  5.4 Disturbance - 2 Modules Solved: Backgrounds
+  5.4 Disturbance - 4 Modules Solved: Bomb Fragment
+  5.5 Commonplace - 3 Modules Solved: Bomb Fragment
+  5.6 Unspoken - 1 Module Solved: Bomb Fragment
+  5.6 Unspoken - 2 Modules Solved: Time++
+  5.6 Unspoken - 5 Modules Solved: Bomb Fragment
+  5.6 Unspoken - 6 Modules Solved: Bomb Fragment
+  5.7 Colossal III - 10 Modules Solved: Time++
+  5.7 Colossal III - 14 Modules Solved: Bomb Fragment
+  5.7 Colossal III - 15 Modules Solved: Bomb Fragment
+  5.7 Colossal III - 16 Modules Solved: Bomb Fragment
+  5.7 Colossal III - 17 Modules Solved: Bomb Fragment
+  5.7 Colossal III - 3 Modules Solved: Bomb Fragment
+  5.7 Colossal III - 4 Modules Solved: Fast Math
+  5.7 Colossal III - 5 Modules Solved: Switches
+  5.7 Colossal III - 7 Modules Solved: Bomb Fragment
+  5.8 Quick Time Event IV - 1 Module Solved: Bomb Fragment
+  5.8 Quick Time Event IV - 4 Modules Solved: Bomb Fragment
+  5.8 Quick Time Event IV - 6 Modules Solved: Bomb Fragment
+  5.8 Quick Time Event IV - 8 Modules Solved: Bomb Fragment
+  5.8 Quick Time Event IV - 9 Modules Solved: Bomb Fragment
+}
+5: {
+  3.5 Stateful - 6 Modules Solved: Bomb Fragment
+  4.7 Colossal II - 21 Modules Solved: Bomb Fragment
+  5.4 Disturbance - 5 Modules Solved: Bomb Fragment
+  5.7 Colossal III - 20 Modules Solved: Bomb Fragment
+  5.7 Colossal III - 21 Modules Solved: Bomb Fragment
+  6.1 Guidance - 2 Modules Solved: Bomb Fragment
+  6.1 Guidance - 3 Modules Solved: Bomb Fragment
+  6.1 Guidance - 4 Modules Solved: Bomb Fragment
+  6.1 Guidance - 5 Modules Solved: Bomb Fragment
+  6.3 Knights - 2 Modules Solved: Bomb Fragment
+  6.3 Knights - 3 Modules Solved: Bomb Fragment
+  6.3 Knights - 5 Modules Solved: Bomb Fragment
+  6.5 Walk in the Woods - 2 Modules Solved: Bomb Fragment
+  6.5 Walk in the Woods - 3 Modules Solved: Bomb Fragment
+  6.5 Walk in the Woods - 4 Modules Solved: Bomb Fragment
+  6.8 Quick Time Event V - 8 Modules Solved: Friendship
+  7.6 Fight! - 1 Module Solved: Bomb Fragment
+  7.6 Fight! - 3 Modules Solved: Bomb Fragment
+  7.7 Conic Conductor - 10 Modules Solved: Bomb Fragment
+  7.8 Gargantua - 15 Modules Solved: Polyhedral Maze
+  7.8 Gargantua - 17 Modules Solved: Bomb Fragment
+  7.8 Gargantua - 8 Modules Solved: Chess
+}
+6: {
+  2.8 Quick Time Event I - 8 Modules Solved: Cheap Checkout
+  4.3 Magical - 6 Modules Solved: Tic Tac Toe
+  5.1 Grayscale - 8 Modules Solved: Bomb Fragment
+  6.7 Forbidden - 7 Modules Solved: Bomb Fragment
+}
